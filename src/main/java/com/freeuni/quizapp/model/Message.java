@@ -8,7 +8,7 @@ public class Message {
         private int id;
         private int senderId;
         private int receiverId;
-        private MessageType type; // "challenge", "friend_request", "note"
+        private MessageType type;
         private String content;
         private boolean isRead;
         private Timestamp sentAt;
