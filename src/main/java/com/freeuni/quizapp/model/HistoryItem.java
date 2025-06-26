@@ -8,7 +8,7 @@ public class HistoryItem {
         private int id;
         private int userId;
         private int quizId;
-        private ActionType actionType; // "created", "taken"
+        private ActionType actionType;
         private Timestamp timestamp;
 
     public HistoryItem(int id, int userId, int quizId, ActionType at, Timestamp timestamp) {

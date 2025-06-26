@@ -30,4 +30,67 @@ public class QuizResult {
         this.quizId = quizId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getQuizId() {
+        return quizId;
+    }
+
+    public void setQuizId(int quizId) {
+        this.quizId = quizId;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getTotalQuestions() {
+        return totalQuestions;
+    }
+
+    public void setTotalQuestions(int totalQuestions) {
+        this.totalQuestions = totalQuestions;
+    }
+
+    public long getTimeTakenSeconds() {
+        return timeTakenSeconds;
+    }
+
+    public void setTimeTakenSeconds(long timeTakenSeconds) {
+        this.timeTakenSeconds = timeTakenSeconds;
+    }
+
+    public boolean isPracticeMode() {
+        return isPracticeMode;
+    }
+
+    public void setPracticeMode(boolean practiceMode) {
+        isPracticeMode = practiceMode;
+    }
+
+    public Timestamp getCompletedAt() {
+        return completedAt;
+    }
+
+    public void setCompletedAt(Timestamp completedAt) {
+        this.completedAt = completedAt;
+    }
 }

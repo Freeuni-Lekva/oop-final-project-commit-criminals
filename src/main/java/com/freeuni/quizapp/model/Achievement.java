@@ -7,7 +7,7 @@ import java.security.Timestamp;
 public class Achievement {
     private int id;
     private int userId;
-    private AchievementType type; // "Amateur Author", "Quiz Machine", etc.
+    private AchievementType type;
     private Timestamp achievedAt;
 
 
