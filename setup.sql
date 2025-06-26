@@ -2,7 +2,8 @@
 CREATE DATABASE IF NOT EXISTS quizapp_db;
 USE quizapp_db;
 
--- Drop tables
+-- Drop tables in reverse FK dependency order
+DROP TABLE IF EXISTS announcements;
 DROP TABLE IF EXISTS achievements;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS friends;
@@ -14,12 +15,14 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS users;
 
--- Users table
+-- Users table (with bio and profile picture)
 CREATE TABLE users (
                        user_id INT AUTO_INCREMENT PRIMARY KEY,
                        username VARCHAR(100) NOT NULL UNIQUE,
                        hashed_password VARCHAR(255) NOT NULL,
                        is_admin BOOLEAN DEFAULT FALSE,
+                       bio TEXT,
+                       profile_picture_url VARCHAR(255),
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -88,7 +91,7 @@ CREATE TABLE friend_requests (
                                  FOREIGN KEY (to_user) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Friends table (unique friendships)
+-- Friends table
 CREATE TABLE friends (
                          friendship_id INT AUTO_INCREMENT PRIMARY KEY,
                          friend1_user_id INT NOT NULL,
@@ -97,7 +100,6 @@ CREATE TABLE friends (
                          FOREIGN KEY (friend1_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
                          FOREIGN KEY (friend2_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-
 
 -- Messages table
 CREATE TABLE messages (
@@ -128,7 +130,18 @@ CREATE TABLE achievements (
                               FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
 );
 
--- Insert 5 admin users into users table
+-- Announcements table (NEW)
+CREATE TABLE announcements (
+                               announcement_id INT AUTO_INCREMENT PRIMARY KEY,
+                               user_id INT NOT NULL,
+                               title VARCHAR(255),
+                               announcement_text TEXT NOT NULL,
+                               url VARCHAR(255), -- optional image/quiz link
+                               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                               FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Insert 5 admin users
 INSERT INTO users (username, hashed_password, is_admin)
 VALUES
     ('lkhiz23', 'a85cce133b87c29967f0c4cce6eaf76bf5d3f68b', TRUE),
