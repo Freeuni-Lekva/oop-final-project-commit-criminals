@@ -3,6 +3,7 @@ package com.freeuni.quizapp.model;
 import com.freeuni.quizapp.enums.AchievementType;
 
 import java.security.Timestamp;
+import java.util.Objects;
 
 public class Achievement {
     private int id;
@@ -49,4 +50,12 @@ public class Achievement {
     public void setAchievedAt(Timestamp achievedAt) {
         this.achievedAt = achievedAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Achievement that = (Achievement) o;
+        return id == that.id && userId == that.userId && type == that.type && Objects.equals(achievedAt, that.achievedAt);
+    }
+
 }
