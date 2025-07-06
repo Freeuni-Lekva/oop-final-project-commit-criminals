@@ -90,6 +90,16 @@ public class QuizResultDaoImpl implements QuizResultDao {
         return List.of();
     }
 
+    @Override
+    public int countTimesTaken(int quiz_id) {
+        return 0;
+    }
+
+    @Override
+    public double getAverageScore(int quizId) {
+        return 0;
+    }
+
     private List<QuizResult> getQuizResultsFromRs(ResultSet rs) throws SQLException {
         List<QuizResult> res = new ArrayList<>();
         while(rs.next()){

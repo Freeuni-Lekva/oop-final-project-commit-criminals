@@ -10,7 +10,6 @@ public class Message {
         private int receiverId;
         private MessageType type;
         private String content;
-//        private boolean isRead;
         private Timestamp sentAt;
 
     public Message(int id, int senderId, int receiverId, MessageType type, String content, Timestamp sentAt) {
@@ -19,7 +18,6 @@ public class Message {
         this.receiverId = receiverId;
         this.type = type;
         this.content = content;
-//        this.isRead = isRead;
         this.sentAt = sentAt;
     }
 
@@ -62,14 +60,6 @@ public class Message {
     public void setContent(String content) {
         this.content = content;
     }
-
-//    public boolean isRead() {
-//        return isRead;
-//    }
-//
-//    public void setRead(boolean read) {
-//        isRead = read;
-//    }
 
     public Timestamp getSentAt() {
         return sentAt;
