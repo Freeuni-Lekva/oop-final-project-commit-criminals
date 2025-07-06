@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.freeuni.quizapp.model.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,6 @@
             width: 100%;
             background: #ffffff;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             padding: 1rem 4.5%;
             z-index: 100;
@@ -45,6 +45,14 @@
             font-size: 1.6rem;
             font-weight: 700;
             background: var(--gradient-accent);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand:visited {
+            background: var(--gradient-accent);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -53,6 +61,7 @@
             display: flex;
             gap: 2rem;
             list-style: none;
+            margin-left: auto;
         }
 
         .nav-links a {
@@ -64,6 +73,46 @@
 
         .nav-links a:hover {
             color: #E85A4F;
+        }
+
+        .profile {
+            position: relative;
+        }
+        .profile .dropdown {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            list-style: none;
+            margin: 0;
+            padding: 0.4rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,.08);
+            min-width: 160px;
+        }
+        .profile:hover .dropdown {
+            display: block;
+        }
+        .profile .dropdown li a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .profile .dropdown li a:hover {
+            background: #f7f7f7;
+            color: #E85A4F;
+        }
+        .profile a {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .profile a i {
+            color: #B0B0B0;
+            font-size: 1rem;
         }
 
         .hero {
@@ -83,6 +132,7 @@
             font-weight: 800;
             line-height: 1.15;
             background: var(--gradient-accent);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInUp 1s ease-out 0.3s both;
@@ -156,8 +206,8 @@
             font-size: 2.1rem;
             font-weight: 700;
             background: var(--gradient-accent);
+            background-clip: text;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .stat .label {
@@ -228,8 +278,8 @@
             font-weight: 700;
             margin-bottom: 3rem;
             background: var(--gradient-accent);
+            background-clip: text;
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .categories-grid {
@@ -300,17 +350,52 @@
             from { transform: rotate(-12deg) scale(0.8); opacity: 0; }
             to   { transform: rotate(6deg) scale(1); opacity: 1; }
         }
+
+        .search-bar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar input[type="text"] {
+            padding: 0.4rem 1rem 0.4rem 2rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            width: 60%;
+            max-width: 500px;
+            transition: border-color .2s ease;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238E8D8A"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            background-size: 16px 16px;
+        }
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            border-color: #E85A4F;
+        }
     </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <div class="brand">QuizMaster</div>
+    <a href="index.jsp" class="brand">QuizMaster</a>
+    <form class="search-bar" action="search.jsp" method="get">
+        <input type="text" name="q" placeholder="Search"/>
+    </form>
     <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Quizzes</a></li>
         <li><a href="#">Leaderboard</a></li>
-        <li><a href="login.jsp">Login</a></li>
+        <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
+           if (currentUser == null) { %>
+            <li><a href="login.jsp">Login</a></li>
+        <% } else { %>
+            <li class="profile">
+                <a href="#"><%= currentUser.getUsername() %></a>
+                <ul class="dropdown">
+                    <li><a href="profile.jsp">View Profile</a></li>
+                    <li><a href="logout">Sign Out</a></li>
+                </ul>
+            </li>
+        <% } %>
     </ul>
 </nav>
 
@@ -319,7 +404,7 @@
         <h1 class="hero-title">Challenge <br/>Your <span>Mind</span></h1>
         <p class="hero-description">Discover thousands of engaging quizzes across multiple categories. Test your knowledge, learn something new, and compete with friends!</p>
         <div class="hero-btn-group">
-            <button class="btn-primary">Start Random Quiz Now</button>
+            <button class="btn-primary">Browse Quizzes</button>
         </div>
 
         <div class="stats">
