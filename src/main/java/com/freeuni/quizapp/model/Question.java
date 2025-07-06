@@ -3,6 +3,7 @@ package com.freeuni.quizapp.model;
 import com.freeuni.quizapp.enums.QuestionType;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Question {
 
@@ -79,4 +80,12 @@ public class Question {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return id == question.id && quizId == question.quizId && order == question.order && Objects.equals(text, question.text) && type == question.type && Objects.equals(imageUrl, question.imageUrl) && Objects.equals(answers, question.answers);
+    }
+
 }

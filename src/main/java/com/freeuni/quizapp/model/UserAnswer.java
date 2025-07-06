@@ -1,5 +1,7 @@
 package com.freeuni.quizapp.model;
 
+import java.util.Objects;
+
 public class UserAnswer {
 
     private int id;
@@ -65,4 +67,12 @@ public class UserAnswer {
     public void setCorrect(boolean correct) {
         isCorrect = correct;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAnswer that = (UserAnswer) o;
+        return id == that.id && userId == that.userId && quizId == that.quizId && questionId == that.questionId && isCorrect == that.isCorrect && Objects.equals(givenAnswer, that.givenAnswer);
+    }
+
 }
