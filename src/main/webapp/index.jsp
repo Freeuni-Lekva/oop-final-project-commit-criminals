@@ -38,6 +38,7 @@
             z-index: 100;
             box-shadow: 0 2px 8px rgba(0,0,0,.05);
             animation: slideDown 0.8s ease-out both;
+
         }
 
         .brand {
