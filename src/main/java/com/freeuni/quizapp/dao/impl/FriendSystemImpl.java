@@ -53,10 +53,10 @@ public class FriendSystemImpl implements FriendSystemDao {
     @Override
     public List<User> getUsersSentFriendRequests(int user_id) throws SQLException {
         List<User> res = new ArrayList<>();
-        String query = "SELECT to_user FROM " + table_name_requests + " WHERE from_user = ? AND status = 'pending'";
+        String query = "SELECT to_user FROM " + table_name_requests + " WHERE from_user = ? AND status = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, user_id);
-
+            stmt.setString(2, FriendshipStatus.pending.name());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int to_user = rs.getInt("to_user");
@@ -71,9 +71,10 @@ public class FriendSystemImpl implements FriendSystemDao {
     @Override
     public List<User> getUsersReceivedRequests(int user_id) throws SQLException {
         List<User> res = new ArrayList<>();
-        String query = "SELECT from_user FROM " + table_name_requests + " WHERE to_user = ? AND status = 'pending'";
+        String query = "SELECT from_user FROM " + table_name_requests + " WHERE to_user = ? AND status = ?";
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, user_id);
+            stmt.setString(2, FriendshipStatus.pending.name());
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -99,11 +100,8 @@ public class FriendSystemImpl implements FriendSystemDao {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String status = rs.getString("status");
-                    if(status.equals("accepted")) return FriendshipStatus.accepted;
-                    else if(status.equals("pending")) return FriendshipStatus.pending;
-                    else if(status.equals("rejected")) return FriendshipStatus.rejected;
+                    return FriendshipStatus.valueOf(status);
                 }
-
             }
         }
         return null;
@@ -111,37 +109,46 @@ public class FriendSystemImpl implements FriendSystemDao {
 
     @Override
     public void sendFriendRequest(int from_id, int to_id) throws SQLException {
-        String insertQuery = "INSERT INTO " + table_name_requests + " (from_user, to_user, status) VALUES (?, ?, 'pending')";
+        String insertQuery = "INSERT INTO " + table_name_requests + " (from_user, to_user, status) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(insertQuery)) {
             stmt.setInt(1, from_id);
             stmt.setInt(2, to_id);
+            stmt.setString(3, FriendshipStatus.pending.name());
             stmt.executeUpdate();
         }
     }
 
     @Override
     public void updateFriendshipStatus(int user_id, int friend_id, FriendshipStatus friendship_status) throws SQLException {
-        String new_status = "pending";
-        if(friendship_status == FriendshipStatus.accepted) {
-                int mn = Math.min(user_id, friend_id);
-                int mx = Math.max(user_id, friend_id);
-                String insertFriend = "INSERT IGNORE INTO " + table_name_friends +
-                        " (friend1_user_id, friend2_user_id) VALUES (?, ?)";
-                try (PreparedStatement ps = con.prepareStatement(insertFriend)) {
-                    ps.setInt(1, mn);
-                    ps.setInt(2, mx);
-                    ps.executeUpdate();
+        if (friendship_status == FriendshipStatus.accepted) {
+            int mn = Math.min(user_id, friend_id);
+            int mx = Math.max(user_id, friend_id);
+            // Check if friendship already exists
+            String checkQuery = "SELECT COUNT(*) FROM " + table_name_friends + " WHERE friend1_user_id = ? AND friend2_user_id = ?";
+            try (PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+                checkStmt.setInt(1, mn);
+                checkStmt.setInt(2, mx);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    rs.next();
+                    int count = rs.getInt(1);
+                    if (count == 0) {
+                        String insertFriend = "INSERT INTO " + table_name_friends + " (friend1_user_id, friend2_user_id) VALUES (?, ?)";
+                        try (PreparedStatement insertStmt = con.prepareStatement(insertFriend)) {
+                            insertStmt.setInt(1, mn);
+                            insertStmt.setInt(2, mx);
+                            insertStmt.executeUpdate();
+                        }
+                    }
                 }
-            new_status = "accepted";
-        }else if(friendship_status == FriendshipStatus.rejected) new_status = "rejected";
+            }
+        }
 
-        String command = "UPDATE " + table_name_requests + " SET status = ? WHERE (from_user = ? AND to_user = ?) OR (from_user = ? AND to_user = ?)";
-        try(PreparedStatement ps = con.prepareStatement(command)) {
-            ps.setString(1, new_status);
+        // Update the friendship request status
+        String updateRequest = "UPDATE " + table_name_requests + " SET status = ? WHERE from_user = ? AND to_user = ?";
+        try (PreparedStatement ps = con.prepareStatement(updateRequest)) {
+            ps.setString(1, friendship_status.name());
             ps.setInt(2, user_id);
             ps.setInt(3, friend_id);
-            ps.setInt(4, friend_id);
-            ps.setInt(5, user_id);
             ps.executeUpdate();
         }
     }
@@ -156,8 +163,6 @@ public class FriendSystemImpl implements FriendSystemDao {
             ps.setInt(1, mn);
             ps.setInt(2, mx);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -176,8 +181,7 @@ public class FriendSystemImpl implements FriendSystemDao {
         return null;
     }
 
-    @Override
-    public boolean areFriends(int userId1, int userId2) throws SQLException {
+    private boolean areFriends(int userId1, int userId2) throws SQLException {
         int mn = min(userId1, userId2);
         int mx = max(userId1, userId2);
         String query = "SELECT * FROM " + table_name_friends + " WHERE friend1_user_id = ? AND friend2_user_id = ?";

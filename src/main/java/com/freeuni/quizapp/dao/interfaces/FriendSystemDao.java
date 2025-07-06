@@ -3,9 +3,14 @@ package com.freeuni.quizapp.dao.interfaces;
 import com.freeuni.quizapp.enums.FriendshipStatus;
 import com.freeuni.quizapp.model.User;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.SQLException;
 import java.util.List;
+
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public interface FriendSystemDao {
 
@@ -24,6 +29,4 @@ public interface FriendSystemDao {
     void deleteFriend(int user_id, int friend_id) throws SQLException;
 
     Timestamp getSentRequestTime(int from_id, int to_id) throws SQLException;
-
-    boolean areFriends(int userId1, int userId2) throws SQLException;
 }
