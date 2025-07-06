@@ -16,13 +16,13 @@ import java.util.List;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class FriendSystemImpl implements FriendSystemDao {
+public class FriendSystemDaoImpl implements FriendSystemDao {
     private final Connection con;
     private final String table_name_friends = "friends";
     private  final String table_name_requests = "friend_requests";
     private final UserDao userDao;
 
-    public FriendSystemImpl(Connection con) {
+    public FriendSystemDaoImpl(Connection con) {
         this.con = con;
         userDao = new UserDaoImpl(con);
     }

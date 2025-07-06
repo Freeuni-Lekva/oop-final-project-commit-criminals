@@ -1,6 +1,6 @@
 package com.freeuni.quizapp.dao.impl;
 
-import com.freeuni.quizapp.dao.interfaces.AchievementsDao;
+import com.freeuni.quizapp.dao.interfaces.AchievementDao;
 import com.freeuni.quizapp.enums.AchievementType;
 import com.freeuni.quizapp.model.Achievement;
 
@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AchievementsImpl implements AchievementsDao {
+public class AchievementsDaoImpl implements AchievementDao {
     private final String table_name = "achievements";
     private Connection con;
 
-    public AchievementsImpl(Connection con){
+    public AchievementsDaoImpl(Connection con){
         this.con = con;
     }
 

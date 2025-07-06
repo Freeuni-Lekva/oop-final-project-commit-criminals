@@ -14,14 +14,13 @@ public class Question {
     private int order;
     private List<Answer> answers;
 
-    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order, List<Answer> answers) {
+    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order) {
         this.id = id;
         this.quizId = quizId;
         this.text = text;
         this.type = type;
         this.imageUrl = imageUrl;
         this.order = order;
-        this.answers = answers;
     }
 
     public int getId() {

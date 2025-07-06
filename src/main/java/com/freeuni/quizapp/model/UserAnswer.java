@@ -9,7 +9,7 @@ public class UserAnswer {
     private String givenAnswer;
     private boolean isCorrect;
 
-    public UserAnswer(int id, int userId, int quizId, int questionId, String givenAnswer, boolean isCorrect) {
+    public UserAnswer(int id, int userId, int questionId, int quizId,String givenAnswer, boolean isCorrect) {
         this.id = id;
         this.userId = userId;
         this.quizId = quizId;

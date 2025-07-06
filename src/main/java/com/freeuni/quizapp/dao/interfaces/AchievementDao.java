@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface AchievementsDao {
+public interface AchievementDao {
 
     void addAchievement(Achievement a) throws SQLException;
 

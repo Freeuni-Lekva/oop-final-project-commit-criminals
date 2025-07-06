@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface MessagesDao {
+public interface MessageDao {
 
     void addMessage(Message m) throws SQLException;
 

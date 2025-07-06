@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface AnnouncementsDao {
+public interface AnnouncementDao {
 
     void addAnnouncement(Announcement a) throws SQLException;
 

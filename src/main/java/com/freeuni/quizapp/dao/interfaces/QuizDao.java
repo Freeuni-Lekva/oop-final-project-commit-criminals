@@ -6,7 +6,7 @@ import com.freeuni.quizapp.model.User;
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface QuizzesDao {
+public interface QuizDao {
 
     void addQuiz(Quiz quiz);
 

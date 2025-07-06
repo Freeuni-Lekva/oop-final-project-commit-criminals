@@ -1,17 +1,17 @@
 package com.freeuni.quizapp.dao.impl;
 
-import com.freeuni.quizapp.dao.interfaces.AnnouncementsDao;
+import com.freeuni.quizapp.dao.interfaces.AnnouncementDao;
 import com.freeuni.quizapp.model.Announcement;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnnouncementsImpl implements AnnouncementsDao {
+public class AnnouncementsDaoImpl implements AnnouncementDao {
     private final String table_name = "announcements";
     private Connection con;
 
-    public AnnouncementsImpl(Connection con) {
+    public AnnouncementsDaoImpl(Connection con) {
         this.con = con;
     }
 

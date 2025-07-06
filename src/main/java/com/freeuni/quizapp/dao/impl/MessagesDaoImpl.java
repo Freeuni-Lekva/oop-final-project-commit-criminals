@@ -1,6 +1,6 @@
 package com.freeuni.quizapp.dao.impl;
 
-import com.freeuni.quizapp.dao.interfaces.MessagesDao;
+import com.freeuni.quizapp.dao.interfaces.MessageDao;
 import com.freeuni.quizapp.dao.interfaces.UserDao;
 import com.freeuni.quizapp.model.Message;
 import com.freeuni.quizapp.model.User;
@@ -11,11 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MessagesImpl implements MessagesDao {
+public class MessagesDaoImpl implements MessageDao {
     private final String table_name = "messages";
     private Connection con;
 
-    public MessagesImpl(Connection con) {
+    public MessagesDaoImpl(Connection con) {
         this.con = con;
     }
 
