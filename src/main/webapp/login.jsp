@@ -111,7 +111,6 @@
         .link:hover {
             color: #E85A4F;
         }
-
         .error-message {
             color: #E85A4F;
             font-size: 0.9rem;
