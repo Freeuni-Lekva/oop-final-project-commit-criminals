@@ -123,7 +123,7 @@
 <body>
 <div class="auth-card">
     <h2>Create Account</h2>
-    <form action="#" method="post" autocomplete="off">
+    <form action="register" method="post" autocomplete="off">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Choose a username" required>

@@ -37,6 +37,8 @@
             padding: 1rem 4.5%;
             z-index: 100;
             box-shadow: 0 2px 8px rgba(0,0,0,.05);
+            animation: slideDown 0.8s ease-out both;
+
         }
 
         .brand {
@@ -83,6 +85,7 @@
             background: var(--gradient-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         .hero-title span {
@@ -93,6 +96,7 @@
             margin-top: 1.2rem;
             max-width: 480px;
             font-size: 1.05rem;
+            animation: fadeIn 1s ease-out 0.6s both;
         }
 
         .hero-btn-group {
@@ -177,6 +181,7 @@
             padding: 2rem 1.75rem 2.4rem;
             box-shadow: var(--card-shadow);
             transform: rotate(6deg);
+            animation: rotateIn 1s ease-out 1s both;
         }
 
         .quiz-label {
@@ -274,6 +279,26 @@
             .hero-card-wrapper {
                 margin-top: 3.5rem;
             }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes rotateIn {
+            from { transform: rotate(-12deg) scale(0.8); opacity: 0; }
+            to   { transform: rotate(6deg) scale(1); opacity: 1; }
         }
     </style>
 </head>
