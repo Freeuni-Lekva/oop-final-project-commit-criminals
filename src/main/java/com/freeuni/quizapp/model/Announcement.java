@@ -1,29 +1,38 @@
 package com.freeuni.quizapp.model;
 
-import java.security.Timestamp;
-import java.util.Objects;
+import java.sql.Timestamp;
 
 public class Announcement {
-    private int id;
+    private int announcement_id;
     private int user_id;
     private String title;
+    private String announcement_text;
     private String url;
     private Timestamp createdAt;
 
-    public Announcement(int id, int user_id, String title, String url, Timestamp createdAt) {
-        this.id = id;
+    public Announcement(int id, int user_id, String title, String text, String url, Timestamp createdAt) {
+        this.announcement_id = id;
         this.user_id = user_id;
         this.title = title;
         this.url = url;
         this.createdAt = createdAt;
+        this.announcement_text = text;
+    }
+
+    public String getText() {
+        return announcement_text;
+    }
+
+    public void setText(String text) {
+        this.announcement_text = text;
     }
 
     public int getId() {
-        return id;
+        return announcement_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.announcement_id = id;
     }
 
     public int getUser_id() {

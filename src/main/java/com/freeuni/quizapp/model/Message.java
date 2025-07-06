@@ -3,7 +3,6 @@ package com.freeuni.quizapp.model;
 import com.freeuni.quizapp.enums.MessageType;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 public class Message {
         private int id;
@@ -72,7 +71,7 @@ public class Message {
         isRead = read;
     }
 
-    public java.sql.Timestamp getSentAt() {
+    public Timestamp getSentAt() {
         return sentAt;
     }
 

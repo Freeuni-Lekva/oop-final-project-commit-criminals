@@ -2,8 +2,7 @@ package com.freeuni.quizapp.model;
 
 import com.freeuni.quizapp.enums.ActionType;
 
-import java.security.Timestamp;
-import java.util.Objects;
+import java.sql.Timestamp;
 
 public class HistoryItem {
         private int id;
