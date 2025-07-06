@@ -2,6 +2,7 @@ package com.freeuni.quizapp.dao.impl;
 
 import com.freeuni.quizapp.dao.interfaces.MessageDao;
 import com.freeuni.quizapp.dao.interfaces.UserDao;
+import com.freeuni.quizapp.enums.MessageType;
 import com.freeuni.quizapp.model.Message;
 import com.freeuni.quizapp.model.User;
 
@@ -20,13 +21,13 @@ public class MessagesDaoImpl implements MessageDao {
     }
 
     @Override
-    public void addMessage(Message m) throws SQLException {
-        String query = "INSERT INTO " + table_name + "(from_user_id, to_user_id, text, timestamp) VALUES (?, ?, ?, ?)";
+    public void addMessage(int from_id, int to_id, MessageType type, String text) throws SQLException {
+        String query = "INSERT INTO " + table_name + "(from_user_id, to_user_id, type, text) VALUES (?, ?, ?, ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, m.getSenderId());
-            ps.setInt(2, m.getReceiverId());
-            ps.setString(3, m.getContent());
-            ps.setTimestamp(4, m.getSentAt());
+            ps.setInt(1, from_id);
+            ps.setInt(2, to_id);
+            ps.setString(3, type.name());
+            ps.setString(4,text);
             ps.executeUpdate();
         }
     }
@@ -43,7 +44,7 @@ public class MessagesDaoImpl implements MessageDao {
 
     @Override
     public Message getLastMessage(int from_id, int to_id) throws SQLException {
-        String query = "SELECT * FROM " + table_name + " WHERE from_user_id = ? AND to_user_id = ? ORDER BY timestamp DESC LIMIT 1";
+        String query = "SELECT * FROM " + table_name + " WHERE from_user_id = ? AND to_user_id = ? ORDER BY timestamp DESC";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, from_id);
             ps.setInt(2, to_id);
@@ -52,7 +53,7 @@ public class MessagesDaoImpl implements MessageDao {
                     Message m = new Message(rs.getInt("message_id"),
                             rs.getInt("from_user_id"),
                             rs.getInt("to_user_id"),
-                            null, //enum after its added to database
+                            MessageType.valueOf(rs.getString("type")),
                             rs.getString("text"),
                             rs.getTimestamp("timestamp")
                     );
@@ -75,7 +76,7 @@ public class MessagesDaoImpl implements MessageDao {
                     Message m = new Message(rs.getInt("message_id"),
                             rs.getInt("from_user_id"),
                             rs.getInt("to_user_id"),
-                            null, //enum after its added to database
+                            MessageType.valueOf(rs.getString("type")),
                             rs.getString("text"),
                             rs.getTimestamp("timestamp")
                     );
@@ -114,37 +115,7 @@ public class MessagesDaoImpl implements MessageDao {
     }
 
 
-    @Override
-    public List<Message> getAllMessages() throws SQLException {
-        List<Message> res = new ArrayList<>();
-        String query = "SELECT * FROM " + table_name + " ORDER BY timestamp DESC";
-        try(PreparedStatement ps = con.prepareStatement(query)){
-            try(ResultSet rs = ps.executeQuery()){
-                while(rs.next()){
-                    Message m = new Message(rs.getInt("message_id"),
-                            rs.getInt("from_user_id"),
-                            rs.getInt("to_user_id"),
-                            null, //enum after its added to database
-                            rs.getString("text"),
-                            rs.getTimestamp("timestamp")
-                    );
-                    res.add(m);
-                }
-            }
-        }
-        return res;
-    }
 
-    @Override
-    public boolean messageExists(int m_id) throws SQLException {
-        String query = "SELECT 1 FROM " + table_name + " WHERE message_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, m_id);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        }
-    }
 
     @Override
     public Message getMessage(int m_id) throws SQLException {
@@ -156,7 +127,7 @@ public class MessagesDaoImpl implements MessageDao {
                     Message m = new Message(rs.getInt("message_id"),
                             rs.getInt("from_user_id"),
                             rs.getInt("to_user_id"),
-                            null, //enum after its added to database
+                            MessageType.valueOf(rs.getString("type")),
                             rs.getString("text"),
                             rs.getTimestamp("timestamp")
                     );

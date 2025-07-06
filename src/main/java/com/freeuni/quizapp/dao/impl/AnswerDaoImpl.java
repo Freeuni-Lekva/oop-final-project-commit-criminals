@@ -19,12 +19,12 @@ public class AnswerDaoImpl implements AnswerDao {
     }
 
     @Override
-    public void addAnswer(Answer answer) throws SQLException {
+    public void addAnswer(int question_id, String answer_text, boolean is_correct) throws SQLException {
         String query = "INSERT INTO " + table_name + "(question_id, answer_text, is_correct) VALUES (?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1,answer.getQuestionId());
-            ps.setString(2,answer.getAnswerText());
-            ps.setBoolean(3,answer.isCorrect());
+            ps.setInt(1, question_id);
+            ps.setString(2,  answer_text);
+            ps.setBoolean(3, is_correct);
             ps.executeUpdate();
         }
     }
@@ -49,37 +49,22 @@ public class AnswerDaoImpl implements AnswerDao {
     }
 
     @Override
-    public Answer getAnswerById(int answerId) throws SQLException {
-        String query = "SELECT * FROM " + table_name + " WHERE answer_id=?";
+    public void updateAnswer(int question_id, String answer_text, boolean is_correct) throws SQLException {
+        String query = "UPDATE " + table_name + " SET is_correct=? WHERE answer_text=? AND question_id=?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, answerId);
-            ResultSet rs = ps.executeQuery();
-            if(!rs.next()) return null;
-            Answer a = new Answer(rs.getInt("answer_id"),
-                    rs.getInt("question_id"),
-                    rs.getString("answer_text"),
-                    rs.getBoolean("is_correct")
-            );
-            return a;
-        }
-    }
-
-    @Override
-    public void updateAnswer(int answerId, Answer updatedAnswer) throws SQLException {
-        String query = "UPDATE " + table_name + " SET answer_text=?, is_correct=? WHERE answer_id=?";
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, updatedAnswer.getAnswerText());
-            ps.setBoolean(2, updatedAnswer.isCorrect());
-            ps.setInt(3, answerId);
+            ps.setBoolean(1, is_correct);
+            ps.setString(2, answer_text);
+            ps.setInt(3, question_id);
             ps.executeUpdate();
         }
     }
 
     @Override
-    public void deleteAnswer(int answerId) throws SQLException {
-        String query = "DELETE FROM " + table_name + " WHERE answer_id=?";
+    public void deleteAnswer(int question_id, String answer_text) throws SQLException {
+        String query = "DELETE FROM " + table_name + " WHERE question_id=? AND answer_text=?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, answerId);
+            ps.setInt(1, question_id);
+            ps.setString(2, answer_text);
             ps.executeUpdate();
         }
     }

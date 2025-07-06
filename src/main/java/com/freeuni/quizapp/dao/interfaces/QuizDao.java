@@ -8,23 +8,15 @@ import java.util.List;
 
 public interface QuizDao {
 
-    void addQuiz(Quiz quiz);
+    void addQuiz(String title, String  description, int creator_id);
 
-    void deleteQuiz(int quiz_id);
+    void deleteQuiz(String title);
 
-    User getQuizCreator(int quiz_id);
+    User getQuizCreator(String title);
 
-    Quiz getQuiz(int quiz_id);
-
-    List<Quiz> findUsersCreatedQuizzes(int user_id);
-
-    List<Quiz> listPopularQuizzes(int num);
+    List<Quiz> findUsersCreatedQuizzes(int creator_id);
 
     List<Quiz> listRecentQuizzes(int num);
 
-    int countTimesTaken(int quiz_id);
-
-    Timestamp getCreationTime(int quiz_id);
-
-    double getAverageScore(int quizId);
+    Timestamp getCreationTime(String title);
 }

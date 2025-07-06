@@ -103,17 +103,6 @@ public class AnnouncementsDaoImpl implements AnnouncementDao {
     }
 
     @Override
-    public boolean contains(int a_id) throws SQLException {
-        String query = "SELECT 1 FROM " + table_name + " WHERE announcement_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, a_id);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        }
-    }
-
-    @Override
     public void updateAnnouncement(Announcement a) throws SQLException {
         String query = "UPDATE " + table_name +
                 " SET title = ?, announcement_text = ?, url = ? WHERE announcement_id = ?";

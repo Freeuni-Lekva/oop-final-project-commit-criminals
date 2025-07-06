@@ -1,7 +1,12 @@
 package com.freeuni.quizapp.model;
 
+import com.freeuni.quizapp.dao.impl.AnswerDaoImpl;
+import com.freeuni.quizapp.dao.interfaces.AnswerDao;
 import com.freeuni.quizapp.enums.QuestionType;
+import com.freeuni.quizapp.util.DBConnector;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
@@ -14,13 +19,15 @@ public class Question {
     private int order;
     private List<Answer> answers;
 
-    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order) {
+    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order) throws SQLException {
         this.id = id;
         this.quizId = quizId;
         this.text = text;
         this.type = type;
         this.imageUrl = imageUrl;
         this.order = order;
+        AnswerDao answerDao = new AnswerDaoImpl(DBConnector.getConnection());
+        this.answers = answerDao.getAnswersByQuestionId(id);
     }
 
     public int getId() {

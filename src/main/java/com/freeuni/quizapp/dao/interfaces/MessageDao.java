@@ -1,5 +1,6 @@
 package com.freeuni.quizapp.dao.interfaces;
 
+import com.freeuni.quizapp.enums.MessageType;
 import com.freeuni.quizapp.model.Message;
 import com.freeuni.quizapp.model.User;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface MessageDao {
 
-    void addMessage(Message m) throws SQLException;
+    void addMessage(int from_id, int to_id, MessageType type, String text) throws SQLException;
 
     void removeMessage(int m_id) throws SQLException;
 
@@ -18,10 +19,6 @@ public interface MessageDao {
     List<Message> getMessages(int from_id, int to_id) throws SQLException;
 
     List<User> getInboxPeopleList(int user_id) throws SQLException;
-
-    List<Message> getAllMessages() throws SQLException;
-
-    boolean messageExists(int m_id) throws SQLException;
 
     Message getMessage(int m_id) throws SQLException;
 

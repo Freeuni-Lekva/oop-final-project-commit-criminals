@@ -20,45 +20,23 @@ public class QuestionDaoImpl implements QuestionDao {
     }
 
     @Override
-    public Question getQuestionById(int id) throws SQLException {
-        String query = "SELECT * FROM " + table_name + " WHERE question_id = ?";
-        try(PreparedStatement pr = con.prepareStatement(query)){
-            pr.setInt(1, id);
-            ResultSet rs = pr.executeQuery();
-            if(rs.next()){
-                String q_type = rs.getString("type");
-                QuestionType qt = QuestionType.valueOf(q_type);
-                Question q = new Question(rs.getInt("question_id"),
-                       rs.getInt("quiz_id"),
-                       rs.getString("text"),
-                        qt,
-                        rs.getString("image_url"),
-                        rs.getInt("q_order")
-                );
-                return q;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void addQuestion(Question q) throws SQLException {
+    public void addQuestion(int quiz_id, String text, QuestionType type, String image_url, int q_order) throws SQLException {
         String query = "INSERT INTO " + table_name + " (quiz_id, text, type, image_url, q_order) VALUES (?, ?, ?, ?, ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, q.getQuizId());
-            ps.setString(2, q.getText());
-            ps.setString(3, q.getType().toString());
-            ps.setString(4, q.getImageUrl());
-            ps.setInt(5, q.getOrder());
+            ps.setInt(1, quiz_id);
+            ps.setString(2, text);
+            ps.setString(3, type.name());
+            ps.setString(4, image_url);
+            ps.setInt(5, q_order);
             ps.executeUpdate();
         }
     }
 
     @Override
-    public void removeQuestion(int q_id) throws SQLException {
-        String query = "DELETE FROM " + table_name + " WHERE question_id = ?";
+    public void removeQuestion(String text) throws SQLException {
+        String query = "DELETE FROM " + table_name + " WHERE text = ?";
         try(PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, q_id);
+            ps.setString(1, text);
             ps.executeUpdate();
         }
     }
@@ -85,17 +63,12 @@ public class QuestionDaoImpl implements QuestionDao {
     }
 
     @Override
-    public void updateQuestion(int update_q_id, Question q) throws SQLException {
-        String updateQuery = "UPDATE questions SET quiz_id = ?, text = ?, type = ?, image_url = ?, q_order = ? WHERE question_id = ?";
+    public void updateQuestion(int update_q_id, String text) throws SQLException {
+        String updateQuery = "UPDATE " + table_name +" SET text = ? WHERE question_id = ?";
 
         try (PreparedStatement ps = con.prepareStatement(updateQuery)) {
-            ps.setInt(1, q.getQuizId());
-            ps.setString(2, q.getText());
-            ps.setString(3, q.getType().name());
-            ps.setString(4, q.getImageUrl());
-            ps.setInt(5, q.getOrder());
-            ps.setInt(6, update_q_id);
-
+            ps.setString(1, text);
+            ps.setInt(2, update_q_id);
             ps.executeUpdate();
         }
     }

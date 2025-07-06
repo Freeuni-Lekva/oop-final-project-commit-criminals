@@ -32,23 +32,13 @@ public class QuizResultDaoImpl implements QuizResultDao {
     }
 
     @Override
-    public QuizResult getUserQuizResult(int user_id, int quiz_id) throws SQLException {
+    public List<QuizResult> getUserQuizResults(int user_id, int quiz_id) throws SQLException {
         String query = "SELECT * FROM " + table_name + " WHERE user_id = ? AND quiz_id = ?";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, user_id);
             ps.setInt(2, quiz_id);
             ResultSet rs = ps.executeQuery();
-            if(!rs.next()) return null;
-            QuizResult qr =  new QuizResult(rs.getInt("quiz_result_id"),
-                    rs.getInt("user_id"),
-                    rs.getInt("quiz_id"),
-                    rs.getInt("total_score"),
-                    rs.getInt("total_questions"),
-                    rs.getInt("time_taken"),
-                    rs.getBoolean("is_practice"),
-                    rs.getTimestamp("completed_at")
-            );
-            return qr;
+            return getQuizResultsFromRs(rs);
         }
     }
 
@@ -64,54 +54,40 @@ public class QuizResultDaoImpl implements QuizResultDao {
     }
 
     @Override
-    public boolean containsQuizResult(int qr_id) throws SQLException {
-        String query = "SELECT 1 FROM " + table_name + " WHERE quiz_result_id = ?";
+    public void addQuizResult(int user_id, int quiz_id, int score, int totalQuestions, int timeTakenSeconds, boolean isPracticeMode) throws SQLException {
+        String query = "INSERT INTO " + table_name + " (user_id, quiz_id, total_score, total_questions, time_taken, is_practice) VALUES (?, ?, ?, ?, ?, ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, qr_id);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()) return false;
-            return true;
-        }
-    }
-
-    @Override
-    public void addQuizResult(QuizResult r) throws SQLException {
-        String query = "INSERT INTO " + table_name + " (user_id, quiz_id, total_score, total_questions, time_taken, is_practice, completed_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try(PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, r.getUserId());
-            ps.setInt(2, r.getQuizId());
-            ps.setInt(3, r.getScore());
-            ps.setInt(4, r.getTotalQuestions());
-            ps.setInt(5, r.getTimeTakenSeconds());
-            ps.setBoolean(6, r.isPracticeMode());
-            ps.setTimestamp(7, r.getCompletedAt());
+            ps.setInt(1, user_id);
+            ps.setInt(2, quiz_id);
+            ps.setInt(3, score);
+            ps.setInt(4, totalQuestions);
+            ps.setInt(5, timeTakenSeconds);
+            ps.setBoolean(6, isPracticeMode);
             ps.executeUpdate();
         }
     }
 
     @Override
-    public void updateQuizResult(int qr_id, QuizResult r) throws SQLException{
-        String updateQuery = "UPDATE " + table_name + " SET user_id = ?, quiz_id = ?, total_score = ?, total_questions = ?, time_taken = ?, is_practice = ?, completed_at = ? WHERE quiz_result_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(updateQuery)) {
-            ps.setInt(1, r.getUserId());
-            ps.setInt(2, r.getQuizId());
-            ps.setInt(3, r.getScore());
-            ps.setInt(4, r.getTotalQuestions());
-            ps.setInt(5, r.getTimeTakenSeconds());
-            ps.setBoolean(6, r.isPracticeMode());
-            ps.setTimestamp(7, r.getCompletedAt());
-            ps.setInt(8, qr_id);
+    public void removeUsersAllQuizResults(int user_id) throws SQLException {
+        String query = "DELETE FROM " + table_name + " WHERE user_id = ?";
+        try(PreparedStatement ps = con.prepareStatement(query)){
+            ps.setInt(1, user_id);
             ps.executeUpdate();
         }
     }
 
     @Override
-    public void removeQuizResult(int qr_id) throws SQLException {
-        String query = "DELETE FROM " + table_name + " WHERE quiz_result_id = ?";
+    public void removeAllQuizResults(int quiz_id) throws SQLException {
+        String query = "DELETE FROM " + table_name + " WHERE quiz_id = ?";
         try(PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, qr_id);
+            ps.setInt(1, quiz_id);
             ps.executeUpdate();
         }
+    }
+
+    @Override
+    public List<Quiz> listPopularQuizzes(int num) {
+        return List.of();
     }
 
     private List<QuizResult> getQuizResultsFromRs(ResultSet rs) throws SQLException {

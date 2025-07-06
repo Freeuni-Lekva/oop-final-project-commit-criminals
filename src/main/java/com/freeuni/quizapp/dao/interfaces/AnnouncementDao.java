@@ -18,7 +18,5 @@ public interface AnnouncementDao {
 
     List<Announcement> getUsersAnnouncements(int user_id)  throws SQLException;
 
-    boolean contains(int a_id)  throws SQLException;
-
     public void updateAnnouncement(Announcement a) throws SQLException;
 }
