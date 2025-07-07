@@ -20,7 +20,7 @@ public class Question {
     private int order;
     private List<Answer> answers;
 
-    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order) throws SQLException {
+    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order) {
         this.id = id;
         this.quizId = quizId;
         this.text = text;

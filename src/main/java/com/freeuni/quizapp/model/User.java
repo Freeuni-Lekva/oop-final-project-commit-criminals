@@ -25,7 +25,7 @@ public class User {
     private List<QuizResult> quizzesTaken;
     private List<User> friends;
 
-    public User(int id, String username, String hashed_password, boolean isAdmin, Timestamp createdAt, String bio, String profilePictureUrl) throws SQLException {
+    public User(int id, String username, String hashed_password, boolean isAdmin, Timestamp createdAt, String bio, String profilePictureUrl) {
         this.id = id;
         this.username = username;
         this.hashedPassword = hashed_password;
