@@ -3,7 +3,7 @@ package com.freeuni.quizapp.model;
 import java.sql.Timestamp;
 
 public class Announcement {
-    private int announcement_id;
+    private int id;
     private int user_id;
     private String title;
     private String announcement_text;
@@ -11,7 +11,7 @@ public class Announcement {
     private Timestamp createdAt;
 
     public Announcement(int id, int user_id, String title, String text, String url, Timestamp createdAt) {
-        this.announcement_id = id;
+        this.id = id;
         this.user_id = user_id;
         this.title = title;
         this.url = url;
@@ -28,11 +28,11 @@ public class Announcement {
     }
 
     public int getId() {
-        return announcement_id;
+        return id;
     }
 
     public void setId(int id) {
-        this.announcement_id = id;
+        this.id = id;
     }
 
     public int getUser_id() {
