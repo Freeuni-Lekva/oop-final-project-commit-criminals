@@ -38,7 +38,7 @@
             z-index: 100;
             box-shadow: 0 2px 8px rgba(0,0,0,.05);
             animation: slideDown 0.8s ease-out both;
-
+            position: relative;
         }
 
         .brand {
@@ -166,7 +166,9 @@
             transition: all .25s ease;
         }
 
-        .btn-primary {
+        .btn-primary,
+        .btn-primary:visited {
+            text-decoration: none;
             background-image: var(--gradient-accent);
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(232, 90, 79, 0.25);
@@ -352,9 +354,13 @@
         }
 
         .search-bar {
-            flex: 1;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             justify-content: center;
+            width: 42%;
+            min-width: 260px;
         }
         .search-bar input[type="text"] {
             padding: 0.4rem 1rem 0.4rem 2rem;
@@ -404,7 +410,7 @@
         <h1 class="hero-title">Challenge <br/>Your <span>Mind</span></h1>
         <p class="hero-description">Discover thousands of engaging quizzes across multiple categories. Test your knowledge, learn something new, and compete with friends!</p>
         <div class="hero-btn-group">
-            <button class="btn-primary">Browse Quizzes</button>
+            <a href="quizzes.jsp" class="btn-primary">Browse Quizzes</a>
         </div>
 
         <div class="stats">
