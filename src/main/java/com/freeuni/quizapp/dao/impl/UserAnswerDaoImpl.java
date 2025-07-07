@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-//db needs quiz_id
+
 public class UserAnswerDaoImpl implements UserAnswerDao {
     private final Connection con;
     private final String table_name = "user_answer";
