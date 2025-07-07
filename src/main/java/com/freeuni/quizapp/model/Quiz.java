@@ -33,8 +33,6 @@ public class Quiz {
         this.isImmediateCorrection = isImmediateCorrection;
         this.isPracticeModeEnabled = isPracticeModeEnabled;
         this.createdAt = createdAt;
-        QuestionDao qd = new QuestionDaoImpl(DBConnector.getConnection());
-        this.questions = qd.getQuizAllQuestions(id);
     }
 
     public int getId() {

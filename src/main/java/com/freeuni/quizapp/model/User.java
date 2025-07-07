@@ -33,14 +33,6 @@ public class User {
         this.createdAt = createdAt;
         this.bio = bio;
         this.profilePictureUrl = profilePictureUrl;
-        FriendSystemDao fd = new FriendSystemDaoImpl(DBConnector.getConnection());
-        QuizDao qd = new QuizDaoImpl(DBConnector.getConnection());
-        QuizResultDao qr = new QuizResultDaoImpl(DBConnector.getConnection());
-        this.quizzesTaken = qr.getUsersQuizResults(id);
-        this.quizzesCreated = qd.findUsersCreatedQuizzes(id);
-        this.friends = fd.getUsersFriends(id);
-
-
     }
 
     public List<Quiz> getQuizzesCreated() {

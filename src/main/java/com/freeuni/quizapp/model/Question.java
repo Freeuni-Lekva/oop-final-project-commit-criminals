@@ -27,8 +27,6 @@ public class Question {
         this.type = type;
         this.imageUrl = imageUrl;
         this.order = order;
-        AnswerDao answerDao = new AnswerDaoImpl(DBConnector.getConnection());
-        this.answers = answerDao.getAnswersByQuestionId(id);
     }
 
     public int getId() {
