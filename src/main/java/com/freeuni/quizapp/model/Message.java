@@ -2,7 +2,8 @@ package com.freeuni.quizapp.model;
 
 import com.freeuni.quizapp.enums.MessageType;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Message {
         private int id;
@@ -10,16 +11,14 @@ public class Message {
         private int receiverId;
         private MessageType type;
         private String content;
-        private boolean isRead;
         private Timestamp sentAt;
 
-    public Message(int id, int senderId, int receiverId, MessageType type, String content, boolean isRead, Timestamp sentAt) {
+    public Message(int id, int senderId, int receiverId, MessageType type, String content, Timestamp sentAt) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.type = type;
         this.content = content;
-        this.isRead = isRead;
         this.sentAt = sentAt;
     }
 
@@ -63,14 +62,6 @@ public class Message {
         this.content = content;
     }
 
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
-    }
-
     public Timestamp getSentAt() {
         return sentAt;
     }
@@ -78,4 +69,12 @@ public class Message {
     public void setSentAt(Timestamp sentAt) {
         this.sentAt = sentAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return id == message.id && senderId == message.senderId && receiverId == message.receiverId && type == message.type && Objects.equals(content, message.content) && Objects.equals(sentAt, message.sentAt);
+    }
+
 }

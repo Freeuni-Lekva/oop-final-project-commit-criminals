@@ -1,7 +1,13 @@
 package com.freeuni.quizapp.model;
 
-import java.security.Timestamp;
+import com.freeuni.quizapp.dao.impl.QuestionDaoImpl;
+import com.freeuni.quizapp.dao.interfaces.QuestionDao;
+import com.freeuni.quizapp.util.DBConnector;
+
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 public class Quiz {
         private int id;
@@ -17,7 +23,7 @@ public class Quiz {
 
     public Quiz(int id, String title, String description, int creatorId, boolean isRandom,
                 boolean isOnePage, boolean isImmediateCorrection, boolean isPracticeModeEnabled,
-                Timestamp createdAt, List<Question> questions) {
+                Timestamp createdAt) throws SQLException {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -27,7 +33,6 @@ public class Quiz {
         this.isImmediateCorrection = isImmediateCorrection;
         this.isPracticeModeEnabled = isPracticeModeEnabled;
         this.createdAt = createdAt;
-        this.questions = questions;
     }
 
     public int getId() {
@@ -109,4 +114,12 @@ public class Quiz {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Quiz quiz = (Quiz) o;
+        return id == quiz.id && creatorId == quiz.creatorId && isRandom == quiz.isRandom && isOnePage == quiz.isOnePage && isImmediateCorrection == quiz.isImmediateCorrection && isPracticeModeEnabled == quiz.isPracticeModeEnabled && Objects.equals(title, quiz.title) && Objects.equals(description, quiz.description) && Objects.equals(createdAt, quiz.createdAt) && Objects.equals(questions, quiz.questions);
+    }
+
 }

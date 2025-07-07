@@ -1,6 +1,7 @@
 package com.freeuni.quizapp.model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class QuizResult {
     private int id;
@@ -8,12 +9,12 @@ public class QuizResult {
     private int quizId;
     private int score;
     private int totalQuestions;
-    private long timeTakenSeconds;
+    private int timeTakenSeconds;
     private boolean isPracticeMode;
     private Timestamp completedAt;
 
     public QuizResult(int id, int userId, int quizId, int score,
-                      int totalQuestions, long timeTakenSeconds, boolean isPracticeMode,
+                      int totalQuestions, int timeTakenSeconds, boolean isPracticeMode,
                       Timestamp completedAt) {
         this.id = id;
         this.userId = userId;
@@ -70,11 +71,11 @@ public class QuizResult {
         this.totalQuestions = totalQuestions;
     }
 
-    public long getTimeTakenSeconds() {
+    public int getTimeTakenSeconds() {
         return timeTakenSeconds;
     }
 
-    public void setTimeTakenSeconds(long timeTakenSeconds) {
+    public void setTimeTakenSeconds(int timeTakenSeconds) {
         this.timeTakenSeconds = timeTakenSeconds;
     }
 
@@ -93,4 +94,12 @@ public class QuizResult {
     public void setCompletedAt(Timestamp completedAt) {
         this.completedAt = completedAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        QuizResult that = (QuizResult) o;
+        return id == that.id && userId == that.userId && quizId == that.quizId && score == that.score && totalQuestions == that.totalQuestions && timeTakenSeconds == that.timeTakenSeconds && isPracticeMode == that.isPracticeMode && Objects.equals(completedAt, that.completedAt);
+    }
+
 }

@@ -1,18 +1,18 @@
 package com.freeuni.quizapp.model;
 
+import java.util.Objects;
+
 public class UserAnswer {
 
     private int id;
     private int userId;
-    private int quizId;
     private int questionId;
     private String givenAnswer;
     private boolean isCorrect;
 
-    public UserAnswer(int id, int userId, int quizId, int questionId, String givenAnswer, boolean isCorrect) {
+    public UserAnswer(int id, int userId, int questionId, String givenAnswer, boolean isCorrect) {
         this.id = id;
         this.userId = userId;
-        this.quizId = quizId;
         this.questionId = questionId;
         this.givenAnswer = givenAnswer;
         this.isCorrect = isCorrect;
@@ -32,14 +32,6 @@ public class UserAnswer {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getQuizId() {
-        return quizId;
-    }
-
-    public void setQuizId(int quizId) {
-        this.quizId = quizId;
     }
 
     public int getQuestionId() {
@@ -65,4 +57,12 @@ public class UserAnswer {
     public void setCorrect(boolean correct) {
         isCorrect = correct;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAnswer that = (UserAnswer) o;
+        return id == that.id && userId == that.userId && questionId == that.questionId && isCorrect == that.isCorrect && Objects.equals(givenAnswer, that.givenAnswer);
+    }
+
 }

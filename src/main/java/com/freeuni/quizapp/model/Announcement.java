@@ -1,20 +1,31 @@
 package com.freeuni.quizapp.model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Announcement {
     private int id;
     private int user_id;
     private String title;
+    private String announcement_text;
     private String url;
     private Timestamp createdAt;
 
-    public Announcement(int id, int user_id, String title, String url, Timestamp createdAt) {
+    public Announcement(int id, int user_id, String title, String text, String url, Timestamp createdAt) {
         this.id = id;
         this.user_id = user_id;
         this.title = title;
         this.url = url;
         this.createdAt = createdAt;
+        this.announcement_text = text;
+    }
+
+    public String getText() {
+        return announcement_text;
+    }
+
+    public void setText(String text) {
+        this.announcement_text = text;
     }
 
     public int getId() {
@@ -56,4 +67,12 @@ public class Announcement {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Announcement that = (Announcement) o;
+        return id == that.id && user_id == that.user_id && Objects.equals(title, that.title) && Objects.equals(url, that.url) && Objects.equals(createdAt, that.createdAt);
+    }
+
 }

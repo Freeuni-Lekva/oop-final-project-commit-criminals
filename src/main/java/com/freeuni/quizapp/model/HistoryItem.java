@@ -2,7 +2,8 @@ package com.freeuni.quizapp.model;
 
 import com.freeuni.quizapp.enums.ActionType;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class HistoryItem {
         private int id;
@@ -58,4 +59,12 @@ public class HistoryItem {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        HistoryItem that = (HistoryItem) o;
+        return id == that.id && userId == that.userId && quizId == that.quizId && actionType == that.actionType && Objects.equals(timestamp, that.timestamp);
+    }
+
 }
