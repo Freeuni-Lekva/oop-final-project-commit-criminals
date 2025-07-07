@@ -1,6 +1,6 @@
 package com.freeuni.quizapp.model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class QuizResult {
@@ -9,12 +9,12 @@ public class QuizResult {
     private int quizId;
     private int score;
     private int totalQuestions;
-    private long timeTakenSeconds;
+    private int timeTakenSeconds;
     private boolean isPracticeMode;
     private Timestamp completedAt;
 
     public QuizResult(int id, int userId, int quizId, int score,
-                      int totalQuestions, long timeTakenSeconds, boolean isPracticeMode,
+                      int totalQuestions, int timeTakenSeconds, boolean isPracticeMode,
                       Timestamp completedAt) {
         this.id = id;
         this.userId = userId;
@@ -71,11 +71,11 @@ public class QuizResult {
         this.totalQuestions = totalQuestions;
     }
 
-    public long getTimeTakenSeconds() {
+    public int getTimeTakenSeconds() {
         return timeTakenSeconds;
     }
 
-    public void setTimeTakenSeconds(long timeTakenSeconds) {
+    public void setTimeTakenSeconds(int timeTakenSeconds) {
         this.timeTakenSeconds = timeTakenSeconds;
     }
 

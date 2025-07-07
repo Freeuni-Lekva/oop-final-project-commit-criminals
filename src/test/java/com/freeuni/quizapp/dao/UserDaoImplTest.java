@@ -174,7 +174,7 @@ public class UserDaoImplTest {
         assertFalse(userDaoImpl.isUsernameOccupied("random"));
     }
 
-    private User getTestUser() {
+    private User getTestUser() throws SQLException {
         return new User(3, "random", "rand1", false, UserDaoImplTest.TIMESTAMP, null, null);
     }
 

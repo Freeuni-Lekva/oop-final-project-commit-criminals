@@ -2,7 +2,7 @@ package com.freeuni.quizapp.model;
 
 import com.freeuni.quizapp.enums.AchievementType;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Achievement {
@@ -10,13 +10,23 @@ public class Achievement {
     private int userId;
     private AchievementType type;
     private Timestamp achievedAt;
+    private int quiz_id;
 
 
-    public Achievement(int id, int userId, AchievementType type, Timestamp achievedAt) {
+    public Achievement(int id, int userId, AchievementType type, int quiz_id ,Timestamp achievedAt) {
         this.id = id;
         this.userId = userId;
         this.type = type;
         this.achievedAt = achievedAt;
+        this.quiz_id = quiz_id;
+    }
+
+    public int getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(int quiz_id) {
+        this.quiz_id = quiz_id;
     }
 
     public int getId() {

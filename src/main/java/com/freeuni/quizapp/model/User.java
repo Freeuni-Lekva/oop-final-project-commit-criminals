@@ -1,4 +1,13 @@
 package com.freeuni.quizapp.model;
+import com.freeuni.quizapp.dao.impl.FriendSystemDaoImpl;
+import com.freeuni.quizapp.dao.impl.QuizDaoImpl;
+import com.freeuni.quizapp.dao.impl.QuizResultDaoImpl;
+import com.freeuni.quizapp.dao.interfaces.FriendSystemDao;
+import com.freeuni.quizapp.dao.interfaces.QuizDao;
+import com.freeuni.quizapp.dao.interfaces.QuizResultDao;
+import com.freeuni.quizapp.util.DBConnector;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +25,7 @@ public class User {
     private List<QuizResult> quizzesTaken;
     private List<User> friends;
 
-    public User(int id, String username, String hashed_password, boolean isAdmin, Timestamp createdAt, String bio, String profilePictureUrl) {
+    public User(int id, String username, String hashed_password, boolean isAdmin, Timestamp createdAt, String bio, String profilePictureUrl) throws SQLException {
         this.id = id;
         this.username = username;
         this.hashedPassword = hashed_password;

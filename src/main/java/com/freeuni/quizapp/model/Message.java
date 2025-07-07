@@ -11,16 +11,14 @@ public class Message {
         private int receiverId;
         private MessageType type;
         private String content;
-        private boolean isRead;
         private Timestamp sentAt;
 
-    public Message(int id, int senderId, int receiverId, MessageType type, String content, boolean isRead, Timestamp sentAt) {
+    public Message(int id, int senderId, int receiverId, MessageType type, String content, Timestamp sentAt) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.type = type;
         this.content = content;
-        this.isRead = isRead;
         this.sentAt = sentAt;
     }
 
@@ -64,15 +62,7 @@ public class Message {
         this.content = content;
     }
 
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
-    }
-
-    public java.sql.Timestamp getSentAt() {
+    public Timestamp getSentAt() {
         return sentAt;
     }
 
@@ -84,7 +74,7 @@ public class Message {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return id == message.id && senderId == message.senderId && receiverId == message.receiverId && isRead == message.isRead && type == message.type && Objects.equals(content, message.content) && Objects.equals(sentAt, message.sentAt);
+        return id == message.id && senderId == message.senderId && receiverId == message.receiverId && type == message.type && Objects.equals(content, message.content) && Objects.equals(sentAt, message.sentAt);
     }
 
 }
