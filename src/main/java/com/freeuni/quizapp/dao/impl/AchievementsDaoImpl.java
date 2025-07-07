@@ -40,7 +40,7 @@ public class AchievementsDaoImpl implements AchievementDao {
 
     @Override
     public Achievement getAchievement(int user_id, int ach_id) throws SQLException {
-        String query = "SELECT 1 FROM " + table_name +
+        String query = "SELECT * FROM " + table_name +
                 " WHERE (user_id = ? AND achievement_id = ?)";
         try(PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, user_id);

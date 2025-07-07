@@ -1,5 +1,10 @@
 package com.freeuni.quizapp.model;
 
+import com.freeuni.quizapp.dao.impl.QuestionDaoImpl;
+import com.freeuni.quizapp.dao.interfaces.QuestionDao;
+import com.freeuni.quizapp.util.DBConnector;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,7 +22,7 @@ public class Quiz {
 
     public Quiz(int id, String title, String description, int creatorId, boolean isRandom,
                 boolean isOnePage, boolean isImmediateCorrection, boolean isPracticeModeEnabled,
-                Timestamp createdAt, List<Question> questions) {
+                Timestamp createdAt) throws SQLException {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -27,7 +32,8 @@ public class Quiz {
         this.isImmediateCorrection = isImmediateCorrection;
         this.isPracticeModeEnabled = isPracticeModeEnabled;
         this.createdAt = createdAt;
-        this.questions = questions;
+        QuestionDao qd = new QuestionDaoImpl(DBConnector.getConnection());
+        this.questions = qd.getQuizAllQuestions(id);
     }
 
     public int getId() {

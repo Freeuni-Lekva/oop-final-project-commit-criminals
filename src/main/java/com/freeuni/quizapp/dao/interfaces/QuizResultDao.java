@@ -23,7 +23,7 @@ public interface QuizResultDao {
 
     List<Quiz> listPopularQuizzes(int num);
 
-    int countTimesTaken(int quiz_id);
+    int countTimesTaken(int quiz_id) throws SQLException;
 
-    double getAverageScore(int quizId);
+    double getAverageScore(int quizId) throws SQLException;
 }

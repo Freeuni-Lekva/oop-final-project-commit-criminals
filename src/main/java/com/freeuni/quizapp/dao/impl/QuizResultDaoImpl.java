@@ -19,7 +19,6 @@ public class QuizResultDaoImpl implements QuizResultDao {
         con = connection;
     }
 
-
     @Override
     public List<QuizResult> getUsersQuizResults(int user_id) throws SQLException {
         String query = "SELECT * FROM " + table_name + " WHERE user_id = ?";
@@ -91,13 +90,29 @@ public class QuizResultDaoImpl implements QuizResultDao {
     }
 
     @Override
-    public int countTimesTaken(int quiz_id) {
-        return 0;
+    public int countTimesTaken(int quiz_id) throws SQLException {
+        String query = "SELECT COUNT(*) AS cnt FROM "+ table_name + " WHERE quiz_id = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, quiz_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return 0;
+                return rs.getInt("cnt");
+            }
+        }
     }
 
     @Override
-    public double getAverageScore(int quizId) {
-        return 0;
+    public double getAverageScore(int quizId) throws SQLException {
+        String query = "SELECT AVG(total_score * 100.0 / total_questions) AS avg_score FROM " +
+                table_name + " WHERE quiz_id = ? AND total_questions > 0";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, quizId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return 0.0;
+                double res = rs.getDouble("avg_score");
+                return rs.wasNull() ? 0.0 : res;
+            }
+        }
     }
 
     private List<QuizResult> getQuizResultsFromRs(ResultSet rs) throws SQLException {
