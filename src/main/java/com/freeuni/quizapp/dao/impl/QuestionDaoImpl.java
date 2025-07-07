@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionDaoImpl implements QuestionDao {
-    private Connection con;
+    private final Connection con;
     private final String table_name = "questions";
 
     public QuestionDaoImpl(Connection con) {

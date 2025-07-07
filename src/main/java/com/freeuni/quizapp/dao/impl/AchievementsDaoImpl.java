@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AchievementsDaoImpl implements AchievementDao {
     private final String table_name = "achievements";
-    private Connection con;
+    private final Connection con;
 
     public AchievementsDaoImpl(Connection con){
         this.con = con;

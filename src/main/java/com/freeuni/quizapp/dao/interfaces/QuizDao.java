@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface QuizDao {
 
+    Quiz getQuizById(int id) throws SQLException;
+
     void addQuiz(String title, String  description, int creator_id) throws SQLException;
 
     void deleteQuiz(String title) throws SQLException;

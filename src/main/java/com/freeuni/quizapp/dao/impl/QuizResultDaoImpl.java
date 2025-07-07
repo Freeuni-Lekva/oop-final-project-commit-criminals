@@ -1,5 +1,6 @@
 package com.freeuni.quizapp.dao.impl;
 
+import com.freeuni.quizapp.dao.interfaces.QuizDao;
 import com.freeuni.quizapp.dao.interfaces.QuizResultDao;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class QuizResultDaoImpl implements QuizResultDao {
     private final String table_name = "quiz_results";
-    private Connection con;
+    private final Connection con;
 
     public QuizResultDaoImpl(Connection connection) {
         con = connection;
@@ -85,8 +86,23 @@ public class QuizResultDaoImpl implements QuizResultDao {
     }
 
     @Override
-    public List<Quiz> listPopularQuizzes(int num) {
-        return List.of();
+    public List<Quiz> listPopularQuizzes(int num) throws SQLException {
+        List<Quiz> res = new ArrayList<>();
+        String query = "SELECT quiz_id FROM "+ table_name + " GROUP BY quiz_id " +
+                "ORDER BY COUNT(DISTINCT user_id) DESC";
+        try(PreparedStatement ps = con.prepareStatement(query)){
+            ResultSet rs = ps.executeQuery();
+            int cnt = 0;
+            QuizDao quizDao = new QuizDaoImpl(con);
+            while(rs.next()){
+                if(cnt == num) break;
+                cnt++;
+                int quiz_id = rs.getInt("quiz_id");
+                Quiz q = quizDao.getQuizById(quiz_id);
+                res.add(q);
+            }
+            return res;
+        }
     }
 
     @Override
@@ -131,5 +147,4 @@ public class QuizResultDaoImpl implements QuizResultDao {
         }
         return res;
     }
-
 }

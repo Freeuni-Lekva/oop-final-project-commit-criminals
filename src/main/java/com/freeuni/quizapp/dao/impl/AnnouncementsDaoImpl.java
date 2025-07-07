@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AnnouncementsDaoImpl implements AnnouncementDao {
     private final String table_name = "announcements";
-    private Connection con;
+    private final Connection con;
 
     public AnnouncementsDaoImpl(Connection con) {
         this.con = con;

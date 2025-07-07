@@ -21,7 +21,7 @@ public interface QuizResultDao {
 
     void removeAllQuizResults(int quiz_id) throws SQLException;
 
-    List<Quiz> listPopularQuizzes(int num);
+    List<Quiz> listPopularQuizzes(int num) throws SQLException;
 
     int countTimesTaken(int quiz_id) throws SQLException;
 

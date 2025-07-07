@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class MessagesDaoImpl implements MessageDao {
     private final String table_name = "messages";
-    private Connection con;
+    private final Connection con;
 
     public MessagesDaoImpl(Connection con) {
         this.con = con;

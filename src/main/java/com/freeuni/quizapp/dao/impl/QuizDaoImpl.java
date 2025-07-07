@@ -18,6 +18,26 @@ public class QuizDaoImpl implements QuizDao {
     }
 
     @Override
+    public Quiz getQuizById(int id) throws SQLException{
+        String query = "SELECT * FROM " + table_name + " WHERE quiz_id = ?";
+        try(PreparedStatement ps = con.prepareStatement(query)){
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(!rs.next()) return null;
+            return new Quiz(
+                    rs.getInt("quiz_id"),
+                    rs.getString("title"),
+                    rs.getString("description"),
+                    rs.getInt("user_id"),
+                    false,
+                    false,
+                    false,
+                    false,
+                    rs.getTimestamp("created_at"));
+        }
+    }
+
+    @Override
     public void addQuiz(String title, String description, int creator_id) throws SQLException {
         String query = "INSERT INTO " +  table_name + " (title, description, user_id) VALUES (?, ?, ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
