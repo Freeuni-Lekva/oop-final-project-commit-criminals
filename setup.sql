@@ -117,12 +117,12 @@ CREATE TABLE achievements (
                               achievement_id INT AUTO_INCREMENT PRIMARY KEY,
                               user_id INT NOT NULL,
                               achievement_name ENUM(
-                                  'Amateur Author',
-                                  'Prolific Author',
-                                  'Prodigious Author',
-                                  'Quiz Machine',
-                                  'I am the Greatest',
-                                  'Practice Makes Perfect'
+                                  'Amateur_Author',
+                                  'Prolific_Author',
+                                  'Prodigious_Author',
+                                  'Quiz_Machine',
+                                  'I_am_the_Greatest',
+                                  'Practice_Makes_Perfect'
                                   ) NOT NULL,
                               quiz_id INT,
                               achieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

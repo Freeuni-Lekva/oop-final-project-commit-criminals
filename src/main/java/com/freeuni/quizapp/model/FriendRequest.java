@@ -3,6 +3,7 @@ package com.freeuni.quizapp.model;
 import com.freeuni.quizapp.enums.FriendshipStatus;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class FriendRequest {
     private int id;
@@ -58,4 +59,12 @@ public class FriendRequest {
     public void setSentAt(Timestamp sentAt) {
         this.sentAt = sentAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        FriendRequest that = (FriendRequest) o;
+        return id == that.id && fromUserId == that.fromUserId && toUserId == that.toUserId && status == that.status && Objects.equals(sentAt, that.sentAt);
+    }
+
 }

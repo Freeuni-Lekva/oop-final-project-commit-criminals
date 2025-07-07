@@ -3,6 +3,7 @@ package com.freeuni.quizapp.model;
 import com.freeuni.quizapp.enums.MessageType;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Message {
         private int id;
@@ -68,4 +69,12 @@ public class Message {
     public void setSentAt(Timestamp sentAt) {
         this.sentAt = sentAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return id == message.id && senderId == message.senderId && receiverId == message.receiverId && type == message.type && Objects.equals(content, message.content) && Objects.equals(sentAt, message.sentAt);
+    }
+
 }

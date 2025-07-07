@@ -75,7 +75,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Boolean isAdmin(int user_id) throws SQLException {
         User user = getUser(user_id);
-        if(user == null) return false;
+        if(user == null) return null;
         return user.isAdmin();
     }
 
@@ -136,13 +136,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(int user_id) {
+    public void deleteUser(int user_id) throws SQLException{
         String command = "DELETE FROM " + table_name + " WHERE " + useridColumn + " = ?";
-        try (PreparedStatement ps = con.prepareStatement(command)) {
+        try(PreparedStatement ps = con.prepareStatement(command)) {
             ps.setInt(1, user_id);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 

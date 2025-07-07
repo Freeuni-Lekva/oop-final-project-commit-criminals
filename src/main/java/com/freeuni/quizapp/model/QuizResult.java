@@ -1,6 +1,7 @@
 package com.freeuni.quizapp.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class QuizResult {
     private int id;
@@ -93,4 +94,12 @@ public class QuizResult {
     public void setCompletedAt(Timestamp completedAt) {
         this.completedAt = completedAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        QuizResult that = (QuizResult) o;
+        return id == that.id && userId == that.userId && quizId == that.quizId && score == that.score && totalQuestions == that.totalQuestions && timeTakenSeconds == that.timeTakenSeconds && isPracticeMode == that.isPracticeMode && Objects.equals(completedAt, that.completedAt);
+    }
+
 }

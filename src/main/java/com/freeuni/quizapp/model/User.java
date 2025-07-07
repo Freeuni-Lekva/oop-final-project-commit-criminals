@@ -10,6 +10,7 @@ import com.freeuni.quizapp.util.DBConnector;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 
 public class User {
@@ -121,4 +122,12 @@ public class User {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && isAdmin == user.isAdmin && Objects.equals(username, user.username) && Objects.equals(hashedPassword, user.hashedPassword) && Objects.equals(createdAt, user.createdAt) && Objects.equals(bio, user.bio) && Objects.equals(profilePictureUrl, user.profilePictureUrl) && Objects.equals(quizzesCreated, user.quizzesCreated) && Objects.equals(quizzesTaken, user.quizzesTaken) && Objects.equals(friends, user.friends);
+    }
+
 }

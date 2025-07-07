@@ -111,12 +111,21 @@
         .link:hover {
             color: #E85A4F;
         }
+        .error-message {
+            color: #E85A4F;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
     </style>
 </head>
 <body>
 <div class="auth-card">
     <h2>Welcome Back</h2>
-    <form action="#" method="post">
+    <% if (request.getAttribute("errorMessage") != null) { %>
+        <div class="error-message"><%= request.getAttribute("errorMessage") %></div>
+    <% } %>
+    <form action="login" method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" required>
