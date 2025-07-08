@@ -20,6 +20,7 @@ public class QuizResultDaoImpl implements QuizResultDao {
         con = connection;
     }
 
+
     @Override
     public List<QuizResult> getUsersQuizResults(int user_id) throws SQLException {
         String query = "SELECT * FROM " + table_name + " WHERE user_id = ?";
@@ -147,4 +148,5 @@ public class QuizResultDaoImpl implements QuizResultDao {
         }
         return res;
     }
+
 }

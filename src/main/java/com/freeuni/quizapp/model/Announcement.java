@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Announcement {
-    private int id;
+    private int announcement_id;
     private int user_id;
     private String title;
     private String announcement_text;
@@ -12,7 +12,7 @@ public class Announcement {
     private Timestamp createdAt;
 
     public Announcement(int id, int user_id, String title, String text, String url, Timestamp createdAt) {
-        this.id = id;
+        this.announcement_id = id;
         this.user_id = user_id;
         this.title = title;
         this.url = url;
@@ -29,11 +29,11 @@ public class Announcement {
     }
 
     public int getId() {
-        return id;
+        return announcement_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.announcement_id = id;
     }
 
     public int getUser_id() {
@@ -72,7 +72,7 @@ public class Announcement {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Announcement that = (Announcement) o;
-        return id == that.id && user_id == that.user_id && Objects.equals(title, that.title) && Objects.equals(url, that.url) && Objects.equals(createdAt, that.createdAt) && Objects.equals(announcement_text, that.announcement_text);
+        return Objects.equals(((Announcement) o).announcement_text, this.announcement_text) && announcement_id == that.announcement_id && user_id == that.user_id && Objects.equals(title, that.title) && Objects.equals(url, that.url) && Objects.equals(createdAt, that.createdAt);
     }
 
 }

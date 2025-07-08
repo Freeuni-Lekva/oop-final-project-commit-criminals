@@ -12,11 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MessagesDaoImpl implements MessageDao {
+public class MessageDaoImpl implements MessageDao {
     private final String table_name = "messages";
-    private final Connection con;
+    private Connection con;
 
-    public MessagesDaoImpl(Connection con) {
+    public MessageDaoImpl(Connection con) {
         this.con = con;
     }
 
@@ -67,10 +67,12 @@ public class MessagesDaoImpl implements MessageDao {
     @Override
     public List<Message> getMessages(int from_id, int to_id) throws SQLException {
         List<Message> res = new ArrayList<>();
-        String query = "SELECT * FROM " + table_name + " WHERE from_user_id = ? AND to_user_id = ? ORDER BY timestamp DESC";
+        String query = "SELECT * FROM " + table_name + " WHERE (from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?) ORDER BY timestamp DESC";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, from_id);
             ps.setInt(2, to_id);
+            ps.setInt(3, to_id);
+            ps.setInt(4, from_id);
             try(ResultSet rs = ps.executeQuery()){
                 while(rs.next()){
                     Message m = new Message(rs.getInt("message_id"),
@@ -139,9 +141,18 @@ public class MessagesDaoImpl implements MessageDao {
     }
 
     @Override
-    public Timestamp getSentMessageTime(int m_id) throws SQLException {
-        Message m = getMessage(m_id);
-        if(m == null) return null;
-        return m.getSentAt();
+    public Timestamp getSentMessageTime(int from_id, int to_id, String text) throws SQLException {
+        String query = "SELECT timestamp FROM " + table_name + " WHERE from_user_id = ? AND to_user_id = ? AND text = ?" + " ORDER BY timestamp DESC LIMIT 1";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, from_id);
+            ps.setInt(2, to_id);
+            ps.setString(3, text);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getTimestamp("timestamp");
+                }
+            }
+        }
+        return null;
     }
 }

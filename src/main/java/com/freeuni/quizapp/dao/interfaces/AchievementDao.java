@@ -12,9 +12,9 @@ public interface AchievementDao {
 
     void addAchievement(int user_id, AchievementType type, int quiz_id) throws SQLException;
 
-    void deleteAchievement(int user_id, int ach_id)  throws SQLException;
+    void deleteAchievement(int user_id, AchievementType type)  throws SQLException;
 
-    Achievement getAchievement(int user_id, int ach_id)  throws SQLException;
+    Achievement getAchievement(int user_id, AchievementType type)  throws SQLException;
 
     List<Achievement> getAchievements(int user_id)  throws SQLException;
 }
