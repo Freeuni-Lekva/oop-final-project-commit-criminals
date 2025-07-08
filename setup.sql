@@ -411,3 +411,94 @@ VALUES
 
     (38, 'Audrey', TRUE);
 
+-- Insert EURO 2024 Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (2, 'EURO 2024 Quiz', '
+Think you know everything about Euro 2024? From unforgettable goals to shocking upsets and star players, this quiz puts your football knowledge to the ultimate test!
+Challenge yourself and see how well you remember the biggest moments, stats, and surprises of this year’s tournament.');
+
+-- Insert answers for the 8th quiz
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (8, 'Who became the youngest player in EURO history when he
+featured on the second day of the tournament?', 'multiple_choice'),
+    (8, 'What was significant about Italy''s 2-1 win against Albania
+in Group B?', 'multiple_choice'),
+    (8, 'Georgia appeared at a major international tournament
+for the very first time. Who did their one and only
+victory at EURO 2024 come against?', 'multiple_choice'),
+    (8, 'Which goalkeeper saved all three penalties in a
+shoot-out during his team''s round of 16 victory?', 'multiple_choice'),
+    (8, 'Who became the oldest-ever scorer at a EURO after
+netting on Match day 3?', 'multiple_choice'),
+    (8, 'Spain beat England 2-1 in the final in Berlin. Who scored the winning goal?','multiple_choice'),
+    (8, 'A total of how many goals were scored at the tournament?', 'multiple_choice'),
+    (8,'Spain''s 15 goals at EURO 2024 is a new tournament record.
+Which team did they surpass?', 'multiple_choice'),
+    (8, 'Whose winner after 89 minutes 59 seconds was the latest ever scored
+in the semi-finals of a EURO or World Cup?', 'multiple_choice'),
+    (8, 'Who made their 18th EURO appearance to beat the previous
+ record for a goalkeeper set by Italy''s Gianluigi Buffon?', 'multiple_choice');
+
+-- Insert answers for the 8th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (39, 'Zaire-Emery (France)', FALSE),
+    (39, 'Leo Sauer (Slovakia)', FALSE),
+    (39, 'Lamine Yamal (Spain)', TRUE),
+    (39, 'Kobbie Mainoo(England)', FALSE),
+
+    (40, 'Albania scored the fastest-ever EURO goal', TRUE),
+    (40, 'It was Italy''s 50 victory in a EURO Finals', FALSE),
+    (40, 'There were more shots than any other game in EURO history', FALSE),
+    (40, 'Italy scored the latest-ever EURO GOAL', FALSE),
+
+    (41, 'Czechia', FALSE),
+    (41, 'Turkey', FALSE),
+    (41, 'Spain', FALSE),
+    (41, 'Portugal', TRUE),
+
+    (42, 'Mike Maignan', FALSE),
+    (42, 'Diogo Costa', TRUE),
+    (42, 'Unai Simon', FALSE),
+    (42, 'Jordan Pickford', FALSE),
+
+    (43, 'Cristiano Ronaldo', FALSE),
+    (43, 'Luka Modric', TRUE),
+    (43, 'Olivier Giroud', FALSE),
+    (43, 'Jesus Navas', FALSE),
+
+    (44, 'Mikel Oyarzabal', TRUE),
+    (44, 'Dani Olmo', FALSE),
+    (44, 'Lamine Yamal', FALSE),
+    (44, 'Mikel Merino', FALSE),
+
+    (45, '95', FALSE),
+    (45, '133', FALSE),
+    (45, '117', TRUE),
+    (45, '128', FALSE),
+
+    (46, 'Italy', FALSE),
+    (46, 'England', FALSE),
+    (46, 'Germany', FALSE),
+    (46, 'France', TRUE),
+
+    (47, 'Dani Olmo (Spain)', FALSE),
+    (47, 'Ollie Watkins (England)', TRUE),
+    (47, 'Lamine Yamal (Spain)', FALSE),
+    (47, 'Harry Kane (England)', FALSE),
+
+    (48, 'Manuel Neuer', TRUE),
+    (48, 'Gainluigi Donnaruma', FALSE),
+    (48, 'Jan Oblak', FALSE),
+    (48, 'Yann Sommer', FALSE);
+
+
+
+
+
+
+
+
+
