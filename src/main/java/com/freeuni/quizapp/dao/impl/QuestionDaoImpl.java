@@ -82,8 +82,7 @@ public class QuestionDaoImpl implements QuestionDao {
                     rs.getInt("quiz_id"),
                     rs.getString("text"),
                     qt,
-                    rs.getString("image_url"),
-                    rs.getInt("q_order")
+                    rs.getString("image_url")
             );
             lst.add(q);
         }

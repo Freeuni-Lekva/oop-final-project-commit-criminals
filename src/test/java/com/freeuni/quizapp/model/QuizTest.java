@@ -136,7 +136,7 @@ public class QuizTest {
     public void getAndSetQuestionsTest() {
         assertNull(quiz.getQuestions());
         List<Question> list = new ArrayList<>();
-        Question q = new Question(1, 1, "Q1", null, null, 1);
+        Question q = new Question(1, 1, "Q1", null, null);
         list.add(q);
         quiz.setQuestions(list);
         assertEquals(list, quiz.getQuestions());

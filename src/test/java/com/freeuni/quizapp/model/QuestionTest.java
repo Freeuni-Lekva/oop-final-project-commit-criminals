@@ -14,7 +14,7 @@ public class QuestionTest {
 
     @BeforeAll
     public static void setUp() {
-        q = new Question(1, 1, "bla", QuestionType.question_response, "ques.com", 1);
+        q = new Question(1, 1, "bla", QuestionType.question_response, "ques.com");
     }
 
     @Test
@@ -88,20 +88,6 @@ public class QuestionTest {
     }
 
     @Test
-    public void getOrderTest(){
-        assertEquals(1,  q.getOrder());
-        assertNotEquals(0,  q.getOrder());
-    }
-
-    @Test
-    public void setOrderTest(){
-        q.setOrder(2);
-        assertEquals(2,  q.getOrder());
-        assertNotEquals(0,  q.getOrder());
-        q.setOrder(1);
-    }
-
-    @Test
     public void getAnswersTest(){
         assertNull(q.getAnswers());
     }
@@ -121,14 +107,13 @@ public class QuestionTest {
     public void equalsTest(){
         assertFalse(q.equals(null));
         assertFalse(q.equals("bla"));
-        Question d = new Question(1, 1, "bla", QuestionType.question_response, "ques.com", 1);
+        Question d = new Question(1, 1, "bla", QuestionType.question_response, "ques.com");
         assertTrue(q.equals(d));
-        assertFalse(q.equals(new Question(2, 1, "bla", QuestionType.question_response, "ques.com", 1)));
-        assertFalse(q.equals(new Question(1, 2, "bla", QuestionType.question_response, "ques.com", 1)));
-        assertFalse(q.equals(new Question(1, 1, "bl", QuestionType.question_response, "ques.com", 1)));
-        assertFalse(q.equals(new Question(1, 1, "bla", QuestionType.fill_in_blank, "ques.com", 1)));
-        assertFalse(q.equals(new Question(1, 1, "bla", QuestionType.question_response, "es.com", 1)));
-        assertFalse(q.equals(new Question(1, 1, "bla", QuestionType.question_response, "ques.com", 2)));
+        assertFalse(q.equals(new Question(2, 1, "bla", QuestionType.question_response, "ques.com")));
+        assertFalse(q.equals(new Question(1, 2, "bla", QuestionType.question_response, "ques.com")));
+        assertFalse(q.equals(new Question(1, 1, "bl", QuestionType.question_response, "ques.com")));
+        assertFalse(q.equals(new Question(1, 1, "bla", QuestionType.fill_in_blank, "ques.com")));
+        assertFalse(q.equals(new Question(1, 1, "bla", QuestionType.question_response, "es.com")));
 
 
 
