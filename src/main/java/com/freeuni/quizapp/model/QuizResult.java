@@ -1,6 +1,7 @@
 package com.freeuni.quizapp.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class QuizResult {
     private int id;

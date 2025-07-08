@@ -1,5 +1,6 @@
 package com.freeuni.quizapp.dao.impl;
 
+import com.freeuni.quizapp.dao.interfaces.QuizDao;
 import com.freeuni.quizapp.dao.interfaces.QuizResultDao;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
@@ -86,18 +87,49 @@ public class QuizResultDaoImpl implements QuizResultDao {
     }
 
     @Override
-    public List<Quiz> listPopularQuizzes(int num) {
-        return List.of();
+    public List<Quiz> listPopularQuizzes(int num) throws SQLException {
+        List<Quiz> res = new ArrayList<>();
+        String query = "SELECT quiz_id FROM "+ table_name + " GROUP BY quiz_id " +
+                "ORDER BY COUNT(DISTINCT user_id) DESC";
+        try(PreparedStatement ps = con.prepareStatement(query)){
+            ResultSet rs = ps.executeQuery();
+            int cnt = 0;
+            QuizDao quizDao = new QuizDaoImpl(con);
+            while(rs.next()){
+                if(cnt == num) break;
+                cnt++;
+                int quiz_id = rs.getInt("quiz_id");
+                Quiz q = quizDao.getQuizById(quiz_id);
+                res.add(q);
+            }
+            return res;
+        }
     }
 
     @Override
-    public int countTimesTaken(int quiz_id) {
-        return 0;
+    public int countTimesTaken(int quiz_id) throws SQLException {
+        String query = "SELECT COUNT(*) AS cnt FROM "+ table_name + " WHERE quiz_id = ?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, quiz_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return 0;
+                return rs.getInt("cnt");
+            }
+        }
     }
 
     @Override
-    public double getAverageScore(int quizId) {
-        return 0;
+    public double getAverageScore(int quizId) throws SQLException {
+        String query = "SELECT AVG(total_score * 100.0 / total_questions) AS avg_score FROM " +
+                table_name + " WHERE quiz_id = ? AND total_questions > 0";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, quizId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return 0.0;
+                double res = rs.getDouble("avg_score");
+                return rs.wasNull() ? 0.0 : res;
+            }
+        }
     }
 
     private List<QuizResult> getQuizResultsFromRs(ResultSet rs) throws SQLException {

@@ -18,7 +18,7 @@ public class Quiz {
 
     public Quiz(int id, String title, String description, int creatorId, boolean isRandom,
                 boolean isOnePage, boolean isImmediateCorrection, boolean isPracticeModeEnabled,
-                Timestamp createdAt, List<Question> questions) {
+                Timestamp createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -28,7 +28,6 @@ public class Quiz {
         this.isImmediateCorrection = isImmediateCorrection;
         this.isPracticeModeEnabled = isPracticeModeEnabled;
         this.createdAt = createdAt;
-        this.questions = questions;
     }
 
     public int getId() {

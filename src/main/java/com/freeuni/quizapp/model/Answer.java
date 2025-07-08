@@ -35,7 +35,7 @@ public class Answer {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Answer answer = (Answer) o;
-        return id == answer.id && questionId == answer.questionId && isCorrect == answer.isCorrect && Objects.equals(answerText, answer.answerText);
+        return id == answer.id && question_id == answer.question_id && is_correct == answer.is_correct && Objects.equals(answer_text, answer.answer_text);
     }
 
 }

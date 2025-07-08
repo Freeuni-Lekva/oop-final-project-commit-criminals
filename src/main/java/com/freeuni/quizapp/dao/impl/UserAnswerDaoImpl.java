@@ -12,7 +12,7 @@ import java.util.List;
 //db needs quiz_id
 public class UserAnswerDaoImpl implements UserAnswerDao {
     private final Connection con;
-    private final String table_name = "user_answer";
+    private final String table_name = "user_answers";
 
     public UserAnswerDaoImpl(Connection con) {
         this.con = con;

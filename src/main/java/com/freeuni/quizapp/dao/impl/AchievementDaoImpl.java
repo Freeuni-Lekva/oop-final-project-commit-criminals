@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AchievementsDaoImpl implements AchievementDao {
+public class AchievementDaoImpl implements AchievementDao {
     private final String table_name = "achievements";
     private Connection con;
 
-    public AchievementsDaoImpl(Connection con){
+    public AchievementDaoImpl(Connection con){
         this.con = con;
     }
 
@@ -28,23 +28,23 @@ public class AchievementsDaoImpl implements AchievementDao {
     }
 
     @Override
-    public void deleteAchievement(int user_id, int ach_id) throws SQLException {
+    public void deleteAchievement(int user_id, AchievementType type) throws SQLException {
         String query = "DELETE FROM " + table_name +
-                " WHERE (user_id = ? AND achievement_id = ?)";
+                " WHERE (user_id = ? AND achievement_name = ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, user_id);
-            ps.setInt(2, ach_id);
+            ps.setString(2, type.name());
             ps.executeUpdate();
         }
     }
 
     @Override
-    public Achievement getAchievement(int user_id, int ach_id) throws SQLException {
-        String query = "SELECT 1 FROM " + table_name +
-                " WHERE (user_id = ? AND achievement_id = ?)";
+    public Achievement getAchievement(int user_id, AchievementType type) throws SQLException {
+        String query = "SELECT * FROM " + table_name +
+                " WHERE (user_id = ? AND achievement_name = ?)";
         try(PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, user_id);
-            ps.setInt(2, ach_id);
+            ps.setString(2, type.name());
             try(ResultSet rs = ps.executeQuery()){
                 if(!rs.next()) return null;
                 Achievement curr = new Achievement(rs.getInt("achievement_id"),

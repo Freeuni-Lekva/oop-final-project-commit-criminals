@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface QuestionDao {
 
-    void addQuestion(int quiz_id, String text, QuestionType type, String image_url, int order) throws SQLException;
+    void addQuestion(int quiz_id, String text, QuestionType type, String image_url) throws SQLException;
 
     void removeQuestion(String text) throws SQLException;
 

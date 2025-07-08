@@ -3,6 +3,7 @@ package com.freeuni.quizapp.model;
 import com.freeuni.quizapp.enums.AchievementType;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Achievement {
     private int id;

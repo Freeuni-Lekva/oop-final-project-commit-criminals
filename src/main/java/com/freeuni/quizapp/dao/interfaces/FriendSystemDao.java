@@ -18,7 +18,7 @@ public interface FriendSystemDao {
 
     List<User> getUsersSentFriendRequests(int user_id)  throws SQLException;
 
-    List<User> getUsersRecievedRequests(int user_id)   throws SQLException;
+    List<User> getUsersReceivedRequests(int user_id)   throws SQLException;
 
     FriendshipStatus getFriendshipStatus(int user_id, int friend_id)   throws SQLException;
 
