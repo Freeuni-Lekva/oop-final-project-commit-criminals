@@ -17,16 +17,14 @@ public class Question {
     private String text;
     private QuestionType type;
     private String imageUrl;
-    private int order;
     private List<Answer> answers;
 
-    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl, int order) throws SQLException {
+    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl) throws SQLException {
         this.id = id;
         this.quizId = quizId;
         this.text = text;
         this.type = type;
         this.imageUrl = imageUrl;
-        this.order = order;
     }
 
     public int getId() {
@@ -69,14 +67,6 @@ public class Question {
         this.imageUrl = imageUrl;
     }
 
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
     public List<Answer> getAnswers() {
         return answers;
     }
@@ -89,7 +79,7 @@ public class Question {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Question question = (Question) o;
-        return id == question.id && quizId == question.quizId && order == question.order && Objects.equals(text, question.text) && type == question.type && Objects.equals(imageUrl, question.imageUrl) && Objects.equals(answers, question.answers);
+        return id == question.id && quizId == question.quizId && Objects.equals(text, question.text) && type == question.type && Objects.equals(imageUrl, question.imageUrl) && Objects.equals(answers, question.answers);
     }
 
 }

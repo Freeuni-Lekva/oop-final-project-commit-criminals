@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface AnnouncementDao {
 
-    void addAnnouncement(Announcement a) throws SQLException;
+    void addAnnouncement(int user_id, String title, String text, String url) throws SQLException;
 
-    void deleteAnnouncement(int an_id)  throws SQLException;
+    boolean deleteAnnouncement(int user_id, String title)  throws SQLException;
 
     Announcement getAnnouncement(int an_id) throws SQLException;
 
@@ -18,5 +18,5 @@ public interface AnnouncementDao {
 
     List<Announcement> getUsersAnnouncements(int user_id)  throws SQLException;
 
-    public void updateAnnouncement(Announcement a) throws SQLException;
+    public void updateAnnouncement(int announcement_id, String title, String text, String url) throws SQLException;
 }

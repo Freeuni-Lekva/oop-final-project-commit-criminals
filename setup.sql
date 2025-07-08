@@ -106,6 +106,7 @@ CREATE TABLE messages (
                           message_id INT AUTO_INCREMENT PRIMARY KEY,
                           from_user_id INT NOT NULL,
                           to_user_id INT NOT NULL,
+                          type ENUM('challenge', 'friend_request', 'text') DEFAULT 'text',
                           text TEXT NOT NULL,
                           timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           FOREIGN KEY (from_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
