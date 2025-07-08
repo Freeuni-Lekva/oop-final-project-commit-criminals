@@ -496,6 +496,81 @@ VALUES
 
 
 
+-- Insert Math Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (2, 'Math Quiz', '
+Think you''ve got what it takes to conquer numbers, logic, and problem-solving? This math quiz challenges your brain with
+a variety of questions – from simple arithmetic to tricky puzzles.');
+
+
+-- Insert answers for the 9th quiz
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (9, 'What is the sum of a triangle''s interior angles?', 'multiple_choice'),
+    (9, 'What is the next number in the Fibonacci Sequences 0,1,1,2,3,5,8,13,21,34?', 'multiple_choice'),
+    (9,'52 Divided By 4 Equals','multiple_choice'),
+    (9,'What is the least common multiple of 6, 8, and 12?','multiple_choice'),
+    (9,'When do we celebrate Pi day?','multiple_choice'),
+    (9,'What is an eight-sided polygon?','multiple_choice'),
+    (9,'Which of the following is a prime number?','multiple_choice'),
+    (9,'Solve for x: 2x + 3 = 11','multiple_choice'),
+    (9,'A rectangle has a length of 10 and a width of 4. What is its perimeter?','multiple_choice'),
+    (9,'A bag contains 3 red, 5 blue, and 2 green balls. What is the probability of randomly picking a blue ball?','multiple_choice');
+
+-- Insert answers for the 9th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (49, '360', FALSE),
+    (49, '270', FALSE),
+    (49, '180', TRUE),
+    (49, '540', FALSE),
+
+    (50, '54', FALSE),
+    (50, '55', TRUE),
+    (50, '68', FALSE),
+    (50, '67', FALSE),
+
+    (51, '15', FALSE),
+    (51, '12', FALSE),
+    (51, '14', FALSE),
+    (51, '13', TRUE),
+
+    (52, '32', FALSE),
+    (52, '16', FALSE),
+    (52, '24', TRUE),
+    (52, '64', FALSE),
+
+    (53, '14th March', TRUE),
+    (53, '3rd December', FALSE),
+    (53, '7th July', FALSE),
+    (53, '6th June', FALSE),
+
+    (54, 'Heptagon', FALSE),
+    (54, 'Hexagon', FALSE),
+    (54, 'Octagon', TRUE),
+    (54, 'Decagon', FALSE),
+
+    (55, '67', TRUE),
+    (55, '91', FALSE),
+    (55, '63', FALSE),
+    (55, '57', FALSE),
+
+    (56, '2', FALSE),
+    (56, '3', FALSE),
+    (56, '5', FALSE),
+    (56, '4', TRUE),
+
+    (57, '28', TRUE),
+    (57, '14', FALSE),
+    (57, '40', FALSE),
+    (57, '20', FALSE),
+
+    (58, '20%', FALSE),
+    (58, '50%', TRUE),
+    (58, '30%', FALSE),
+    (58, '40%', FALSE);
+
 
 
 
