@@ -1,5 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.freeuni.quizapp.model.User" %>
+<%
+    // Clear quiz session data when user navigates away from quiz
+    session.removeAttribute("currentQuiz");
+    session.removeAttribute("quizAnswers");
+    session.removeAttribute("quizStartTime");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

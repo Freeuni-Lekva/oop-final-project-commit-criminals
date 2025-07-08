@@ -21,13 +21,12 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Override
     public void addQuestion(int quiz_id, String text, QuestionType type, String image_url, int q_order) throws SQLException {
-        String query = "INSERT INTO " + table_name + " (quiz_id, text, type, image_url, q_order) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO " + table_name + " (quiz_id, text, type, image_url) VALUES (?, ?, ?, ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, quiz_id);
             ps.setString(2, text);
             ps.setString(3, type.name());
             ps.setString(4, image_url);
-            ps.setInt(5, q_order);
             ps.executeUpdate();
         }
     }
@@ -43,7 +42,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Override
     public List<Question> getAllQuestions() throws SQLException {
-        String query = "SELECT * FROM " + table_name + " ORDER BY q_order";
+        String query = "SELECT * FROM " + table_name + " ORDER BY question_id";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ResultSet rs = ps.executeQuery();
             List<Question> lst = getQuestionsFromRs(rs);
@@ -53,7 +52,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Override
     public List<Question> getQuizAllQuestions(int quiz_id) throws SQLException {
-        String query = "SELECT * FROM " + table_name + " WHERE quiz_id = ? ORDER BY q_order";
+        String query = "SELECT * FROM " + table_name + " WHERE quiz_id = ? ORDER BY question_id";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, quiz_id);
             ResultSet rs = ps.executeQuery();
@@ -83,7 +82,7 @@ public class QuestionDaoImpl implements QuestionDao {
                     rs.getString("text"),
                     qt,
                     rs.getString("image_url"),
-                    rs.getInt("q_order")
+                    rs.getInt("question_id")
             );
             lst.add(q);
         }
