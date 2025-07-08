@@ -25,8 +25,15 @@ public class AchievementDaoImplTest {
     public static void setUp() throws SQLException {
         connection = DriverManager.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
         Statement statement = connection.createStatement();
-
+        statement.executeUpdate("DROP TABLE IF EXISTS announcements");
         statement.executeUpdate("DROP TABLE IF EXISTS achievements");
+        statement.executeUpdate("DROP TABLE IF EXISTS messages");
+        statement.executeUpdate("DROP TABLE IF EXISTS friends");
+        statement.executeUpdate("DROP TABLE IF EXISTS friend_requests");
+        statement.executeUpdate("DROP TABLE IF EXISTS quiz_results");
+        statement.executeUpdate("DROP TABLE IF EXISTS user_answers");
+        statement.executeUpdate("DROP TABLE IF EXISTS answers");
+        statement.executeUpdate("DROP TABLE IF EXISTS questions");
         statement.executeUpdate("DROP TABLE IF EXISTS quizzes");
         statement.executeUpdate("DROP TABLE IF EXISTS users");
 
