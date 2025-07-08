@@ -15,6 +15,22 @@ public class Answer {
         this.isCorrect = isCorrect;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
+    }
+
     public int getId() {
         return id;
     }

@@ -26,11 +26,6 @@ public class QuizResult {
         this.completedAt = completedAt;
     }
 
-    public QuizResult(int userId, int quizId) {
-        this.userId = userId;
-        this.quizId = quizId;
-    }
-
     public int getId() {
         return id;
     }

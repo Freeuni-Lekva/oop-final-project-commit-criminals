@@ -19,7 +19,7 @@ public class Question {
     private String imageUrl;
     private List<Answer> answers;
 
-    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl) throws SQLException {
+    public Question(int id, int quizId, String text, QuestionType type,  String imageUrl) {
         this.id = id;
         this.quizId = quizId;
         this.text = text;

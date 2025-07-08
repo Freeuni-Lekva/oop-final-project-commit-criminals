@@ -72,7 +72,7 @@ public class Announcement {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Announcement that = (Announcement) o;
-        return announcement_id == that.announcement_id && user_id == that.user_id && Objects.equals(title, that.title) && Objects.equals(url, that.url) && Objects.equals(createdAt, that.createdAt);
+        return Objects.equals(((Announcement) o).announcement_text, this.announcement_text) && announcement_id == that.announcement_id && user_id == that.user_id && Objects.equals(title, that.title) && Objects.equals(url, that.url) && Objects.equals(createdAt, that.createdAt);
     }
 
 }
