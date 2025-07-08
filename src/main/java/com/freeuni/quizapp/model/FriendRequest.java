@@ -2,7 +2,7 @@ package com.freeuni.quizapp.model;
 
 import com.freeuni.quizapp.enums.FriendshipStatus;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class FriendRequest {

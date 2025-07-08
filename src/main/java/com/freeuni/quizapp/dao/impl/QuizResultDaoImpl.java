@@ -14,7 +14,7 @@ import java.util.List;
 
 public class QuizResultDaoImpl implements QuizResultDao {
     private final String table_name = "quiz_results";
-    private Connection con;
+    private final Connection con;
 
     public QuizResultDaoImpl(Connection connection) {
         con = connection;

@@ -25,8 +25,6 @@ public class Question {
         this.text = text;
         this.type = type;
         this.imageUrl = imageUrl;
-        AnswerDao answerDao = new AnswerDaoImpl(DBConnector.getConnection());
-        this.answers = answerDao.getAnswersByQuestionId(id);
     }
 
     public int getId() {

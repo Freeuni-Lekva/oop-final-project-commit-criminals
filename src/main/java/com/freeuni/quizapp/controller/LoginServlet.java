@@ -1,23 +1,19 @@
 package com.freeuni.quizapp.controller;
 
-import com.freeuni.quizapp.dao.impl.UserDaoImpl;
 import com.freeuni.quizapp.model.User;
-import com.freeuni.quizapp.util.DBConnector;
-import com.freeuni.quizapp.util.PasswordHasher;
+import com.freeuni.quizapp.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+
+    private final UserServiceImpl userService = new UserServiceImpl(); // could be injected later
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,35 +26,19 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        try (Connection con = DBConnector.getConnection()) {
-            UserDaoImpl userDao = new UserDaoImpl(con);
-            User user = userDao.getByUsername(username, true);
-
+        try {
+            User user = userService.authenticate(username, password);
             if (user == null) {
-                request.setAttribute("errorMessage", "Invalid Username");
+                request.setAttribute("errorMessage", "Invalid username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
-
-            String hashedInput;
-            try {
-                hashedInput = PasswordHasher.hashPassword(password);
-            } catch (NoSuchAlgorithmException e) {
-                throw new ServletException("Failed to hash password", e);
-            }
-
-            if (!hashedInput.equals(user.getHashedPassword())) {
-                request.setAttribute("errorMessage", "Invalid password");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            }
-
             HttpSession session = request.getSession(true);
             session.setAttribute("currentUser", user);
-
             response.sendRedirect(request.getContextPath() + "/index.jsp");
-        } catch (SQLException e) {
-            throw new ServletException("Database error during login", e);
+
+        } catch (SQLException | NoSuchAlgorithmException e) {
+            throw new ServletException("Login failed", e);
         }
     }
-} 
+}

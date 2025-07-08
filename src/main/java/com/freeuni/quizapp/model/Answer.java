@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public class Answer {
     private int id;
-    private int question_id;
-    private String answer_text;
-    private boolean is_correct;
+    private int questionId;
+    private String answerText;
+    private boolean isCorrect;
 
     public Answer(int id, int questionId, String answerText, boolean isCorrect) {
         this.id = id;
-        this.question_id = questionId;
-        this.answer_text = answerText;
-        this.is_correct = isCorrect;
+        this.questionId = questionId;
+        this.answerText = answerText;
+        this.isCorrect = isCorrect;
     }
 
     public int getId() {
@@ -20,22 +20,22 @@ public class Answer {
     }
 
     public int getQuestionId() {
-        return question_id;
+        return questionId;
     }
 
     public String getAnswerText() {
-        return answer_text;
+        return answerText;
     }
 
     public boolean isCorrect() {
-        return is_correct;
+        return isCorrect;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Answer answer = (Answer) o;
-        return id == answer.id && question_id == answer.question_id && is_correct == answer.is_correct && Objects.equals(answer_text, answer.answer_text);
+        return id == answer.id && questionId == answer.questionId && isCorrect == answer.isCorrect && Objects.equals(answerText, answer.answerText);
     }
 
 }

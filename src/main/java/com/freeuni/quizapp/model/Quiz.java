@@ -1,5 +1,10 @@
 package com.freeuni.quizapp.model;
 
+import com.freeuni.quizapp.dao.impl.QuestionDaoImpl;
+import com.freeuni.quizapp.dao.interfaces.QuestionDao;
+import com.freeuni.quizapp.util.DBConnector;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
