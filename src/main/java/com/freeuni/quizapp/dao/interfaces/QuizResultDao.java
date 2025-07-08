@@ -15,7 +15,7 @@ public interface QuizResultDao {
 
     List<QuizResult> getQuizResults(int quiz_id) throws SQLException;
 
-    void  addQuizResult(int user_id, int quiz_id, int score, int totalQuestions, int timeTakenSeconds, boolean isPracticeMode) throws SQLException;
+    void addQuizResult(int user_id, int quiz_id, int score, int totalQuestions, int timeTakenSeconds, boolean isPracticeMode) throws SQLException;
 
     void removeUsersAllQuizResults(int user_id) throws SQLException;
 

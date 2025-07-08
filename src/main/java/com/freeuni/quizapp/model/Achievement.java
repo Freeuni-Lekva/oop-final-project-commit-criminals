@@ -65,7 +65,7 @@ public class Achievement {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Achievement that = (Achievement) o;
-        return id == that.id && userId == that.userId && type == that.type && Objects.equals(achievedAt, that.achievedAt);
+        return id == that.id && userId == that.userId && type == that.type && Objects.equals(achievedAt, that.achievedAt) && quiz_id == that.quiz_id;
     }
 
 }

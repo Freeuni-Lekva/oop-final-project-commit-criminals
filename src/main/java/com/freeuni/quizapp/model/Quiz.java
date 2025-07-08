@@ -23,7 +23,7 @@ public class Quiz {
 
     public Quiz(int id, String title, String description, int creatorId, boolean isRandom,
                 boolean isOnePage, boolean isImmediateCorrection, boolean isPracticeModeEnabled,
-                Timestamp createdAt) throws SQLException {
+                Timestamp createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;

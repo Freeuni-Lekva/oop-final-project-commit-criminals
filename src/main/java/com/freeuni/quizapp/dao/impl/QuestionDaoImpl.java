@@ -20,7 +20,7 @@ public class QuestionDaoImpl implements QuestionDao {
     }
 
     @Override
-    public void addQuestion(int quiz_id, String text, QuestionType type, String image_url, int q_order) throws SQLException {
+    public void addQuestion(int quiz_id, String text, QuestionType type, String image_url) throws SQLException {
         String query = "INSERT INTO " + table_name + " (quiz_id, text, type, image_url) VALUES (?, ?, ?, ?)";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, quiz_id);
@@ -81,8 +81,7 @@ public class QuestionDaoImpl implements QuestionDao {
                     rs.getInt("quiz_id"),
                     rs.getString("text"),
                     qt,
-                    rs.getString("image_url"),
-                    rs.getInt("question_id")
+                    rs.getString("image_url")
             );
             lst.add(q);
         }

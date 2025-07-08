@@ -22,5 +22,5 @@ public interface MessageDao {
 
     Message getMessage(int m_id) throws SQLException;
 
-    Timestamp getSentMessageTime(int m_id) throws SQLException;
+    Timestamp getSentMessageTime(int from_id, int to_id, String text) throws SQLException;
 }
