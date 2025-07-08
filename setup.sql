@@ -160,7 +160,7 @@ VALUES
 INSERT INTO questions (quiz_id, text, type)
 VALUES
     (1, 'Who won the FIFA World Cup in 2018?', 'multiple_choice'),
-    (1, 'The player known as “The Hand of God” is ________.', 'multiple_choice'),
+    (1, 'Who is the player known as “The Hand of God”?', 'multiple_choice'),
     (1, 'Name the football club where Khvicha Kvaratskhelia started his professional career.', 'multiple_choice'),
     (1, 'Which country has won the most FIFA World Cups?', 'multiple_choice'),
     (1, 'Which of the following two clubs share the same stadium?', 'multiple_choice');
@@ -298,4 +298,115 @@ VALUES
 
 
 
+-- Insert GEOGRAPHY quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (4, 'Geography quiz', 'Easy geography quiz to challenge yourself!');
+
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (5, 'Which is the longest river in the world?', 'multiple_choice'),
+    (5, 'Which country has the most time zones?', 'multiple_choice'),
+    (5, 'With how many countries does Georgia share a border?','multiple_choice'),
+    (5, 'What is the capital of Canada?', 'multiple_choice'),
+    (5, 'Which desert is the largest in the world by area?', 'multiple_choice'),
+    (5, 'Which continent has the most countries?', 'multiple_choice'),
+    (5, 'Which country has the flag with an unusual form?', 'multiple_choice'),
+    (5, 'Which is one of the georgian regions occupied by russia?', 'multiple_choice');
+
+-- Inserts answers for the fifth quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (21, 'Nile', TRUE),
+    (21, 'Amazon', FALSE),
+    (21, 'Mississippi', FALSE),
+    (21, 'Congo', FALSE),
+
+    (22, 'Russia', FALSE),
+    (22, 'United States', FALSE),
+    (22, 'China', FALSE),
+    (22, 'France', TRUE),
+
+    (23, '3', FALSE),
+    (23, '4', TRUE),
+    (23, '5', FALSE),
+    (23, '6', FALSE),
+
+    (24, 'Toronto', FALSE),
+    (24, 'Ottawa', TRUE),
+    (24, 'Vancouver', FALSE),
+    (24, 'Montreal', FALSE),
+
+    (25, 'Sahara', FALSE),
+    (25, 'Arabian', FALSE),
+    (25, 'Gobi', FALSE),
+    (25, 'Antarctic', TRUE),
+
+    (26, 'Asia', FALSE),
+    (26, 'Africa', TRUE),
+    (26, 'Europe', FALSE),
+    (26, 'North America', FALSE),
+
+    (27, 'Bangladesh', FALSE),
+    (27, 'Sri-Lanka', FALSE),
+    (27, 'Nepal', TRUE),
+    (27, 'Georgia', FALSE),
+
+    (28, 'Abkhazia', TRUE),
+    (28, 'Adjara', FALSE),
+    (28, 'Guria', FALSE),
+    (28, 'Svaneti', FALSE);
+
+
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (5, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
+
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (6, 'The Great Wall of ________ was built to protect against invasions.', 'fill_in_blank'),
+    (6, 'Queen ________ is one of the most famous rulers in Georgian history and reigned during the country\'s cultural peak.', 'fill_in_blank'),
+    (6, 'The pyramids of ________ are one of the Seven Wonders of the Ancient World.','fill_in_blank'),
+    (6, 'Nelson Mandela was the first Black president of ________.', 'fill_in_blank'),
+    (6, 'World War II ended in the year ________.', 'fill_in_blank');
+
+-- Inserts answers for the sixth quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (29, 'China', TRUE),
+
+    (30, 'Tamar', TRUE),
+
+    (31, 'Egypt', TRUE),
+
+    (32, 'South Africa', TRUE),
+
+    (33, '1945', TRUE);
+
+
+
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (3, 'Movies', 'Test your reel knowledge!');
+
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (7, 'The movie Interstellar was directed by ________.', 'fill_in_blank'),
+    (7, 'The character Jack Sparrow appears in the Pirates of the ________ series.', 'fill_in_blank'),
+    (7, 'In The Matrix, the main character Neo is played by ________.','fill_in_blank'),
+    (7, 'The wizarding school in Harry Potter is called ________ .', 'fill_in_blank'),
+    (7, 'In Breakfast at Tiffany’s, the lead character Holly Golightly is played by ________ Hepburn.', 'fill_in_blank');
+
+-- Insert answers for the 7th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (34, 'Christopher Nolan', TRUE),
+
+    (35, 'Caribbean', TRUE),
+
+    (36, 'Keanu Reeves', TRUE),
+
+    (37, 'Hogwarts', TRUE),
+
+    (38, 'Audrey', TRUE);
 
