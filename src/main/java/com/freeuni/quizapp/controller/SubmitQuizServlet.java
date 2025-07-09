@@ -32,8 +32,7 @@ public class SubmitQuizServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        
-        // Get quiz data from session
+
         Quiz currentQuiz = (Quiz) session.getAttribute("currentQuiz");
         @SuppressWarnings("unchecked")
         Map<String, String> userAnswers = (Map<String, String>) session.getAttribute("quizAnswers");
@@ -45,7 +44,6 @@ public class SubmitQuizServlet extends HttpServlet {
         }
         
         try (Connection conn = DBConnector.getConnection()) {
-            // Ensure auto-commit is enabled for immediate visibility
             conn.setAutoCommit(true);
             
             AnswerDaoImpl answerDao = new AnswerDaoImpl(conn);
@@ -55,23 +53,21 @@ public class SubmitQuizServlet extends HttpServlet {
             
             int score = 0;
             int totalQuestions = currentQuiz.getQuestions().size();
-            
-            // Calculate score and save individual answers
+
             for (var question : currentQuiz.getQuestions()) {
                 String userAnswerKey = "question_" + question.getId();
                 String userAnswer = userAnswers != null ? userAnswers.get(userAnswerKey) : "";
                 
-                // Also check request parameters if not in session (fallback)
                 if ((userAnswer == null || userAnswer.trim().isEmpty()) && request.getParameter(userAnswerKey) != null) {
                     userAnswer = request.getParameter(userAnswerKey);
                 }
                 
                 boolean isCorrect = false;
                 if (userAnswer != null && !userAnswer.trim().isEmpty()) {
-                    // Get correct answers for this question
+
                     List<Answer> correctAnswers = answerDao.getAnswersByQuestionId(question.getId());
                     
-                    // Check if user answer is correct
+
                     for (Answer answer : correctAnswers) {
                         if (answer.isCorrect() && 
                             answer.getAnswerText().trim().equalsIgnoreCase(userAnswer.trim())) {
@@ -83,8 +79,7 @@ public class SubmitQuizServlet extends HttpServlet {
                     if (isCorrect) {
                         score++;
                     }
-                    
-                    // Save user answer to database
+
                     userAnswerDao.addUserAnswer(
                         currentUser.getId(),
                         question.getId(),

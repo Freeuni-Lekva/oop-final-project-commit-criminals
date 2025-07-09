@@ -243,7 +243,6 @@
     </div>
     
     <script>
-        // Update progress bar based on answered questions
         function updateProgress() {
             const form = document.getElementById('quizForm');
             const questions = form.querySelectorAll('.question-card');
@@ -266,8 +265,7 @@
             const percentage = (answered / questions.length) * 100;
             document.querySelector('.progress-fill').style.width = percentage + '%';
         }
-        
-        // Add event listeners to update progress
+
         document.addEventListener('DOMContentLoaded', function() {
             const inputs = document.querySelectorAll('input[type="radio"], input[type="text"]');
             inputs.forEach(input => {
@@ -275,13 +273,13 @@
                 input.addEventListener('input', updateProgress);
             });
             
-            // Confirm before leaving page
+
             window.addEventListener('beforeunload', function(e) {
                 e.preventDefault();
                 e.returnValue = 'Are you sure you want to leave? Your progress will be lost.';
             });
             
-            // Remove confirmation when submitting
+
             document.getElementById('quizForm').addEventListener('submit', function() {
                 window.removeEventListener('beforeunload', function() {});
             });
