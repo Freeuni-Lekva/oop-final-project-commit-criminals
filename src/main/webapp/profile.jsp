@@ -35,12 +35,15 @@
         .navbar {
             position: sticky;
             top: 0;
-            background: #fff;
+            width: 100%;
+            background: #ffffff;
             display: flex;
             align-items: center;
             padding: 1rem 4.5%;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
             z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+            animation: slideDown 0.8s ease-out both;
+            position: relative;
         }
         .brand {
             font-size: 1.6rem;
@@ -50,6 +53,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
+        }
+        
+        .brand:visited {
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .nav-links {
             list-style: none;
@@ -61,6 +71,7 @@
             text-decoration: none;
             color: var(--text-primary);
             font-weight: 500;
+            transition: color .2s ease;
         }
         .nav-links a:hover {
             color: #E85A4F;
@@ -74,7 +85,7 @@
             left: 50%;
             top: 100%;
             transform: translateX(-50%);
-            background: #fff;
+            background: #ffffff;
             list-style: none;
             margin: 0;
             padding: 0.4rem 0;
@@ -100,20 +111,35 @@
             align-items: center;
             gap: 0.35rem;
         }
+        .profile a i {
+            color: #B0B0B0;
+            font-size: 1rem;
+        }
         .search-bar {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
             width: 42%;
             min-width: 260px;
         }
         .search-bar input[type="text"] {
-            padding: 0.45rem 1rem 0.45rem 2rem;
+            padding: 0.4rem 1rem 0.4rem 2rem;
             border: 1px solid #e0e0e0;
             border-radius: 50px;
             font-size: 0.9rem;
             width: 60%;
-            max-width: 420px;
+            max-width: 500px;
+            transition: border-color .2s ease;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238E8D8A"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            background-size: 16px 16px;
+        }
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            border-color: #E85A4F;
         }
         .profile-container {
             max-width: 800px;
@@ -335,6 +361,12 @@
                 transform: translateY(0);
             }
         }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
         @media (max-width: 768px) {
             .profile-container {
                 margin: 2rem auto 0;
