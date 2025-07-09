@@ -35,12 +35,15 @@
         .navbar {
             position: sticky;
             top: 0;
-            background: #fff;
+            width: 100%;
+            background: #ffffff;
             display: flex;
             align-items: center;
             padding: 1rem 4.5%;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
             z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+            animation: slideDown 0.8s ease-out both;
+            position: relative;
         }
         .brand {
             font-size: 1.6rem;
@@ -50,6 +53,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
+        }
+        
+        .brand:visited {
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .nav-links {
             list-style: none;
@@ -61,6 +71,7 @@
             text-decoration: none;
             color: var(--text-primary);
             font-weight: 500;
+            transition: color .2s ease;
         }
         .nav-links a:hover {
             color: #E85A4F;
@@ -74,7 +85,7 @@
             left: 50%;
             top: 100%;
             transform: translateX(-50%);
-            background: #fff;
+            background: #ffffff;
             list-style: none;
             margin: 0;
             padding: 0.4rem 0;
@@ -100,20 +111,35 @@
             align-items: center;
             gap: 0.35rem;
         }
+        .profile a i {
+            color: #B0B0B0;
+            font-size: 1rem;
+        }
         .search-bar {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
             width: 42%;
             min-width: 260px;
         }
         .search-bar input[type="text"] {
-            padding: 0.45rem 1rem 0.45rem 2rem;
+            padding: 0.4rem 1rem 0.4rem 2rem;
             border: 1px solid #e0e0e0;
             border-radius: 50px;
             font-size: 0.9rem;
             width: 60%;
-            max-width: 420px;
+            max-width: 500px;
+            transition: border-color .2s ease;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238E8D8A"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            background-size: 16px 16px;
+        }
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            border-color: #E85A4F;
         }
         .profile-container {
             max-width: 800px;
@@ -218,6 +244,129 @@
             font-style: italic;
             padding: 2rem;
         }
+        
+        .bio-section {
+            margin-bottom: 1rem;
+        }
+        
+        .bio-display {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            min-height: 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .bio-display em {
+            color: var(--text-primary);
+            opacity: 0.7;
+        }
+        
+        .btn-edit-bio {
+            background: transparent;
+            border: 2px solid #E85A4F;
+            color: #E85A4F;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-edit-bio:hover {
+            background: #E85A4F;
+            color: white;
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+        
+        .bio-edit-form {
+            margin-top: 1rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .bio-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        
+        .bio-textarea:focus {
+            outline: none;
+            border-color: #E85A4F;
+            background: white;
+        }
+        
+        .bio-form-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+        
+        .btn-cancel {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #6c757d;
+            background: transparent;
+            color: #6c757d;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-cancel:hover {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-save {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(232, 90, 79, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .profile-container {
                 margin: 2rem auto 0;
@@ -257,9 +406,40 @@
         <h2>Profile</h2>
         <div class="username"><%= currentUser.getUsername() %></div>
         <div class="info">
-            <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
-                <%= currentUser.getBio() %><br>
-            <% } %>
+            <div class="bio-section">
+                <% 
+                    String editMode = request.getParameter("edit");
+                    boolean isEditingBio = "bio".equals(editMode);
+                %>
+                
+                <% if (!isEditingBio) { %>
+                    <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
+                        <div class="bio-display">
+                            <%= currentUser.getBio() %>
+                        </div>
+                    <% } else { %>
+                        <div class="bio-display">
+                            <em>No bio added yet. Click edit to add one!</em>
+                        </div>
+                    <% } %>
+                    <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
+                <% } else { %>
+                    <div class="bio-edit-form">
+                        <form action="updateBio" method="post">
+                            <textarea 
+                                name="bio" 
+                                class="bio-textarea" 
+                                placeholder="Tell us about yourself..." 
+                                maxlength="500"><%= currentUser.getBio() != null ? currentUser.getBio() : "" %></textarea>
+                            <div class="bio-form-actions">
+                                <a href="profile" class="btn-cancel">Cancel</a>
+                                <button type="submit" class="btn-save">Save Bio</button>
+                            </div>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+            <br>
             Member since: <%= currentUser.getCreatedAt() != null ? currentUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
         </div>
         <div class="stats">
@@ -324,5 +504,6 @@
         <% } %>
     </div>
 </div>
+
 </body>
 </html>
