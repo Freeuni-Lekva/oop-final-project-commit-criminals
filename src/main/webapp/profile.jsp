@@ -218,6 +218,123 @@
             font-style: italic;
             padding: 2rem;
         }
+        
+        .bio-section {
+            margin-bottom: 1rem;
+        }
+        
+        .bio-display {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            min-height: 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .bio-display em {
+            color: var(--text-primary);
+            opacity: 0.7;
+        }
+        
+        .btn-edit-bio {
+            background: transparent;
+            border: 2px solid #E85A4F;
+            color: #E85A4F;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-edit-bio:hover {
+            background: #E85A4F;
+            color: white;
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+        
+        .bio-edit-form {
+            margin-top: 1rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .bio-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        
+        .bio-textarea:focus {
+            outline: none;
+            border-color: #E85A4F;
+            background: white;
+        }
+        
+        .bio-form-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+        
+        .btn-cancel {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #6c757d;
+            background: transparent;
+            color: #6c757d;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-cancel:hover {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-save {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(232, 90, 79, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         @media (max-width: 768px) {
             .profile-container {
                 margin: 2rem auto 0;
@@ -257,9 +374,40 @@
         <h2>Profile</h2>
         <div class="username"><%= currentUser.getUsername() %></div>
         <div class="info">
-            <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
-                <%= currentUser.getBio() %><br>
-            <% } %>
+            <div class="bio-section">
+                <% 
+                    String editMode = request.getParameter("edit");
+                    boolean isEditingBio = "bio".equals(editMode);
+                %>
+                
+                <% if (!isEditingBio) { %>
+                    <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
+                        <div class="bio-display">
+                            <%= currentUser.getBio() %>
+                        </div>
+                    <% } else { %>
+                        <div class="bio-display">
+                            <em>No bio added yet. Click edit to add one!</em>
+                        </div>
+                    <% } %>
+                    <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
+                <% } else { %>
+                    <div class="bio-edit-form">
+                        <form action="updateBio" method="post">
+                            <textarea 
+                                name="bio" 
+                                class="bio-textarea" 
+                                placeholder="Tell us about yourself..." 
+                                maxlength="500"><%= currentUser.getBio() != null ? currentUser.getBio() : "" %></textarea>
+                            <div class="bio-form-actions">
+                                <a href="profile" class="btn-cancel">Cancel</a>
+                                <button type="submit" class="btn-save">Save Bio</button>
+                            </div>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+            <br>
             Member since: <%= currentUser.getCreatedAt() != null ? currentUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
         </div>
         <div class="stats">
@@ -324,5 +472,6 @@
         <% } %>
     </div>
 </div>
+
 </body>
 </html>
