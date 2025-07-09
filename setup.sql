@@ -298,7 +298,6 @@ VALUES
 
 
 
-
 -- Insert GEOGRAPHY quiz
 INSERT INTO quizzes (user_id, title, description)
 VALUES
