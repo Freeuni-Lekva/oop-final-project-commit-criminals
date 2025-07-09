@@ -31,11 +31,13 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
+        boolean editMode = "true".equals(request.getParameter("edit"));
         
 
 
         try (Connection conn = DBConnector.getConnection()) {
-            // Ensure we read the most recent committed data
+
             conn.setAutoCommit(true);
             conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             
@@ -43,11 +45,11 @@ public class ProfileServlet extends HttpServlet {
             QuizResultDaoImpl quizResultDao = new QuizResultDaoImpl(conn);
             QuestionDaoImpl questionDao = new QuestionDaoImpl(conn);
 
-            // Quizzes created
+
             List<Quiz> createdQuizzes = quizDao.findUsersCreatedQuizzes(currentUser.getId());
             int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
             
-            // Get question counts for created quizzes
+
             Map<Integer, Integer> questionCounts = new HashMap<>();
             if (createdQuizzes != null) {
                 for (Quiz quiz : createdQuizzes) {
@@ -56,11 +58,10 @@ public class ProfileServlet extends HttpServlet {
                 }
             }
 
-            // Quizzes taken
             List<QuizResult> takenResults = quizResultDao.getUsersQuizResults(currentUser.getId());
             int quizzesTaken = takenResults != null ? takenResults.size() : 0;
 
-            // Recent activity (last 5 quizzes taken, by date, with details)
+
             List<String> history = new ArrayList<>();
             if (takenResults != null) {
                 takenResults.sort(Comparator.comparing(QuizResult::getCompletedAt).reversed());
@@ -87,6 +88,7 @@ public class ProfileServlet extends HttpServlet {
             request.setAttribute("createdQuizzes", createdQuizzes);
             request.setAttribute("questionCounts", questionCounts);
             request.setAttribute("history", history);
+            request.setAttribute("editMode", editMode);
 
         } catch (Exception e) {
             e.printStackTrace();

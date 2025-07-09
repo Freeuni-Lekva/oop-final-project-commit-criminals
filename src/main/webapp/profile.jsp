@@ -2,6 +2,10 @@
 <%@ page import="com.freeuni.quizapp.model.User" %>
 <%@ page import="java.util.List" %>
 <%
+    // Clear quiz session data when user navigates to profile
+    session.removeAttribute("currentQuiz");
+    session.removeAttribute("quizAnswers");
+    session.removeAttribute("quizStartTime");
     User currentUser = (User) session.getAttribute("currentUser");
     if (currentUser == null) {
         response.sendRedirect("login.jsp");
@@ -9,9 +13,10 @@
     }
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Profile</title>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #EAE7DC 0%, #D8C3A5 100%);
@@ -253,23 +258,23 @@
         <div class="username"><%= currentUser.getUsername() %></div>
         <div class="info">
             <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
-                Bio: <%= currentUser.getBio() %><br>
+                <%= currentUser.getBio() %><br>
             <% } %>
             Member since: <%= currentUser.getCreatedAt() != null ? currentUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
         </div>
-                 <div class="stats">
-             <div class="stat">
-                 <div class="number"><%= request.getAttribute("quizzesCreated") != null ? request.getAttribute("quizzesCreated") : "0" %></div>
-                 <div class="label">Created</div>
-             </div>
-             <div class="stat">
-                 <div class="number"><%= request.getAttribute("quizzesTaken") != null ? request.getAttribute("quizzesTaken") : "0" %></div>
-                 <div class="label">Taken</div>
-             </div>
-         </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="number"><%= request.getAttribute("quizzesCreated") != null ? request.getAttribute("quizzesCreated") : "0" %></div>
+                <div class="label">Created</div>
+            </div>
+            <div class="stat">
+                <div class="number"><%= request.getAttribute("quizzesTaken") != null ? request.getAttribute("quizzesTaken") : "0" %></div>
+                <div class="label">Taken</div>
+            </div>
+        </div>
         <a class="btn" href="quizzes.jsp">Browse Quizzes</a>
     </div>
-    
+
     <% if (currentUser.isAdmin()) { %>
     <div class="history-section">
         <h3>My Created Quizzes</h3>
@@ -278,7 +283,7 @@
             List<com.freeuni.quizapp.model.Quiz> createdQuizzes = (List<com.freeuni.quizapp.model.Quiz>) request.getAttribute("createdQuizzes");
             @SuppressWarnings("unchecked")
             java.util.Map<Integer, Integer> questionCounts = (java.util.Map<Integer, Integer>) request.getAttribute("questionCounts");
-            
+
             if (createdQuizzes != null && !createdQuizzes.isEmpty()) {
         %>
             <ul class="history-list">
@@ -320,4 +325,4 @@
     </div>
 </div>
 </body>
-</html> 
+</html>
