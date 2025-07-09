@@ -390,7 +390,7 @@
     </form>
     <ul class="nav-links">
         <li><a href="quizzes.jsp">Browse Quizzes</a></li>
-        <li><a href="#">Leaderboard</a></li>
+        <li><a href="leaderboard">Leaderboard</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
             <ul class="dropdown">
