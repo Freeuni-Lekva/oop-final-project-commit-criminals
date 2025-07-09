@@ -366,7 +366,7 @@
             from { transform: translateY(-100%); opacity: 0; }
             to   { transform: translateY(0); opacity: 1; }
         }
-        
+
         @media (max-width: 768px) {
             .profile-container {
                 margin: 2rem auto 0;
