@@ -366,7 +366,7 @@
             from { transform: translateY(-100%); opacity: 0; }
             to   { transform: translateY(0); opacity: 1; }
         }
-
+        
         @media (max-width: 768px) {
             .profile-container {
                 margin: 2rem auto 0;
@@ -390,7 +390,7 @@
     </form>
     <ul class="nav-links">
         <li><a href="quizzes.jsp">Browse Quizzes</a></li>
-        <li><a href="#">Leaderboard</a></li>
+        <li><a href="leaderboard">Leaderboard</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
             <ul class="dropdown">

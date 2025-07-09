@@ -397,7 +397,8 @@
         <input type="text" name="q" placeholder="Search"/>
     </form>
     <ul class="nav-links">
-        <li><a href="#">Leaderboard</a></li>
+        <li><a href="quizzes.jsp">Browse Quizzes</a></li>
+        <li><a href="leaderboard">Leaderboard</a></li>
         <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
