@@ -361,7 +361,7 @@ VALUES
 
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (5, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
+    (4, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
 
 INSERT INTO questions (quiz_id, text, type)
 VALUES
@@ -388,7 +388,7 @@ VALUES
 
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (3, 'Movies', 'Test your reel knowledge!');
+    (4, 'Movies', 'Test your reel knowledge!');
 
 INSERT INTO questions (quiz_id, text, type)
 VALUES
@@ -410,4 +410,3 @@ VALUES
     (37, 'Hogwarts', TRUE),
 
     (38, 'Audrey', TRUE);
-
