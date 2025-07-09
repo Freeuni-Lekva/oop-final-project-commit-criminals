@@ -8,9 +8,8 @@
     <display-name>Quiz Website</display-name>
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-        <welcome-file>login.jsp</welcome-file>
-        <welcome-file>signup.jsp</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
+
 
 </web-app>

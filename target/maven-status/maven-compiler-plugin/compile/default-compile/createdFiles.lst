@@ -1,2 +1,5 @@
+com\freeuni\quizapp\service\interfaces\QuizzesService.class
 com\freeuni\quizapp\service\impl\AnnouncementServiceImpl.class
+com\freeuni\quizapp\controller\HomeServlet.class
+com\freeuni\quizapp\service\impl\QuizzesServiceImpl.class
 com\freeuni\quizapp\service\interfaces\AnnouncementService.class

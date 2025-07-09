@@ -24,9 +24,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     public List<Announcement> getAllAnnouncements() throws SQLException {
         List<Announcement> announcements = announcementDao.getAllAnnouncements();
-        if(announcements.isEmpty())
-            announcements.add(new Announcement(1, 1, "myAnnouncement",
-                "fuck katsaps", "", new Timestamp(System.currentTimeMillis())));
         return announcements;
     }
 }

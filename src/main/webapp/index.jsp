@@ -386,11 +386,14 @@
             border-color: #E85A4F;
         }
     </style>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
 </head>
 <body>
 
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
+    <a href="/home" class="brand">QuizMaster</a>
     <form class="search-bar" action="search.jsp" method="get">
         <input type="text" name="q" placeholder="Search"/>
     </form>
@@ -440,22 +443,19 @@
 </section>
 
 <%@ page import="java.util.List, com.freeuni.quizapp.model.Announcement" %>
-<%@ page import="com.freeuni.quizapp.service.interfaces.AnnouncementService" %>
-<%@ page import="com.freeuni.quizapp.service.impl.AnnouncementServiceImpl" %>
-<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.freeuni.quizapp.model.Quiz" %>
+<%@ page import="com.freeuni.quizapp.dao.interfaces.QuizDao" %>
+<%@ page import="com.freeuni.quizapp.dao.impl.QuizDaoImpl" %>
+<%@ page import="com.freeuni.quizapp.util.DBConnector" %>
 
 <div class="panel-board">
 
     <div class="announcements">
         <h2>Announcements</h2>
         <%
-            AnnouncementService announcementService = new AnnouncementServiceImpl();
-            List<Announcement> announcements = null;
-            try {
-                announcements = announcementService.getAllAnnouncements();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            List<Announcement> announcements = (List<Announcement>) request.getAttribute("announcements");
+        %>
+        <%
             if (announcements != null && !announcements.isEmpty()) {
                 for (Announcement ann : announcements) {
         %>
@@ -468,7 +468,6 @@
             <small>Posted on: <%= ann.getCreatedAt() %></small>
         </div>
         <hr/>
-
         <%
             }
         } else {
@@ -477,6 +476,88 @@
         <%
             }
         %>
+    </div>
+
+    <div class="popular-quizzes">
+        <%
+            List<Quiz> popularQuizzes = (List<Quiz>) request.getAttribute("popularQuizzes");
+            if (popularQuizzes != null && !popularQuizzes.isEmpty()) {
+                for (Quiz quiz : popularQuizzes) {
+        %>
+        <div class="popular-quiz">
+            <h3><%= quiz.getTitle() %></h3>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No popular quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+    <div class="recent-quizzes">
+        <%
+            List<Quiz> recentQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
+            if (recentQuizzes != null && !recentQuizzes.isEmpty()) {
+                for (Quiz quiz : recentQuizzes) {
+        %>
+        <div class="recent-quiz">
+            <h3><%= quiz.getTitle() %></h3>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recent quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+
+    <div class="recently-taken-quizzes">
+
+    </div>
+
+    <div class="recently-created-quizzes">
+        <%
+            List<Quiz> recentlyCreatedQuizzes = (List<Quiz>) request.getAttribute("recentlyCreatedQuizzes");
+            if (recentlyCreatedQuizzes != null && !recentlyCreatedQuizzes.isEmpty()) {
+                for (Quiz quiz : recentlyCreatedQuizzes) {
+        %>
+        <div class="recently-created-quiz">
+            <h3><%= quiz.getTitle() %></h3>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recently created quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+    <div class="achievements">
+
+    </div>
+
+    <div class="messages">
+
+    </div>
+
+    <div class="friends-activities">
+
     </div>
 
 </div>

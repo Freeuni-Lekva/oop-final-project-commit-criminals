@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             }
             HttpSession session = request.getSession(true);
             session.setAttribute("currentUser", user);
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            response.sendRedirect(request.getContextPath() + "/home");
 
         } catch (SQLException | NoSuchAlgorithmException e) {
             throw new ServletException("Login failed", e);
