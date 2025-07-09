@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class DBConnector {
     private static final String URL = "jdbc:mysql://localhost:3306/quizapp_db"; // your db url
     private static final String USER = "root"; // your user
-    private static final String PASSWORD = "root"; // your password
+    private static final String PASSWORD = "1234"; // your password
 
     /**
      * Returns a new {@link java.sql.Connection} object to the database.
