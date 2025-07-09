@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    // Clear quiz session data when user navigates to login
+    session.removeAttribute("currentQuiz");
+    session.removeAttribute("quizAnswers");
+    session.removeAttribute("quizStartTime");
+%>
 <!DOCTYPE html>
 <html>
 <head>
