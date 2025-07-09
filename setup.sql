@@ -504,7 +504,7 @@ Think you''ve got what it takes to conquer numbers, logic, and problem-solving? 
 a variety of questions – from simple arithmetic to tricky puzzles.');
 
 
--- Insert answers for the 9th quiz
+-- Insert questions for the 9th quiz
 INSERT INTO questions (quiz_id, text, type)
 VALUES
     (9, 'What is the sum of a triangle''s interior angles?', 'multiple_choice'),
@@ -572,8 +572,63 @@ VALUES
     (58, '40%', FALSE);
 
 
+-- Insert Cartoon Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES (2, 'Cartoon Quiz','From SpongeBob to Scooby-Doo, this quiz is packed with your favorite cartoon characters! 🧽🐶
+Test your memory on classic shows and fun facts from the world of animation. Great for all ages!');
 
+-- Insert questions for the 10th quiz
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (10, 'What kind of animal is Scooby-Doo?', 'multiple_choice'),
+    (10, 'Which cartoon features a character who lives in a pineapple under the sea?', 'multiple_choice'),
+    (10, 'What are the names of the chipmunk brothers in “Alvin and the Chipmunks”??', 'multiple_choice'),
+    (10, 'Which cartoon character says "What''s up, Doc?"', 'multiple_choice'),
+    (10, 'Which cartoon features four turtles trained in ninjitsu?"', 'multiple_choice'),
+    (10, 'In “Tom and Jerry”, who is the cat?', 'multiple_choice'),
+    (10, 'Who is the red car in the movie/cartoon "Cars"?', 'multiple_choice'),
+    (10, 'Which character is known for turning everything he touches into chaos and loves lasagna?', 'multiple_choice');
 
+-- Insert answers for the 10th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (59, 'Rabbit', FALSE),
+    (59, 'Cat', FALSE),
+    (59, 'Dog', TRUE),
+    (59, 'Bear', FALSE),
 
+    (60, 'Aqua Man', FALSE),
+    (60, 'SpongeBob SquarePants', TRUE),
+    (60, 'The Little Mermaid', FALSE),
+    (60, 'Finding Nemo', FALSE),
 
+    (61, 'Leo, Donnie, Raph', FALSE),
+    (61, 'Tim, Tom, Jerry', FALSE),
+    (61, ' Max, Mike, Moe', FALSE),
+    (61, 'Alvin, Simon, Theodore', TRUE),
+
+    (62, 'Mickey Mouse', FALSE),
+    (62, 'Tom Cat', FALSE),
+    (62, 'Bugs Bunny', TRUE),
+    (62, 'Daffy Duck', FALSE),
+
+    (63, 'Power Rangers', FALSE),
+    (63, 'Pokémon', FALSE),
+    (63, 'Teenage Mutant Ninja Turtles', TRUE),
+    (63, 'Kung Fu Panda', FALSE),
+
+    (64, 'Tom', TRUE),
+    (64, 'Jerry', FALSE),
+    (64, 'Felix', FALSE),
+    (64, 'Spike', FALSE),
+
+    (65, 'Lightning McQueen', TRUE),
+    (65, 'Doc Hudson', FALSE),
+    (65, 'Mater', FALSE),
+    (65, 'Cruz Ramirez', FALSE),
+
+    (66, 'Odie', FALSE),
+    (66, 'Snoopy', FALSE),
+    (66, 'Felix the Cat', FALSE),
+    (66, 'Garfield', TRUE);
 
