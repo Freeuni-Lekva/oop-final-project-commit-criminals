@@ -439,5 +439,47 @@
     </div>
 </section>
 
+<%@ page import="java.util.List, com.freeuni.quizapp.model.Announcement" %>
+<%@ page import="com.freeuni.quizapp.service.interfaces.AnnouncementService" %>
+<%@ page import="com.freeuni.quizapp.service.impl.AnnouncementServiceImpl" %>
+<%@ page import="java.sql.SQLException" %>
+
+<div class="panel-board">
+
+    <div class="announcements">
+        <h2>Announcements</h2>
+        <%
+            AnnouncementService announcementService = new AnnouncementServiceImpl();
+            List<Announcement> announcements = null;
+            try {
+                announcements = announcementService.getAllAnnouncements();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            if (announcements != null && !announcements.isEmpty()) {
+                for (Announcement ann : announcements) {
+        %>
+        <div class="announcement">
+            <h3><%= ann.getTitle() %></h3>
+            <p><%= ann.getText() %></p>
+            <% if (ann.getUrl() != null && !ann.getUrl().isEmpty()) { %>
+            <p><a href="<%= ann.getUrl() %>" target="_blank">Read more</a></p>
+            <% } %>
+            <small>Posted on: <%= ann.getCreatedAt() %></small>
+        </div>
+        <hr/>
+
+        <%
+            }
+        } else {
+        %>
+        <p>No announcements available.</p>
+        <%
+            }
+        %>
+    </div>
+
+</div>
+
 </body>
 </html>
