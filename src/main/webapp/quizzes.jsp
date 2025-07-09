@@ -450,7 +450,7 @@
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
-                    <li><a href="profile.jsp">View Profile</a></li>
+                    <li><a href="profile">View Profile</a></li>
                     <li><a href="logout">Sign Out</a></li>
                 </ul>
             </li>

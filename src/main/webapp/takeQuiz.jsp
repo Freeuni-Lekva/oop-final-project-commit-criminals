@@ -338,12 +338,6 @@
             pointer-events: none;
         }
         
-
-        
-
-        
-
-        
         @media (max-width: 768px) {
             .quiz-container {
                 padding: 0 1rem 4rem;
@@ -419,10 +413,10 @@
                                 String storedAnswerMC = userAnswers.get("question_" + question.getId());
                                 for (Answer answer : answers) { 
                                     String answerClass = quiz.isImmediateCorrection() ? (answer.isCorrect() ? "correct-answer" : "incorrect-answer") : "";
-                                    boolean isChecked = storedAnswerMC != null && storedAnswerMC.equals(String.valueOf(answer.getId()));
+                                    boolean isChecked = storedAnswerMC != null && storedAnswerMC.equals(answer.getAnswerText());
                             %>
                                 <label class="answer-option <%= answerClass %>">
-                                    <input type="radio" name="question_<%= question.getId() %>" value="<%= answer.getId() %>" <%= isChecked ? "checked" : "" %>>
+                                    <input type="radio" name="question_<%= question.getId() %>" value="<%= answer.getAnswerText() %>" <%= isChecked ? "checked" : "" %>>
                                     <span class="answer-text"><%= answer.getAnswerText() %></span>
                                 </label>
                             <% } %>
@@ -455,17 +449,17 @@
                     
                     <% if (currentQuestion.getType() == QuestionType.multiple_choice && answers != null && !answers.isEmpty()) { %>
                         <div class="answers<%= quiz.isImmediateCorrection() ? " immediate-correction" : "" %>">
-                            <% 
-                                String storedAnswerMC = userAnswers.get("question_" + currentQuestion.getId());
-                                for (Answer answer : answers) { 
-                                    String answerClass = quiz.isImmediateCorrection() ? (answer.isCorrect() ? "correct-answer" : "incorrect-answer") : "";
-                                    boolean isChecked = storedAnswerMC != null && storedAnswerMC.equals(String.valueOf(answer.getId()));
-                            %>
-                                <label class="answer-option <%= answerClass %>">
-                                    <input type="radio" name="question_<%= currentQuestion.getId() %>" value="<%= answer.getId() %>" <%= isChecked ? "checked" : "" %>>
-                                    <span class="answer-text"><%= answer.getAnswerText() %></span>
-                                </label>
-                            <% } %>
+                                                    <% 
+                            String storedAnswerMC = userAnswers.get("question_" + currentQuestion.getId());
+                            for (Answer answer : answers) { 
+                                String answerClass = quiz.isImmediateCorrection() ? (answer.isCorrect() ? "correct-answer" : "incorrect-answer") : "";
+                                boolean isChecked = storedAnswerMC != null && storedAnswerMC.equals(answer.getAnswerText());
+                        %>
+                            <label class="answer-option <%= answerClass %>">
+                                <input type="radio" name="question_<%= currentQuestion.getId() %>" value="<%= answer.getAnswerText() %>" <%= isChecked ? "checked" : "" %>>
+                                <span class="answer-text"><%= answer.getAnswerText() %></span>
+                            </label>
+                        <% } %>
                         </div>
                     <% } else if (currentQuestion.getType() == QuestionType.fill_in_blank) { %>
                         <% String storedAnswer = userAnswers.get("question_" + currentQuestion.getId()); %>
