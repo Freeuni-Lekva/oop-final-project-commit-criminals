@@ -632,3 +632,29 @@ VALUES
     (66, 'Felix the Cat', FALSE),
     (66, 'Garfield', TRUE);
 
+-- Dummy insert for user_answers
+INSERT INTO user_answers (user_id, question_id, given_answer, is_correct)
+VALUES (2, 1, 'France', TRUE);
+
+-- Dummy insert for quiz_results
+INSERT INTO quiz_results (user_id, quiz_id, total_score, total_questions, time_taken, is_practice)
+VALUES (2, 1, 5, 5, 120, FALSE);
+
+-- Dummy insert for friend_requests
+INSERT INTO friend_requests (from_user, to_user, status)
+VALUES (1, 2, 'pending');
+
+-- Dummy insert for friends
+INSERT INTO friends (friend1_user_id, friend2_user_id)
+VALUES (2, 3);
+
+-- Dummy insert for messages
+INSERT INTO messages (from_user_id, to_user_id, type, text)
+VALUES (1, 2, 'text', 'Hello friend!');
+
+INSERT INTO messages (from_user_id, to_user_id, type, text)
+VALUES (1, 2, 'friend_request', 'User 1 has sent you a friend request.');
+
+-- Dummy insert for achievements
+INSERT INTO achievements (user_id, achievement_name, quiz_id)
+VALUES (2, 'Amateur_Author', 1);
