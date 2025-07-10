@@ -8,14 +8,16 @@ public interface HomeService {
 
     void storePopularQuizzes() throws SQLException;
 
-    void storeRecentlyTakenQuizzes() throws SQLException;
-
     void storeRecentQuizzes() throws SQLException;
 
-    void storeUsersCreatedQuizzes(User user) throws SQLException;
+    void storeRecentlyTakenQuizzes() throws SQLException;
 
-    void storeRecentlyTakenQuizzes(User user) throws SQLException;
+    void storeRecentlyCreatedQuizzes() throws SQLException;
 
-    void storeRecentlyCreatedQuizzes(User user) throws SQLException;
+    void storeAchievements() throws SQLException;
+
+    void storeMessages() throws SQLException;
+
+    void storeFriendsActivities() throws SQLException;
 
 }

@@ -1,14 +1,11 @@
 package com.freeuni.quizapp.controller;
 
 import com.freeuni.quizapp.model.Announcement;
-import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.User;
-import com.freeuni.quizapp.service.impl.QuizResultsServiceImpl;
-import com.freeuni.quizapp.service.impl.QuizzesServiceImpl;
+import com.freeuni.quizapp.service.impl.HomeServiceImpl;
 import com.freeuni.quizapp.service.interfaces.AnnouncementService;
 import com.freeuni.quizapp.service.impl.AnnouncementServiceImpl;
-import com.freeuni.quizapp.service.interfaces.QuizResultsService;
-import com.freeuni.quizapp.service.interfaces.QuizzesService;
+import com.freeuni.quizapp.service.interfaces.HomeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,8 +23,7 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        QuizzesService quizzesService = new QuizzesServiceImpl(request);
-        QuizResultsService quizResultsService = new QuizResultsServiceImpl(request);
+        HomeService homeService = new HomeServiceImpl(request);
 
         try {
             List<Announcement> announcements = announcementService.getAllAnnouncements();
@@ -38,39 +34,56 @@ public class HomeServlet extends HttpServlet {
         }
 
         try {
-            quizzesService.storeRecentQuizzes();
+            homeService.storeRecentQuizzes();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            quizResultsService.storePopularQuizzes();
+            homeService.storePopularQuizzes();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        User user = (User) request.getSession().getAttribute("currentUser");
 
         try {
-            quizzesService.storeUsersCreatedQuizzes(user);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            quizzesService.storeRecentlyCreatedQuizzes(user);
+            homeService.storeRecentlyCreatedQuizzes();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            quizzesService.storeRecentlyTakenQuizzes(user);
+            homeService.storeRecentlyCreatedQuizzes();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            homeService.storeRecentlyTakenQuizzes();
         }  catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            quizResultsService.storeRecentlyTakenQuizzes();
+            homeService.storeRecentlyTakenQuizzes();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            homeService.storeAchievements();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            homeService.storeMessages();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            homeService.storeFriendsActivities();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

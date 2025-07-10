@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.freeuni.quizapp.model.User" %>
 <%
     // Clear quiz session data when user navigates away from quiz
     session.removeAttribute("currentQuiz");
@@ -442,11 +441,14 @@
     </div>
 </section>
 
-<%@ page import="java.util.List, com.freeuni.quizapp.model.Announcement" %>
-<%@ page import="com.freeuni.quizapp.model.Quiz" %>
-<%@ page import="com.freeuni.quizapp.dao.interfaces.QuizDao" %>
-<%@ page import="com.freeuni.quizapp.dao.impl.QuizDaoImpl" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.freeuni.quizapp.model.*" %>
+<%@ page import="com.freeuni.quizapp.dao.interfaces.UserDao" %>
+<%@ page import="com.freeuni.quizapp.dao.impl.UserDaoImpl" %>
 <%@ page import="com.freeuni.quizapp.util.DBConnector" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.freeuni.quizapp.enums.ActionType" %>
+<%@ page import="com.freeuni.quizapp.enums.AchievementType" %>
 
 <div class="panel-board">
 
@@ -568,15 +570,99 @@
 
 
     <div class="achievements">
-
+        <h2>Achievements</h2>
+        <%
+            List<Achievement> achievements = (List<Achievement>) request.getAttribute("achievements");
+            if (achievements != null && !achievements.isEmpty()) {
+                for (Achievement ach : achievements) {
+        %>
+        <div class="achievement">
+            <p><strong><%= ach.getType().toString().replace('_', ' ') %></strong></p>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No achievements unlocked yet.</p>
+        <%
+            }
+        %>
     </div>
+
 
     <div class="messages">
+        <h2>Inbox</h2>
+        <%
+            List<Message> messages = (List<Message>) request.getAttribute("messages");
+            UserDao userDao = null;
+            try {
+                userDao = new UserDaoImpl(DBConnector.getConnection());
+            } catch (SQLException e) {
+            }
+        %>
 
+        <% if (messages != null && !messages.isEmpty()) { %>
+        <p>You have <%= messages.size() %> new message<%= messages.size() > 1 ? "s" : "" %>.</p>
+        <ul>
+            <% for (Message msg : messages) {
+                String username = "Unknown";
+                try {
+                    username = userDao.getUsername(msg.getSenderId());
+                } catch (SQLException e) {
+                }
+            %>
+            <li>
+                <strong>From:</strong> <%= username %><br/>
+                <strong>Type:</strong> <%= msg.getType().toString().replace("_", " ").toLowerCase() %><br/>
+                <strong>Message:</strong> "<%= msg.getContent() %>"<br/>
+                <small>Received: <%= msg.getSentAt() %></small>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <p>No new messages.</p>
+        <% } %>
     </div>
 
-    <div class="friends-activities">
 
+    <div class="friends-activities">
+        <h2>Friends' Activities</h2>
+        <%
+            List<Activity> friendsActivities = (List<Activity>) request.getAttribute("friendsActivities");
+        %>
+
+        <% if (friendsActivities != null && !friendsActivities.isEmpty()) { %>
+        <ul>
+            <% for (Activity activity : friendsActivities) {
+                User user = activity.getUser();
+                String username = user.getUsername();
+                ActionType actionType = activity.getType();
+                String description = "";
+
+                switch (actionType) {
+                    case achievement_earned:
+                        AchievementType achievement = activity.getAchievementType();
+                        description = username + " earned the achievement: " + achievement.name().replace("_", " ");
+                        break;
+                    case quiz_taken:
+                        Quiz takenQuiz = activity.getQuiz();
+                        description = username + " took the quiz: \"" + takenQuiz.getTitle() + "\"";
+                        break;
+                    case quiz_created:
+                        Quiz createdQuiz = activity.getQuiz();
+                        description = username + " created a new quiz: \"" + createdQuiz.getTitle() + "\"";
+                        break;
+                }
+            %>
+            <li>
+                <%= description %><br/>
+                <small><%= activity.getTimestamp() %></small>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <p>No recent activities from friends.</p>
+        <% } %>
     </div>
 
 </div>

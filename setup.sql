@@ -653,7 +653,7 @@ INSERT INTO messages (from_user_id, to_user_id, type, text)
 VALUES (1, 2, 'text', 'Hello friend!');
 
 INSERT INTO messages (from_user_id, to_user_id, type, text)
-VALUES (1, 2, 'friend_request', 'User 1 has sent you a friend request.');
+VALUES (1, 2, 'friend_request', 'lkhiz23 has sent you a friend request.');
 
 -- Dummy insert for achievements
 INSERT INTO achievements (user_id, achievement_name, quiz_id)

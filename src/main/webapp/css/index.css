@@ -84,3 +84,87 @@
     font-size: 0.75rem;
     color: #aaa;
 }
+
+.achievements {
+    text-align: center;
+    padding: 1rem;
+}
+
+.achievement {
+    background-color: #f0f9f7;
+    border-left: 5px solid #3ac47d;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem auto;
+    border-radius: 6px;
+    max-width: 300px;
+    font-size: 0.95rem;
+}
+
+.achievement p {
+    margin: 0;
+    color: #2f6650;
+    font-weight: 600;
+}
+
+.messages {
+    background-color: #fdfdfd;
+    border-left: 4px solid #58a6ff;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.messages h2 {
+    text-align: center;
+    color: #3a3a3a;
+    margin-bottom: 0.75rem;
+}
+
+.messages ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.messages li {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.friends-activities {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.friends-activities h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #E85A4F;
+    text-align: center;
+}
+
+.friends-activities ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.friends-activities li {
+    background-color: #ffffff;
+    border-left: 4px solid #E85A4F;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.friends-activities li small {
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.25rem;
+}
