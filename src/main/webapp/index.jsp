@@ -656,11 +656,11 @@
                 switch (actionType) {
                     case achievement_earned:
                         AchievementType achievement = activity.getAchievementType();
-                        content = "<a href='profile.jsp?username=" + username + "'>" + username + "</a> earned the achievement: <strong>" + achievement.name().replace("_", " ") + "</strong>";
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> earned the achievement: <strong>" + achievement.name().replace("_", " ") + "</strong>";
                         break;
                     case quiz_taken:
                         Quiz takenQuiz = activity.getQuiz();
-                        content = "<a href='profile.jsp?username=" + username + "'>" + username + "</a> took the quiz: <a href='quizzes.jsp#settings_" + takenQuiz.getId() + "'>\"" + takenQuiz.getTitle() + "\"</a>";
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> took the quiz: <a href='quizzes.jsp#settings_" + takenQuiz.getId() + "'>\"" + takenQuiz.getTitle() + "\"</a>";
                         break;
                     case quiz_created:
                         Quiz createdQuiz = activity.getQuiz();
