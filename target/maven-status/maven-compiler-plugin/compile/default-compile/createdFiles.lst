@@ -43,6 +43,7 @@ com\freeuni\quizapp\controller\UpdateBioServlet.class
 com\freeuni\quizapp\enums\FriendshipStatus.class
 com\freeuni\quizapp\model\Announcement.class
 com\freeuni\quizapp\enums\AchievementType.class
+com\freeuni\quizapp\service\interfaces\AchievementService.class
 com\freeuni\quizapp\controller\LeaderboardServlet.class
 com\freeuni\quizapp\controller\QuizServlet.class
 com\freeuni\quizapp\dao\impl\UserDaoImpl.class
@@ -50,10 +51,13 @@ com\freeuni\quizapp\dao\impl\AnnouncementDaoImpl.class
 com\freeuni\quizapp\service\interfaces\LeaderboardService.class
 com\freeuni\quizapp\dao\impl\QuestionDaoImpl.class
 com\freeuni\quizapp\model\Message.class
+com\freeuni\quizapp\service\impl\AchievementServiceImpl$1.class
+com\freeuni\quizapp\service\impl\AchievementServiceImpl.class
 com\freeuni\quizapp\model\Question.class
 com\freeuni\quizapp\dao\interfaces\AchievementDao.class
 com\freeuni\quizapp\model\Quiz.class
 com\freeuni\quizapp\enums\ActionType.class
+com\freeuni\quizapp\controller\SearchServlet.class
 com\freeuni\quizapp\controller\LogoutServlet.class
 com\freeuni\quizapp\dao\impl\UserAnswerDaoImpl.class
 com\freeuni\quizapp\service\impl\LeaderboardServiceImpl.class

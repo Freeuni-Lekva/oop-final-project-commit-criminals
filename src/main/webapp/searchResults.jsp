@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - QuizMaster</title>
+    <title>Search Results - Quizology</title>
     <style>
         :root {
             --gradient-accent: linear-gradient(135deg, #E85A4F 0%, #E9704F 100%);
@@ -427,7 +427,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.jsp" class="brand">QuizMaster</a>
+        <a href="index.jsp" class="brand">Quizology</a>
         
         <form class="search-bar" action="search" method="get">
             <input type="text" name="q" value="<%= searchQuery != null ? searchQuery : "" %>" placeholder="Search" required/>

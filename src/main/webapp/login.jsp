@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Login - Quizology</title>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #EAE7DC 0%, #D8C3A5 100%);

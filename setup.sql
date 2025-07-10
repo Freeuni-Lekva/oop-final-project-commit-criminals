@@ -155,7 +155,7 @@ VALUES
 -- Insert the Football Quiz
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (1, 'World Football Trivia', 'Test your football quiz knowledge with the questions of mixed difficulty.');
+    (3, 'World Football Trivia', 'Test your football quiz knowledge with the questions of mixed difficulty.');
 
 -- Insert questions for the quiz
 INSERT INTO questions (quiz_id, text, type)
@@ -198,7 +198,7 @@ VALUES
 -- Insert NBA Basketball Quiz
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (2, 'NBA Legends & History', 'Test your knowledge of NBA basketball history, legends, and current stars.');
+    (3, 'NBA Legends & History', 'Test your knowledge of NBA basketball history, legends, and current stars.');
 
 -- Insert questions for the NBA quiz
 INSERT INTO questions (quiz_id, text, type)
@@ -243,7 +243,7 @@ VALUES
 INSERT INTO quizzes (user_id, title, description)
 VALUES
     (3, 'Classic Authors Quiz', 'Test your knowledge of famous authors and their works.'),
-    (4, 'Literary Characters Quiz', 'Identify famous characters from literature.');
+    (3, 'Literary Characters Quiz', 'Identify famous characters from literature.');
 
 -- Insert questions for quizzes
 INSERT INTO questions (quiz_id, text, type)
@@ -360,7 +360,7 @@ VALUES
 
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (5, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
+    (4, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
 
 INSERT INTO questions (quiz_id, text, type)
 VALUES
@@ -387,7 +387,7 @@ VALUES
 
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (3, 'Movies', 'Test your reel knowledge!');
+    (4, 'Movies', 'Test your reel knowledge!');
 
 INSERT INTO questions (quiz_id, text, type)
 VALUES

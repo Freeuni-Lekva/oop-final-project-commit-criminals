@@ -361,7 +361,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.jsp" class="brand">QuizMaster</a>
+        <a href="index.jsp" class="brand">Quizology</a>
         <div class="nav-info">
             <span>Welcome, <%= currentUser.getUsername() %></span>
         </div>

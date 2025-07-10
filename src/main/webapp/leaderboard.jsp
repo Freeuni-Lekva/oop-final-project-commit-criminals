@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - QuizMaster</title>
+    <title>Leaderboard - Quizology</title>
     <style>
         :root {
             --gradient-accent: linear-gradient(135deg, #E85A4F 0%, #E9704F 100%);
@@ -408,13 +408,13 @@
 <body>
 
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
+    <a href="index.jsp" class="brand">Quizology</a>
     <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search" required>
         <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-    <form class="search-bar" action="search.jsp" method="get">
+    <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search">
     </form>
     <ul class="nav-links">

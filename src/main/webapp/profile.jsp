@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.freeuni.quizapp.model.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%
     // Clear quiz session data when user navigates to profile
     session.removeAttribute("currentQuiz");
@@ -11,19 +12,12 @@
         response.sendRedirect("login.jsp");
         return;
     }
-    
-    User profileUser = (User) request.getAttribute("profileUser");
-    Boolean isViewingOwnProfile = (Boolean) request.getAttribute("isViewingOwnProfile");
-    if (profileUser == null) {
-        profileUser = currentUser;
-        isViewingOwnProfile = true;
-    }
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Profile</title>
+    <title>User Profile - Quizology</title>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #EAE7DC 0%, #D8C3A5 100%);
@@ -252,6 +246,73 @@
             padding: 2rem;
         }
         
+        .achievements-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(232, 90, 79, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 90, 79, 0.1);
+        }
+        
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .achievement-name {
+            font-weight: 600;
+            color: #E85A4F;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .achievement-description {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.8rem;
+        }
+        
+        .achievement-description strong {
+            color: #E85A4F;
+            font-weight: 600;
+        }
+        
+        .achievement-date {
+            color: #888;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+        
+        .no-achievements {
+            text-align: center;
+            color: var(--text-primary);
+            font-style: italic;
+            padding: 2rem;
+        }
+        
         .bio-section {
             margin-bottom: 1rem;
         }
@@ -391,12 +452,12 @@
 </head>
 <body>
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
+    <a href="index.jsp" class="brand">Quizology</a>
     <form class="search-bar" action="search" method="get">
-        <input type="text" name="q" placeholder="Search" required>
-        <input type="hidden" name="type" value="all"/>
+        <input type="text" name="q" placeholder="Search">
     </form>
     <ul class="nav-links">
+        <li><a href="quizzes.jsp">Browse Quizzes</a></li>
         <li><a href="leaderboard">Leaderboard</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
@@ -410,28 +471,26 @@
 
 <div class="profile-container">
     <div class="profile-card">
-        <h2><%= isViewingOwnProfile ? "My Profile" : profileUser.getUsername() + "'s Profile" %></h2>
-        <div class="username"><%= profileUser.getUsername() %></div>
+        <h2>Profile</h2>
+        <div class="username"><%= currentUser.getUsername() %></div>
         <div class="info">
             <div class="bio-section">
                 <% 
                     String editMode = request.getParameter("edit");
-                    boolean isEditingBio = "bio".equals(editMode) && isViewingOwnProfile;
+                    boolean isEditingBio = "bio".equals(editMode);
                 %>
                 
                 <% if (!isEditingBio) { %>
-                    <% if (profileUser.getBio() != null && !profileUser.getBio().trim().isEmpty()) { %>
+                    <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
                         <div class="bio-display">
-                            <%= profileUser.getBio() %>
+                            <%= currentUser.getBio() %>
                         </div>
                     <% } else { %>
                         <div class="bio-display">
-                            <em><%= isViewingOwnProfile ? "No bio added yet. Click edit to add one!" : "No bio available." %></em>
+                            <em>No bio added yet. Click edit to add one!</em>
                         </div>
                     <% } %>
-                    <% if (isViewingOwnProfile) { %>
-                        <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
-                    <% } %>
+                    <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
                 <% } else { %>
                     <div class="bio-edit-form">
                         <form action="updateBio" method="post">
@@ -439,7 +498,7 @@
                                 name="bio" 
                                 class="bio-textarea" 
                                 placeholder="Tell us about yourself..." 
-                                maxlength="500"><%= profileUser.getBio() != null ? profileUser.getBio() : "" %></textarea>
+                                maxlength="500"><%= currentUser.getBio() != null ? currentUser.getBio() : "" %></textarea>
                             <div class="bio-form-actions">
                                 <a href="profile" class="btn-cancel">Cancel</a>
                                 <button type="submit" class="btn-save">Save Bio</button>
@@ -449,7 +508,7 @@
                 <% } %>
             </div>
             <br>
-            Member since: <%= profileUser.getCreatedAt() != null ? profileUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
+            Member since: <%= currentUser.getCreatedAt() != null ? currentUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
         </div>
         <div class="stats">
             <div class="stat">
@@ -461,15 +520,12 @@
                 <div class="label">Taken</div>
             </div>
         </div>
-        <% if (!isViewingOwnProfile) { %>
-            <a class="btn" href="profile" style="margin-right: 1rem;">View My Profile</a>
-        <% } %>
         <a class="btn" href="quizzes.jsp">Browse Quizzes</a>
     </div>
 
-    <% if (profileUser.isAdmin()) { %>
+    <% if (currentUser.isAdmin()) { %>
     <div class="history-section">
-        <h3><%= isViewingOwnProfile ? "My Created Quizzes" : profileUser.getUsername() + "'s Created Quizzes" %></h3>
+        <h3>My Created Quizzes</h3>
         <%
             @SuppressWarnings("unchecked")
             List<com.freeuni.quizapp.model.Quiz> createdQuizzes = (List<com.freeuni.quizapp.model.Quiz>) request.getAttribute("createdQuizzes");
@@ -492,17 +548,96 @@
             </ul>
         <% } else { %>
             <div class="no-history">
-                <%= isViewingOwnProfile ? "You haven't created any quizzes yet." : profileUser.getUsername() + " hasn't created any quizzes yet." %>
-                <% if (isViewingOwnProfile) { %>
-                    <a href="quizzes.jsp" style="color: #E85A4F;">Create your first quiz!</a>
-                <% } %>
+                You haven't created any quizzes yet.
+                <a href="quizzes.jsp" style="color: #E85A4F;">Create your first quiz!</a>
             </div>
         <% } %>
     </div>
     <% } %>
 
+    <div class="achievements-section">
+        <h3>Achievements</h3>
+        <%
+            @SuppressWarnings("unchecked")
+            List<com.freeuni.quizapp.model.Achievement> achievements = (List<com.freeuni.quizapp.model.Achievement>) request.getAttribute("achievements");
+            @SuppressWarnings("unchecked")
+            List<String> greatestQuizNames = (List<String>) request.getAttribute("greatestQuizNames");
+            if (achievements != null && !achievements.isEmpty()) {
+        %>
+            <div class="achievements-grid">
+                <% for (com.freeuni.quizapp.model.Achievement achievement : achievements) { 
+                    String icon = "";
+                    String displayName = "";
+                    String description = "";
+                    
+                    switch (achievement.getType()) {
+                        case Amateur_Author:
+                            icon = "📝";
+                            displayName = "Amateur Author";
+                            description = "Created your first quiz";
+                            break;
+                        case Prolific_Author:
+                            icon = "✍️";
+                            displayName = "Prolific Author";
+                            description = "Created 5 quizzes";
+                            break;
+                        case Prodigious_Author:
+                            icon = "📚";
+                            displayName = "Prodigious Author";
+                            description = "Created 10 quizzes";
+                            break;
+                        case Quiz_Machine:
+                            icon = "🎯";
+                            displayName = "Quiz Machine";
+                            description = "Completed 10 quizzes";
+                            break;
+                        case I_am_the_Greatest:
+                            icon = "🏆";
+                            displayName = "I am the Greatest";
+                            description = "Achieved the highest score on quiz";
+                            
+                            // Show all quizzes where user has the highest score
+                            if (greatestQuizNames != null && !greatestQuizNames.isEmpty()) {
+                                if (greatestQuizNames.size() == 1) {
+                                    description = "Achieved the highest score on: <strong>" + greatestQuizNames.get(0) + "</strong>";
+                                } else {
+                                    StringBuilder sb = new StringBuilder("Achieved the highest score on:<br/>");
+                                    for (int i = 0; i < greatestQuizNames.size(); i++) {
+                                        sb.append("<strong>• ").append(greatestQuizNames.get(i)).append("</strong>");
+                                        if (i < greatestQuizNames.size() - 1) {
+                                            sb.append("<br/>");
+                                        }
+                                    }
+                                    description = sb.toString();
+                                }
+                            }
+                            break;
+                        case Practice_Makes_Perfect:
+                            icon = "⚡";
+                            displayName = "Practice Makes Perfect";
+                            description = "Completed a quiz in practice mode";
+                            break;
+                    }
+                %>
+                    <div class="achievement-card">
+                        <div class="achievement-icon"><%= icon %></div>
+                        <div class="achievement-name"><%= displayName %></div>
+                        <div class="achievement-description"><% out.print(description); %></div>
+                        <div class="achievement-date">
+                            Earned: <%= achievement.getAchievedAt() != null ? achievement.getAchievedAt().toString().substring(0, 16) : "Unknown" %>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="no-achievements">
+                No achievements yet. Start taking quizzes to earn your first achievement!
+            </div>
+        <% } %>
+    </div>
+
     <div class="history-section">
-        <h3><%= isViewingOwnProfile ? "My Recent Activity" : profileUser.getUsername() + "'s Recent Activity" %></h3>
+        <h3>Recent Activity</h3>
         <%
             @SuppressWarnings("unchecked")
             List<String> history = (List<String>) request.getAttribute("history");
