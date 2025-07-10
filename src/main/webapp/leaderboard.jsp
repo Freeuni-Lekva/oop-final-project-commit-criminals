@@ -409,11 +409,11 @@
 
 <nav class="navbar">
     <a href="index.jsp" class="brand">QuizMaster</a>
-    <form class="search-bar" action="search.jsp" method="get">
-        <input type="text" name="q" placeholder="Search">
+    <form class="search-bar" action="search" method="get">
+        <input type="text" name="q" placeholder="Search" required>
+        <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-        <li><a href="quizzes.jsp">Browse Quizzes</a></li>
         <li><a href="leaderboard">Leaderboard</a></li>
         <% if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
@@ -437,9 +437,9 @@
 <div class="leaderboard-container">
     <% 
         @SuppressWarnings("unchecked")
-        List<LeaderboardServlet.QuizLeaderboard> quizLeaderboards = 
+                List<LeaderboardServlet.QuizLeaderboard> quizLeaderboards =
             (List<LeaderboardServlet.QuizLeaderboard>) request.getAttribute("quizLeaderboards");
-        
+
         if (quizLeaderboards != null && !quizLeaderboards.isEmpty()) {
             for (LeaderboardServlet.QuizLeaderboard quizLeaderboard : quizLeaderboards) {
     %>
