@@ -1,11 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.freeuni.quizapp.model.User" %>
+<%
+    // Clear quiz session data when user navigates away from quiz
+    session.removeAttribute("currentQuiz");
+    session.removeAttribute("quizAnswers");
+    session.removeAttribute("quizStartTime");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuizMaster – Challenge Your Mind</title>
+    <title>Quizology – Challenge Your Mind</title>
     <style>
         :root {
             --gradient-accent: linear-gradient(135deg, #E85A4F 0%, #E9704F 100%);
@@ -384,12 +390,13 @@
 <body>
 
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
-    <form class="search-bar" action="search.jsp" method="get">
-        <input type="text" name="q" placeholder="Search"/>
+    <a href="index.jsp" class="brand">Quizology</a>
+    <form class="search-bar" action="search" method="get">
+        <input type="text" name="q" placeholder="Search" required/>
+        <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-        <li><a href="#">Leaderboard</a></li>
+        <li><a href="leaderboard">Leaderboard</a></li>
         <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
@@ -397,7 +404,7 @@
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
-                    <li><a href="profile.jsp">View Profile</a></li>
+                    <li><a href="profile">View Profile</a></li>
                     <li><a href="logout">Sign Out</a></li>
                 </ul>
             </li>
@@ -408,14 +415,14 @@
 <section class="hero">
     <div class="hero-content">
         <h1 class="hero-title">Challenge <br/>Your <span>Mind</span></h1>
-        <p class="hero-description">Discover thousands of engaging quizzes across multiple categories. Test your knowledge, learn something new, and compete with friends!</p>
+        <p class="hero-description">Discover engaging quizzes. Test your knowledge, learn something new, and compete with friends!</p>
         <div class="hero-btn-group">
             <a href="quizzes.jsp" class="btn-primary">Browse Quizzes</a>
         </div>
 
         <div class="stats">
             <div class="stat">
-                <div class="number">50+</div>
+                <div class="number">10+</div>
                 <div class="label">Quizzes</div>
             </div>
         </div>

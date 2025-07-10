@@ -2,7 +2,18 @@
 <%@ page import="java.sql.Connection, java.util.List" %>
 <%@ page import="com.freeuni.quizapp.util.DBConnector" %>
 <%@ page import="com.freeuni.quizapp.model.Quiz" %>
+<%@ page import="com.freeuni.quizapp.model.Question" %>
 <%@ page import="com.freeuni.quizapp.dao.impl.QuizDaoImpl" %>
+<%@ page import="com.freeuni.quizapp.dao.impl.QuestionDaoImpl" %>
+<%@ page import="com.freeuni.quizapp.enums.QuestionType" %>
+<%
+    // Clear quiz session data when user navigates to quiz browser  
+    session.removeAttribute("currentQuiz");
+    session.removeAttribute("quizAnswers");
+    session.removeAttribute("quizStartTime");
+    session.removeAttribute("isActiveQuizSession");
+    session.removeAttribute("lastQuizId");
+%>
 <%
     Connection conn = null;
     List<Quiz> quizzes = null;
@@ -427,11 +438,12 @@
 <body>
 <nav class="navbar">
     <a href="index.jsp" class="brand">QuizMaster</a>
-    <form class="search-bar" action="search.jsp" method="get">
-        <input type="text" name="q" placeholder="Search" />
+    <form class="search-bar" action="search" method="get">
+        <input type="text" name="q" placeholder="Search" required />
+        <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-        <li><a href="#">Leaderboard</a></li>
+        <li><a href="leaderboard">Leaderboard</a></li>
         <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
@@ -439,7 +451,7 @@
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
-                    <li><a href="profile.jsp">View Profile</a></li>
+                    <li><a href="profile">View Profile</a></li>
                     <li><a href="logout">Sign Out</a></li>
                 </ul>
             </li>
@@ -464,45 +476,62 @@
 
             <div id="settings_<%= q.getId() %>" class="overlay">
                 <div class="settings-modal">
-                    <div class="modal-header">
-                        <h2>Quiz Settings</h2>
-                    </div>
-                    <div class="quiz-info">
-                        <h3><%= q.getTitle() %></h3>
-                        <p><%= q.getDescription() == null ? "No description." : q.getDescription() %></p> 
-                    </div>
-                    <div class="setting">
-                        <div class="setting-row">
-                            <label for="randToggle_<%= q.getId() %>">Randomize Question Order</label>
-                            <input type="checkbox" class="toggle" id="randToggle_<%= q.getId() %>">
+                    <form action="startQuiz" method="get">
+                        <input type="hidden" name="quizId" value="<%= q.getId() %>">
+                        <div class="modal-header">
+                            <h2>Quiz Settings</h2>
                         </div>
-                        <p class="setting-desc">Shuffle questions for a different experience each time</p>
-                    </div>
-                    <div class="setting">
-                        <div class="setting-row">
-                            <label for="onePageToggle_<%= q.getId() %>">One Page Mode</label>
-                            <input type="checkbox" class="toggle" id="onePageToggle_<%= q.getId() %>">
+                        <div class="quiz-info">
+                            <h3><%= q.getTitle() %></h3>
+                            <p><%= q.getDescription() == null ? "No description." : q.getDescription() %></p> 
                         </div>
-                        <p class="setting-desc">Show all questions on a single page</p>
-                    </div>
-                    <div class="setting">
-                        <div class="setting-row">
-                            <label for="immToggle_<%= q.getId() %>">Immediate Correction</label>
-                            <input type="checkbox" class="toggle" id="immToggle_<%= q.getId() %>">
+                        <div class="setting">
+                            <div class="setting-row">
+                                <label for="randToggle_<%= q.getId() %>">Randomize Question Order</label>
+                                <input type="checkbox" class="toggle" id="randToggle_<%= q.getId() %>" name="random" value="true">
+                            </div>
+                            <p class="setting-desc">Shuffle questions for a different experience each time</p>
                         </div>
-                        <p class="setting-desc">Show correct answers immediately after each question</p>
-                    </div>
-                    <div class="setting">
-                        <div class="setting-row">
-                            <label for="practiceToggle_<%= q.getId() %>">Practice Mode</label>
-                            <input type="checkbox" class="toggle" id="practiceToggle_<%= q.getId() %>">
+                        <div class="setting">
+                            <div class="setting-row">
+                                <label for="onePageToggle_<%= q.getId() %>">One Page Mode</label>
+                                <input type="checkbox" class="toggle" id="onePageToggle_<%= q.getId() %>" name="onePage" value="true">
+                            </div>
+                            <p class="setting-desc">Show all questions on a single page</p>
                         </div>
-                        <p class="setting-desc">Take quiz without time limits or score tracking</p>
-                    </div>
-                    <div style="display:flex; gap:1rem; margin-top:1.3rem;">
-                        <a href="#" class="btn-cancel">Cancel</a>
-                        <a href="startQuiz?quizId=<%= q.getId() %>" class="btn-start-confirm">Start Quiz</a>
-                    </div>
+                        <% 
+                            boolean hasMultipleChoice = false;
+                            try {
+                                QuestionDaoImpl questionDao = new QuestionDaoImpl(conn);
+                                List<Question> questions = questionDao.getQuizAllQuestions(q.getId());
+                                if (!questions.isEmpty()) {
+                                    hasMultipleChoice = questions.get(0).getType() == QuestionType.multiple_choice;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if (hasMultipleChoice) { 
+                        %>
+                        <div class="setting">
+                            <div class="setting-row">
+                                <label for="immToggle_<%= q.getId() %>">Immediate Correction</label>
+                                <input type="checkbox" class="toggle" id="immToggle_<%= q.getId() %>" name="immediate" value="true">
+                            </div>
+                            <p class="setting-desc">Show correct answers immediately after selecting (multiple choice only)</p>
+                        </div>
+                        <% } %>
+                        <div class="setting">
+                            <div class="setting-row">
+                                <label for="practiceToggle_<%= q.getId() %>">Practice Mode</label>
+                                <input type="checkbox" class="toggle" id="practiceToggle_<%= q.getId() %>" name="practice" value="true">
+                            </div>
+                            <p class="setting-desc">Take quiz without time limits or score tracking</p>
+                        </div>
+                        <div style="display:flex; gap:1rem; margin-top:1.3rem;">
+                            <a href="#" class="btn-cancel">Cancel</a>
+                            <button type="submit" class="btn-start-confirm" style="border:none; cursor:pointer;">Start Quiz</button>
+                        </div>
+                    </form>
                 </div>
             </div>
     <%     }

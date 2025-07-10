@@ -4,10 +4,7 @@ import com.freeuni.quizapp.dao.interfaces.QuestionDao;
 import com.freeuni.quizapp.enums.QuestionType;
 import com.freeuni.quizapp.model.Question;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +34,25 @@ public class QuestionDaoImpl implements QuestionDao {
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setString(1, text);
             ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public int addQuestionAndReturnId(int quiz_id, String text, QuestionType type, String image_url) throws SQLException {
+        String query = "INSERT INTO " + table_name + " (quiz_id, text, type, image_url) VALUES (?, ?, ?, ?)";
+        try(PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
+            ps.setInt(1, quiz_id);
+            ps.setString(2, text);
+            ps.setString(3, type.name());
+            ps.setString(4, image_url);
+            ps.executeUpdate();
+
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating question failed, no ID obtained.");
+            }
         }
     }
 
