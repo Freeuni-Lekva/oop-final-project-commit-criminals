@@ -476,7 +476,7 @@
 </head>
 <body>
 <nav class="navbar">
-    <a href="index.jsp" class="brand">Quizology</a>
+    <a href="/home" class="brand">Quizology</a>
     <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search" required>
         <input type="hidden" name="type" value="all"/>
