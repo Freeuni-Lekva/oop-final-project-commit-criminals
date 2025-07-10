@@ -56,12 +56,12 @@ public class QuizDaoImpl implements QuizDao {
             ps.setString(2, description);
             ps.setInt(3, creator_id);
             ps.executeUpdate();
-
+            
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
                 return generatedKeys.getInt(1);
             } else {
-                throw new SQLException("Quiz creation failed.");
+                throw new SQLException("Creating quiz failed, no ID obtained.");
             }
         }
     }

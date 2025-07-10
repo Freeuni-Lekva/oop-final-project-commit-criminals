@@ -32,9 +32,14 @@
             --card-border: rgba(0, 0, 0, 0.05);
             --text-primary: #8E8D8A;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+        }
         body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
             color: var(--text-primary);
             background: var(--primary-gradient);
             min-height: 100vh;
@@ -303,7 +308,7 @@
             padding: 1rem;
             border: 2px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            font-family: inherit;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
             font-size: 0.95rem;
             resize: vertical;
             background: rgba(255, 255, 255, 0.9);
@@ -358,6 +363,18 @@
             box-shadow: 0 4px 10px rgba(232, 90, 79, 0.3);
         }
         
+        .success-message {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+            animation: slideDown 0.5s ease-out both;
+        }
+        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -391,7 +408,7 @@
 </head>
 <body>
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
+    <a href="index.jsp" class="brand">Quizology</a>
     <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search" required>
         <input type="hidden" name="type" value="all"/>
@@ -409,6 +426,15 @@
 </nav>
 
 <div class="profile-container">
+    <% 
+        String successMessage = request.getParameter("success");
+        if ("quiz_created".equals(successMessage)) {
+    %>
+        <div class="success-message">
+            Quiz created successfully! Your quiz is now available for others to take.
+        </div>
+    <% } %>
+    
     <div class="profile-card">
         <h2><%= isViewingOwnProfile ? "My Profile" : profileUser.getUsername() + "'s Profile" %></h2>
         <div class="username"><%= profileUser.getUsername() %></div>
@@ -463,6 +489,9 @@
         </div>
         <% if (!isViewingOwnProfile) { %>
             <a class="btn" href="profile" style="margin-right: 1rem;">View My Profile</a>
+        <% } %>
+        <% if (isViewingOwnProfile) { %>
+            <a class="btn" href="createQuiz" style="margin-right: 1rem;">Create Quiz</a>
         <% } %>
         <a class="btn" href="quizzes.jsp">Browse Quizzes</a>
     </div>
