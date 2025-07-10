@@ -411,3 +411,32 @@ VALUES
 
     (38, 'Audrey', TRUE);
 
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (1, 'LOL Esports Quiz', 'Test your League Of Legends Esports Knowledge!');
+
+INSERT INTO questions (quiz_id, text, type, image_url)
+VALUES
+    (8, 'Which professional League of Legends team won the World Championship and got the IG Kai’Sa skin as a reward?', 'multiple_choice', 'images/kaisa.jpg'),
+    (8, 'In the 2022 Worlds Finals, which champion did DRX''s deft lock in during the iconic game 5 that won him the title?', 'multiple_choice', 'images/deft.jpg'),
+    (8, 'During EU LCS Summer Semifinals, which unexpected champion did Caps play midlane that shocked the entire world?', 'multiple_choice', 'images/caps.jpg'),
+    (8, 'At which event did G2 Esports beat SKT T1 in a 5 game series to reach a final?', 'multiple_choice', 'images/g2.jpg');
+
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (39, 'Infinity Gaming', FALSE),
+    (39, 'Incredible Geniuses', FALSE),
+    (39, 'Immortal Guardians', FALSE),
+    (39, 'Invictus Gaming', TRUE),
+    (40, 'Lucian', FALSE),
+    (40, 'Varus', FALSE),
+    (40, 'Caitlyn', TRUE),
+    (40, 'Ezreal', FALSE),
+    (41, 'Vayne', TRUE),
+    (41, 'Lucian', FALSE),
+    (41, 'Karma', FALSE),
+    (41, 'Lulu', FALSE),
+    (42, 'MSI 2022', FALSE),
+    (42, 'Worlds 2021', FALSE),
+    (42, 'Worlds 2019', FALSE),
+    (42, 'MSI 2019', TRUE);
