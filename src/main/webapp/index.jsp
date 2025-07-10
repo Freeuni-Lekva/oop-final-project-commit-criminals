@@ -648,25 +648,25 @@
                 User user = activity.getUser();
                 String username = user.getUsername();
                 ActionType actionType = activity.getType();
-                String description = "";
+                String content = "";
 
                 switch (actionType) {
                     case achievement_earned:
                         AchievementType achievement = activity.getAchievementType();
-                        description = username + " earned the achievement: " + achievement.name().replace("_", " ");
+                        content = "<a href='profile.jsp?username=" + username + "'>" + username + "</a> earned the achievement: <strong>" + achievement.name().replace("_", " ") + "</strong>";
                         break;
                     case quiz_taken:
                         Quiz takenQuiz = activity.getQuiz();
-                        description = username + " took the quiz: \"" + takenQuiz.getTitle() + "\"";
+                        content = "<a href='profile.jsp?username=" + username + "'>" + username + "</a> took the quiz: <a href='quizzes.jsp#settings_" + takenQuiz.getId() + "'>\"" + takenQuiz.getTitle() + "\"</a>";
                         break;
                     case quiz_created:
                         Quiz createdQuiz = activity.getQuiz();
-                        description = username + " created a new quiz: \"" + createdQuiz.getTitle() + "\"";
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> created a new quiz: <a href='quizzes.jsp#settings_" + createdQuiz.getId() + "'>\"" + createdQuiz.getTitle() + "\"</a>";
                         break;
                 }
             %>
             <li>
-                <%= description %><br/>
+                <%= content %><br/>
                 <small><%= activity.getTimestamp() %></small>
             </li>
             <% } %>
@@ -675,6 +675,7 @@
         <p>No recent activities from friends.</p>
         <% } %>
     </div>
+
 
 </div>
 

@@ -384,7 +384,7 @@
 </head>
 <body>
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
+    <a href="/home" class="brand">QuizMaster</a>
     <form class="search-bar" action="search.jsp" method="get">
         <input type="text" name="q" placeholder="Search">
     </form>
