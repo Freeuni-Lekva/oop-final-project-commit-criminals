@@ -437,9 +437,9 @@
 <div class="leaderboard-container">
     <% 
         @SuppressWarnings("unchecked")
-        List<LeaderboardServlet.QuizLeaderboard> quizLeaderboards = 
+                List<LeaderboardServlet.QuizLeaderboard> quizLeaderboards =
             (List<LeaderboardServlet.QuizLeaderboard>) request.getAttribute("quizLeaderboards");
-        
+
         if (quizLeaderboards != null && !quizLeaderboards.isEmpty()) {
             for (LeaderboardServlet.QuizLeaderboard quizLeaderboard : quizLeaderboards) {
     %>
