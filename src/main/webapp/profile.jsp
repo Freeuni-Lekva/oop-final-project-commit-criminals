@@ -12,6 +12,12 @@
         response.sendRedirect("login.jsp");
         return;
     }
+    
+    // Get the profile user - either from servlet attribute or default to current user
+    User profileUser = (User) request.getAttribute("profileUser");
+    if (profileUser == null) {
+        profileUser = currentUser;
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -472,7 +478,7 @@
 <div class="profile-container">
     <div class="profile-card">
         <h2>Profile</h2>
-        <div class="username"><%= currentUser.getUsername() %></div>
+        <div class="username"><%= profileUser.getUsername() %></div>
         <div class="info">
             <div class="bio-section">
                 <% 
@@ -481,16 +487,18 @@
                 %>
                 
                 <% if (!isEditingBio) { %>
-                    <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
+                    <% if (profileUser.getBio() != null && !profileUser.getBio().trim().isEmpty()) { %>
                         <div class="bio-display">
-                            <%= currentUser.getBio() %>
+                            <%= profileUser.getBio() %>
                         </div>
                     <% } else { %>
                         <div class="bio-display">
-                            <em>No bio added yet. Click edit to add one!</em>
+                            <em>No bio available.</em>
                         </div>
                     <% } %>
-                    <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
+                    <% if (profileUser.equals(currentUser)) { %>
+                        <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
+                    <% } %>
                 <% } else { %>
                     <div class="bio-edit-form">
                         <form action="updateBio" method="post">
@@ -498,7 +506,7 @@
                                 name="bio" 
                                 class="bio-textarea" 
                                 placeholder="Tell us about yourself..." 
-                                maxlength="500"><%= currentUser.getBio() != null ? currentUser.getBio() : "" %></textarea>
+                                maxlength="500"><%= profileUser.getBio() != null ? profileUser.getBio() : "" %></textarea>
                             <div class="bio-form-actions">
                                 <a href="profile" class="btn-cancel">Cancel</a>
                                 <button type="submit" class="btn-save">Save Bio</button>
@@ -508,7 +516,7 @@
                 <% } %>
             </div>
             <br>
-            Member since: <%= currentUser.getCreatedAt() != null ? currentUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
+            Member since: <%= profileUser.getCreatedAt() != null ? profileUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
         </div>
         <div class="stats">
             <div class="stat">
@@ -523,7 +531,7 @@
         <a class="btn" href="quizzes.jsp">Browse Quizzes</a>
     </div>
 
-    <% if (currentUser.isAdmin()) { %>
+    <% if (profileUser.isAdmin() && profileUser.equals(currentUser)) { %>
     <div class="history-section">
         <h3>My Created Quizzes</h3>
         <%
@@ -635,7 +643,6 @@
             </div>
         <% } %>
     </div>
-
     <div class="history-section">
         <h3>Recent Activity</h3>
         <%
@@ -653,6 +660,5 @@
         <% } %>
     </div>
 </div>
-
 </body>
 </html>

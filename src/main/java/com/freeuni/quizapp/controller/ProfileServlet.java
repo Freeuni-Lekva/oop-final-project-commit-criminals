@@ -1,6 +1,7 @@
 package com.freeuni.quizapp.controller;
 
 import com.freeuni.quizapp.dao.impl.QuizDaoImpl;
+import com.freeuni.quizapp.dao.impl.UserDaoImpl;
 import com.freeuni.quizapp.model.Achievement;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
@@ -9,13 +10,13 @@ import com.freeuni.quizapp.service.impl.ProfileServiceImpl;
 import com.freeuni.quizapp.service.interfaces.ProfileService;
 import com.freeuni.quizapp.util.DBConnector;
 
-import java.sql.Connection;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,57 +36,90 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
 
-        boolean editMode = "true".equals(request.getParameter("edit"));
+        String requestedUsername = request.getParameter("username");
+        User profileUser = currentUser;
+        boolean isViewingOwnProfile = true;
 
         try {
-            List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(currentUser.getId());
-            Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
-            List<QuizResult> quizResults = profileService.getUserQuizResults(currentUser.getId());
-            List<String> activityHistory = profileService.buildActivityHistory(quizResults, 5);
-            List<Achievement> achievements = profileService.getUserAchievements(currentUser.getId());
-
-
-            List<String> greatestQuizNames = new ArrayList<>();
-            if (achievements != null) {
+            if (requestedUsername != null && !requestedUsername.equals(currentUser.getUsername())) {
                 try (Connection conn = DBConnector.getConnection()) {
-                    QuizDaoImpl quizDao = new QuizDaoImpl(conn);
-                    for (Achievement achievement : achievements) {
-                        if (achievement.getType() == com.freeuni.quizapp.enums.AchievementType.I_am_the_Greatest 
-                            && achievement.getQuiz_id() > 0) {
-                            Quiz quiz = quizDao.getQuizById(achievement.getQuiz_id());
-                            if (quiz != null) {
-                                greatestQuizNames.add(quiz.getTitle());
-                            }
-                        }
+                    UserDaoImpl userDao = new UserDaoImpl(conn);
+                    User requestedUser = userDao.getByUsername(requestedUsername, true);
+                    if (requestedUser != null) {
+                        profileUser = requestedUser;
+                        isViewingOwnProfile = false;
+                    } else {
+                        response.sendRedirect("profile");
+                        return;
                     }
-                } catch (Exception e) {
+                } catch (SQLException e) {
                     e.printStackTrace();
+                    response.sendRedirect("profile");
+                    return;
                 }
             }
 
-            int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
-            int quizzesTaken = quizResults != null ? quizResults.size() : 0;
+            boolean editMode = "true".equals(request.getParameter("edit")) && isViewingOwnProfile;
 
-            request.setAttribute("quizzesCreated", quizzesCreated);
-            request.setAttribute("quizzesTaken", quizzesTaken);
-            request.setAttribute("createdQuizzes", createdQuizzes);
-            request.setAttribute("questionCounts", questionCounts);
-            request.setAttribute("history", activityHistory);
-            request.setAttribute("achievements", achievements);
-            request.setAttribute("greatestQuizNames", greatestQuizNames);
-            request.setAttribute("editMode", editMode);
+            try {
+                List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(profileUser.getId());
+                Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
+                List<QuizResult> quizResults = profileService.getUserQuizResults(profileUser.getId());
+                List<String> activityHistory = profileService.buildActivityHistory(quizResults, 5);
+                List<Achievement> achievements = profileService.getUserAchievements(profileUser.getId());
+
+
+                List<String> greatestQuizNames = new ArrayList<>();
+                if (achievements != null) {
+                    try (Connection conn = DBConnector.getConnection()) {
+                        QuizDaoImpl quizDao = new QuizDaoImpl(conn);
+                        for (Achievement achievement : achievements) {
+                            if (achievement.getType() == com.freeuni.quizapp.enums.AchievementType.I_am_the_Greatest 
+                                && achievement.getQuiz_id() > 0) {
+                                Quiz quiz = quizDao.getQuizById(achievement.getQuiz_id());
+                                if (quiz != null) {
+                                    greatestQuizNames.add(quiz.getTitle());
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
+                int quizzesTaken = quizResults != null ? quizResults.size() : 0;
+
+                request.setAttribute("profileUser", profileUser);
+                request.setAttribute("isViewingOwnProfile", isViewingOwnProfile);
+                request.setAttribute("quizzesCreated", quizzesCreated);
+                request.setAttribute("quizzesTaken", quizzesTaken);
+                request.setAttribute("createdQuizzes", createdQuizzes);
+                request.setAttribute("questionCounts", questionCounts);
+                request.setAttribute("history", activityHistory);
+                request.setAttribute("achievements", achievements);
+                request.setAttribute("greatestQuizNames", greatestQuizNames);
+                request.setAttribute("editMode", editMode);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("profileUser", profileUser);
+                request.setAttribute("isViewingOwnProfile", isViewingOwnProfile);
+                request.setAttribute("quizzesCreated", 0);
+                request.setAttribute("quizzesTaken", 0);
+                request.setAttribute("createdQuizzes", null);
+                request.setAttribute("questionCounts", null);
+                request.setAttribute("history", null);
+                request.setAttribute("achievements", null);
+                request.setAttribute("greatestQuizNames", new ArrayList<>());
+                request.setAttribute("editMode", editMode);
+            }
+
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("quizzesCreated", 0);
-            request.setAttribute("quizzesTaken", 0);
-            request.setAttribute("createdQuizzes", null);
-            request.setAttribute("questionCounts", null);
-            request.setAttribute("history", null);
-            request.setAttribute("achievements", null);
-            request.setAttribute("greatestQuizNames", new ArrayList<>());
-            request.setAttribute("editMode", editMode);
+            response.sendRedirect("profile");
         }
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 } 
