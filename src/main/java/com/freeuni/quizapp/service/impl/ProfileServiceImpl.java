@@ -1,8 +1,10 @@
 package com.freeuni.quizapp.service.impl;
 
+import com.freeuni.quizapp.dao.impl.AchievementDaoImpl;
 import com.freeuni.quizapp.dao.impl.QuestionDaoImpl;
 import com.freeuni.quizapp.dao.impl.QuizDaoImpl;
 import com.freeuni.quizapp.dao.impl.QuizResultDaoImpl;
+import com.freeuni.quizapp.model.Achievement;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
 import com.freeuni.quizapp.model.User;
@@ -92,5 +94,15 @@ public class ProfileServiceImpl implements ProfileService {
         return history;
     }
 
+    @Override
+    public List<Achievement> getUserAchievements(int userId) throws SQLException {
+        try (Connection conn = DBConnector.getConnection()) {
+            conn.setAutoCommit(true);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
+            AchievementDaoImpl achievementDao = new AchievementDaoImpl(conn);
+            return achievementDao.getAchievements(userId);
+        }
+    }
 
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.freeuni.quizapp.model.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%
     // Clear quiz session data when user navigates to profile
     session.removeAttribute("currentQuiz");
@@ -32,10 +33,10 @@
             --card-border: rgba(0, 0, 0, 0.05);
             --text-primary: #8E8D8A;
         }
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
         }
         body {
@@ -256,7 +257,74 @@
             font-style: italic;
             padding: 2rem;
         }
-        
+
+        .achievements-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(232, 90, 79, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 90, 79, 0.1);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .achievement-name {
+            font-weight: 600;
+            color: #E85A4F;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .achievement-description {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.8rem;
+        }
+
+        .achievement-description strong {
+            color: #E85A4F;
+            font-weight: 600;
+        }
+
+        .achievement-date {
+            color: #888;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .no-achievements {
+            text-align: center;
+            color: var(--text-primary);
+            font-style: italic;
+            padding: 2rem;
+        }
+
         .bio-section {
             margin-bottom: 1rem;
         }
@@ -374,7 +442,7 @@
             box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
             animation: slideDown 0.5s ease-out both;
         }
-        
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -426,7 +494,7 @@
 </nav>
 
 <div class="profile-container">
-    <% 
+    <%
         String successMessage = request.getParameter("success");
         if ("quiz_created".equals(successMessage)) {
     %>
@@ -434,7 +502,7 @@
             Quiz created successfully! Your quiz is now available for others to take.
         </div>
     <% } %>
-    
+
     <div class="profile-card">
         <h2><%= isViewingOwnProfile ? "My Profile" : profileUser.getUsername() + "'s Profile" %></h2>
         <div class="username"><%= profileUser.getUsername() %></div>
@@ -521,15 +589,97 @@
             </ul>
         <% } else { %>
             <div class="no-history">
-                <%= isViewingOwnProfile ? "You haven't created any quizzes yet." : profileUser.getUsername() + " hasn't created any quizzes yet." %>
                 <% if (isViewingOwnProfile) { %>
+                    You haven't created any quizzes yet.
                     <a href="quizzes.jsp" style="color: #E85A4F;">Create your first quiz!</a>
+                <% } else { %>
+                    <%= profileUser.getUsername() %> hasn't created any quizzes yet.
                 <% } %>
             </div>
         <% } %>
     </div>
     <% } %>
 
+    <div class="achievements-section">
+        <h3><%= isViewingOwnProfile ? "My Achievements" : profileUser.getUsername() + "'s Achievements" %></h3>
+        <%
+            @SuppressWarnings("unchecked")
+            List<com.freeuni.quizapp.model.Achievement> achievements = (List<com.freeuni.quizapp.model.Achievement>) request.getAttribute("achievements");
+            @SuppressWarnings("unchecked")
+            List<String> greatestQuizNames = (List<String>) request.getAttribute("greatestQuizNames");
+            if (achievements != null && !achievements.isEmpty()) {
+        %>
+            <div class="achievements-grid">
+                <% for (com.freeuni.quizapp.model.Achievement achievement : achievements) {
+                    String icon = "";
+                    String displayName = "";
+                    String description = "";
+
+                    switch (achievement.getType()) {
+                        case Amateur_Author:
+                            icon = "📝";
+                            displayName = "Amateur Author";
+                            description = "Created your first quiz";
+                            break;
+                        case Prolific_Author:
+                            icon = "✍️";
+                            displayName = "Prolific Author";
+                            description = "Created 5 quizzes";
+                            break;
+                        case Prodigious_Author:
+                            icon = "📚";
+                            displayName = "Prodigious Author";
+                            description = "Created 10 quizzes";
+                            break;
+                        case Quiz_Machine:
+                            icon = "🎯";
+                            displayName = "Quiz Machine";
+                            description = "Completed 10 quizzes";
+                            break;
+                        case I_am_the_Greatest:
+                            icon = "🏆";
+                            displayName = "I am the Greatest";
+                            description = "Achieved the highest score on quiz";
+
+                            // Show all quizzes where user has the highest score
+                            if (greatestQuizNames != null && !greatestQuizNames.isEmpty()) {
+                                if (greatestQuizNames.size() == 1) {
+                                    description = "Achieved the highest score on: <strong>" + greatestQuizNames.get(0) + "</strong>";
+                                } else {
+                                    StringBuilder sb = new StringBuilder("Achieved the highest score on:<br/>");
+                                    for (int i = 0; i < greatestQuizNames.size(); i++) {
+                                        sb.append("<strong>• ").append(greatestQuizNames.get(i)).append("</strong>");
+                                        if (i < greatestQuizNames.size() - 1) {
+                                            sb.append("<br/>");
+                                        }
+                                    }
+                                    description = sb.toString();
+                                }
+                            }
+                            break;
+                        case Practice_Makes_Perfect:
+                            icon = "⚡";
+                            displayName = "Practice Makes Perfect";
+                            description = "Completed a quiz in practice mode";
+                            break;
+                    }
+                %>
+                    <div class="achievement-card">
+                        <div class="achievement-icon"><%= icon %></div>
+                        <div class="achievement-name"><%= displayName %></div>
+                        <div class="achievement-description"><% out.print(description); %></div>
+                        <div class="achievement-date">
+                            Earned: <%= achievement.getAchievedAt() != null ? achievement.getAchievedAt().toString().substring(0, 16) : "Unknown" %>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="no-achievements">
+                <%= isViewingOwnProfile ? "No achievements yet. Start taking quizzes to earn your first achievement!" : profileUser.getUsername() + " has no achievements yet." %>
+            </div>
+        <% } %>
+    </div>
     <div class="history-section">
         <h3><%= isViewingOwnProfile ? "My Recent Activity" : profileUser.getUsername() + "'s Recent Activity" %></h3>
         <%
@@ -543,7 +693,9 @@
                 <% } %>
             </ul>
         <% } else { %>
-            <div class="no-history">No recent activity to display.</div>
+            <div class="no-history">
+                <%= isViewingOwnProfile ? "No recent activity to display." : profileUser.getUsername() + " has no recent activity to display." %>
+            </div>
         <% } %>
     </div>
 </div>

@@ -7,6 +7,7 @@ import com.freeuni.quizapp.model.Answer;
 import com.freeuni.quizapp.model.Question;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.User;
+import com.freeuni.quizapp.service.interfaces.AchievementService;
 import com.freeuni.quizapp.service.interfaces.SubmitQuizService;
 import com.freeuni.quizapp.util.DBConnector;
 
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SubmitQuizServiceImpl implements SubmitQuizService {
+
+    private final AchievementService achievementService = new AchievementServiceImpl();
 
     @Override
     public SubmissionResult processQuizSubmission(User user, Quiz quiz, Map<String, String> userAnswers,
@@ -75,6 +78,18 @@ public class SubmitQuizServiceImpl implements SubmitQuizService {
                     timeTakenSeconds,
                     quiz.isPracticeModeEnabled()
             );
+
+            try {
+                achievementService.checkQuizCompletionAchievements(
+                    user.getId(),
+                    quiz.getId(),
+                    score,
+                    totalQuestions,
+                    quiz.isPracticeModeEnabled()
+                );
+            } catch (SQLException e) {
+                System.err.println("Error checking achievements: " + e.getMessage());
+            }
 
             return new SubmissionResult(score, totalQuestions, timeTakenSeconds, quiz);
         }
