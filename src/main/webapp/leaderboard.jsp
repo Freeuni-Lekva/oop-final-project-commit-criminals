@@ -414,6 +414,10 @@
         <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
+    <form class="search-bar" action="search.jsp" method="get">
+        <input type="text" name="q" placeholder="Search">
+    </form>
+    <ul class="nav-links">
         <li><a href="leaderboard">Leaderboard</a></li>
         <% if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>

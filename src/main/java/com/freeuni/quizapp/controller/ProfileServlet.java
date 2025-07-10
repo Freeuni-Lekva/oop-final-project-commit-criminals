@@ -1,12 +1,15 @@
 package com.freeuni.quizapp.controller;
 
+
 import com.freeuni.quizapp.dao.impl.UserDaoImpl;
+
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
 import com.freeuni.quizapp.model.User;
 import com.freeuni.quizapp.service.impl.ProfileServiceImpl;
 import com.freeuni.quizapp.service.interfaces.ProfileService;
 import com.freeuni.quizapp.util.DBConnector;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,6 +64,12 @@ public class ProfileServlet extends HttpServlet {
             List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(profileUser.getId());
             Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
             List<QuizResult> quizResults = profileService.getUserQuizResults(profileUser.getId());
+            boolean editMode = "true".equals(request.getParameter("edit"));
+
+        try {
+            List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(currentUser.getId());
+            Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
+            List<QuizResult> quizResults = profileService.getUserQuizResults(currentUser.getId());
             List<String> activityHistory = profileService.buildActivityHistory(quizResults, 5);
 
             int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
@@ -85,6 +94,7 @@ public class ProfileServlet extends HttpServlet {
             request.setAttribute("questionCounts", null);
             request.setAttribute("history", null);
             request.setAttribute("editMode", false);
+            request.setAttribute("editMode", editMode);
         }
         
         request.getRequestDispatcher("profile.jsp").forward(request, response);
