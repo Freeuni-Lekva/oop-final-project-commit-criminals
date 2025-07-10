@@ -62,9 +62,9 @@ public class ProfileServlet extends HttpServlet {
             boolean editMode = "true".equals(request.getParameter("edit")) && isViewingOwnProfile;
 
             try {
-                List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(currentUser.getId());
+                List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(profileUser.getId());
                 Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
-                List<QuizResult> quizResults = profileService.getUserQuizResults(currentUser.getId());
+                List<QuizResult> quizResults = profileService.getUserQuizResults(profileUser.getId());
                 List<String> activityHistory = profileService.buildActivityHistory(quizResults, 5);
 
                 int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
