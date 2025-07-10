@@ -159,4 +159,10 @@ public class QuestionDaoImplTest {
         assertEquals("Capital of Georgia:", q1.getText());
     }
 
+    @Test
+    public void addQuestionAndGetIdTest() throws SQLException {
+        assertEquals(4, questionDaoImpl.addQuestionAndReturnId(4, "what is a DFA?",  QuestionType.question_response, null));
+        assertEquals(5, questionDaoImpl.addQuestionAndReturnId(4, "what is 18 * 923?",  QuestionType.question_response, null));
+    }
+
 }

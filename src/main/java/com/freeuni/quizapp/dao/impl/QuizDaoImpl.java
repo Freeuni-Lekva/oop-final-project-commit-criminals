@@ -49,6 +49,24 @@ public class QuizDaoImpl implements QuizDao {
     }
 
     @Override
+    public int addQuizAndReturnId(String title, String description, int creator_id) throws SQLException {
+        String query = "INSERT INTO " + table_name + " (title, description, user_id) VALUES (?, ?, ?)";
+        try(PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setInt(3, creator_id);
+            ps.executeUpdate();
+
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Quiz creation failed.");
+            }
+        }
+    }
+
+    @Override
     public void deleteQuiz(String title) throws SQLException {
         String query = "DELETE FROM " + table_name + " WHERE title = ?";
         try(PreparedStatement ps = con.prepareStatement(query)){
