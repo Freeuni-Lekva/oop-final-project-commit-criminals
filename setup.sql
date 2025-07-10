@@ -658,3 +658,9 @@ VALUES (1, 2, 'friend_request', 'User 1 has sent you a friend request.');
 -- Dummy insert for achievements
 INSERT INTO achievements (user_id, achievement_name, quiz_id)
 VALUES (2, 'Amateur_Author', 1);
+
+-- Dummy insert for announcements
+INSERT INTO announcements (user_id, title, announcement_text, url)
+VALUES
+    (1, 'Welcome to QuizMaster!', 'We are excited to have you onboard. Start exploring quizzes and test your knowledge!', 'https://example.com/welcome');
+

@@ -523,8 +523,27 @@
 
 
     <div class="recently-taken-quizzes">
-
+        <h2>Recently Taken Quizzes</h2>
+        <%
+            List<Quiz> recentlyTakenQuizzes = (List<Quiz>) request.getAttribute("recentlyTakenQuizzes");
+            if (recentlyTakenQuizzes != null && !recentlyTakenQuizzes.isEmpty()) {
+                for (Quiz quiz : recentlyTakenQuizzes) {
+        %>
+        <div class="recently-taken-quiz">
+            <h3><%= quiz.getTitle() %></h3>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recently taken quizzes available.</p>
+        <%
+            }
+        %>
     </div>
+
 
     <div class="recently-created-quizzes">
         <%

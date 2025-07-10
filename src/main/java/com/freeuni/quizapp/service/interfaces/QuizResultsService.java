@@ -6,4 +6,6 @@ public interface QuizResultsService {
 
     void storePopularQuizzes() throws SQLException;
 
+    void storeRecentlyTakenQuizzes() throws SQLException;
+
 }

@@ -69,6 +69,12 @@ public class HomeServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
+        try {
+            quizResultsService.storeRecentlyTakenQuizzes();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }
