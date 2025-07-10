@@ -8,8 +8,6 @@ public interface QuizzesService {
 
     void storeRecentQuizzes() throws SQLException;
 
-    void storePopularQuizzes() throws SQLException;
-
     void storeUsersCreatedQuizzes(User user) throws SQLException;
 
     void storeRecentlyTakenQuizzes(User user) throws SQLException;

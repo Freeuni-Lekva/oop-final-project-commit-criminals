@@ -1,8 +1,12 @@
 .panel-board {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
-    gap: 20px; /* Space between grid items */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Vertical spacing between sections */
     padding: 20px;
+}
+
+.panel-board > * {
+    text-align: center;
 }
 
 .popular-quiz {

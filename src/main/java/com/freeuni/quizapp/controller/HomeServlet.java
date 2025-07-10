@@ -3,9 +3,11 @@ package com.freeuni.quizapp.controller;
 import com.freeuni.quizapp.model.Announcement;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.User;
+import com.freeuni.quizapp.service.impl.QuizResultsServiceImpl;
 import com.freeuni.quizapp.service.impl.QuizzesServiceImpl;
 import com.freeuni.quizapp.service.interfaces.AnnouncementService;
 import com.freeuni.quizapp.service.impl.AnnouncementServiceImpl;
+import com.freeuni.quizapp.service.interfaces.QuizResultsService;
 import com.freeuni.quizapp.service.interfaces.QuizzesService;
 
 import javax.servlet.ServletException;
@@ -25,6 +27,7 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
 
         QuizzesService quizzesService = new QuizzesServiceImpl(request);
+        QuizResultsService quizResultsService = new QuizResultsServiceImpl(request);
 
         try {
             List<Announcement> announcements = announcementService.getAllAnnouncements();
@@ -41,7 +44,7 @@ public class HomeServlet extends HttpServlet {
         }
 
         try {
-            quizzesService.storePopularQuizzes();
+            quizResultsService.storePopularQuizzes();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -31,14 +31,6 @@ public class QuizzesServiceImpl implements QuizzesService {
         request.setAttribute("recentQuizzes", recentQuizzes);
     }
 
-    public void storePopularQuizzes() throws SQLException {
-        List<Quiz> popularQuizzes = quizzesDao.listRecentQuizzes(6);
-        for (Quiz q : popularQuizzes) {
-            System.out.println(q.getTitle());
-        }
-        request.setAttribute("popularQuizzes", popularQuizzes);
-    }
-
     public void storeUsersCreatedQuizzes(User user) throws SQLException {
         if (user != null) {
             List<Quiz> usersCreatedQuizzes = quizzesDao.findUsersCreatedQuizzes(user.getId());
