@@ -86,6 +86,7 @@ public class ProfileServlet extends HttpServlet {
             request.setAttribute("history", null);
             request.setAttribute("editMode", false);
         }
+        
         request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 } 
