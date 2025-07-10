@@ -438,11 +438,11 @@
 <body>
 <nav class="navbar">
     <a href="index.jsp" class="brand">QuizMaster</a>
-    <form class="search-bar" action="search.jsp" method="get">
-        <input type="text" name="q" placeholder="Search" />
+    <form class="search-bar" action="search" method="get">
+        <input type="text" name="q" placeholder="Search" required />
+        <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-        <li><a href="quizzes.jsp">Browse Quizzes</a></li>
         <li><a href="leaderboard">Leaderboard</a></li>
         <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
            if (currentUser == null) { %>

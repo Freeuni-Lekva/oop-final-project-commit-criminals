@@ -11,6 +11,13 @@
         response.sendRedirect("login.jsp");
         return;
     }
+    
+    User profileUser = (User) request.getAttribute("profileUser");
+    Boolean isViewingOwnProfile = (Boolean) request.getAttribute("isViewingOwnProfile");
+    if (profileUser == null) {
+        profileUser = currentUser;
+        isViewingOwnProfile = true;
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -385,11 +392,11 @@
 <body>
 <nav class="navbar">
     <a href="index.jsp" class="brand">QuizMaster</a>
-    <form class="search-bar" action="search.jsp" method="get">
-        <input type="text" name="q" placeholder="Search">
+    <form class="search-bar" action="search" method="get">
+        <input type="text" name="q" placeholder="Search" required>
+        <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-        <li><a href="quizzes.jsp">Browse Quizzes</a></li>
         <li><a href="leaderboard">Leaderboard</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
@@ -403,26 +410,28 @@
 
 <div class="profile-container">
     <div class="profile-card">
-        <h2>Profile</h2>
-        <div class="username"><%= currentUser.getUsername() %></div>
+        <h2><%= isViewingOwnProfile ? "My Profile" : profileUser.getUsername() + "'s Profile" %></h2>
+        <div class="username"><%= profileUser.getUsername() %></div>
         <div class="info">
             <div class="bio-section">
                 <% 
                     String editMode = request.getParameter("edit");
-                    boolean isEditingBio = "bio".equals(editMode);
+                    boolean isEditingBio = "bio".equals(editMode) && isViewingOwnProfile;
                 %>
                 
                 <% if (!isEditingBio) { %>
-                    <% if (currentUser.getBio() != null && !currentUser.getBio().trim().isEmpty()) { %>
+                    <% if (profileUser.getBio() != null && !profileUser.getBio().trim().isEmpty()) { %>
                         <div class="bio-display">
-                            <%= currentUser.getBio() %>
+                            <%= profileUser.getBio() %>
                         </div>
                     <% } else { %>
                         <div class="bio-display">
-                            <em>No bio added yet. Click edit to add one!</em>
+                            <em><%= isViewingOwnProfile ? "No bio added yet. Click edit to add one!" : "No bio available." %></em>
                         </div>
                     <% } %>
-                    <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
+                    <% if (isViewingOwnProfile) { %>
+                        <a href="profile?edit=bio" class="btn-edit-bio">Edit Bio</a>
+                    <% } %>
                 <% } else { %>
                     <div class="bio-edit-form">
                         <form action="updateBio" method="post">
@@ -430,7 +439,7 @@
                                 name="bio" 
                                 class="bio-textarea" 
                                 placeholder="Tell us about yourself..." 
-                                maxlength="500"><%= currentUser.getBio() != null ? currentUser.getBio() : "" %></textarea>
+                                maxlength="500"><%= profileUser.getBio() != null ? profileUser.getBio() : "" %></textarea>
                             <div class="bio-form-actions">
                                 <a href="profile" class="btn-cancel">Cancel</a>
                                 <button type="submit" class="btn-save">Save Bio</button>
@@ -440,7 +449,7 @@
                 <% } %>
             </div>
             <br>
-            Member since: <%= currentUser.getCreatedAt() != null ? currentUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
+            Member since: <%= profileUser.getCreatedAt() != null ? profileUser.getCreatedAt().toString().substring(0, 10) : "Unknown" %>
         </div>
         <div class="stats">
             <div class="stat">
@@ -452,12 +461,15 @@
                 <div class="label">Taken</div>
             </div>
         </div>
+        <% if (!isViewingOwnProfile) { %>
+            <a class="btn" href="profile" style="margin-right: 1rem;">View My Profile</a>
+        <% } %>
         <a class="btn" href="quizzes.jsp">Browse Quizzes</a>
     </div>
 
-    <% if (currentUser.isAdmin()) { %>
+    <% if (profileUser.isAdmin()) { %>
     <div class="history-section">
-        <h3>My Created Quizzes</h3>
+        <h3><%= isViewingOwnProfile ? "My Created Quizzes" : profileUser.getUsername() + "'s Created Quizzes" %></h3>
         <%
             @SuppressWarnings("unchecked")
             List<com.freeuni.quizapp.model.Quiz> createdQuizzes = (List<com.freeuni.quizapp.model.Quiz>) request.getAttribute("createdQuizzes");
@@ -480,15 +492,17 @@
             </ul>
         <% } else { %>
             <div class="no-history">
-                You haven't created any quizzes yet.
-                <a href="quizzes.jsp" style="color: #E85A4F;">Create your first quiz!</a>
+                <%= isViewingOwnProfile ? "You haven't created any quizzes yet." : profileUser.getUsername() + " hasn't created any quizzes yet." %>
+                <% if (isViewingOwnProfile) { %>
+                    <a href="quizzes.jsp" style="color: #E85A4F;">Create your first quiz!</a>
+                <% } %>
             </div>
         <% } %>
     </div>
     <% } %>
 
     <div class="history-section">
-        <h3>Recent Activity</h3>
+        <h3><%= isViewingOwnProfile ? "My Recent Activity" : profileUser.getUsername() + "'s Recent Activity" %></h3>
         <%
             @SuppressWarnings("unchecked")
             List<String> history = (List<String>) request.getAttribute("history");
