@@ -44,7 +44,7 @@ public class ProfileServlet extends HttpServlet {
             if (requestedUsername != null && !requestedUsername.equals(currentUser.getUsername())) {
                 try (Connection conn = DBConnector.getConnection()) {
                     UserDaoImpl userDao = new UserDaoImpl(conn);
-                    User requestedUser = userDao.getByUsername(requestedUsername, true); 
+                    User requestedUser = userDao.getByUsername(requestedUsername, true);
                     if (requestedUser != null) {
                         profileUser = requestedUser;
                         isViewingOwnProfile = false;
@@ -61,42 +61,40 @@ public class ProfileServlet extends HttpServlet {
 
             boolean editMode = "true".equals(request.getParameter("edit")) && isViewingOwnProfile;
 
-            List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(profileUser.getId());
-            Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
-            List<QuizResult> quizResults = profileService.getUserQuizResults(profileUser.getId());
-            boolean editMode = "true".equals(request.getParameter("edit"));
+            try {
+                List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(currentUser.getId());
+                Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
+                List<QuizResult> quizResults = profileService.getUserQuizResults(currentUser.getId());
+                List<String> activityHistory = profileService.buildActivityHistory(quizResults, 5);
 
-        try {
-            List<Quiz> createdQuizzes = profileService.getUserCreatedQuizzes(currentUser.getId());
-            Map<Integer, Integer> questionCounts = profileService.getQuestionCounts(createdQuizzes);
-            List<QuizResult> quizResults = profileService.getUserQuizResults(currentUser.getId());
-            List<String> activityHistory = profileService.buildActivityHistory(quizResults, 5);
+                int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
+                int quizzesTaken = quizResults != null ? quizResults.size() : 0;
 
-            int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
-            int quizzesTaken = quizResults != null ? quizResults.size() : 0;
+                request.setAttribute("profileUser", profileUser);
+                request.setAttribute("isViewingOwnProfile", isViewingOwnProfile);
+                request.setAttribute("quizzesCreated", quizzesCreated);
+                request.setAttribute("quizzesTaken", quizzesTaken);
+                request.setAttribute("createdQuizzes", createdQuizzes);
+                request.setAttribute("questionCounts", questionCounts);
+                request.setAttribute("history", activityHistory);
+                request.setAttribute("editMode", editMode);
 
-            request.setAttribute("profileUser", profileUser);
-            request.setAttribute("isViewingOwnProfile", isViewingOwnProfile);
-            request.setAttribute("quizzesCreated", quizzesCreated);
-            request.setAttribute("quizzesTaken", quizzesTaken);
-            request.setAttribute("createdQuizzes", createdQuizzes);
-            request.setAttribute("questionCounts", questionCounts);
-            request.setAttribute("history", activityHistory);
-            request.setAttribute("editMode", editMode);
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("profileUser", currentUser);
+                request.setAttribute("isViewingOwnProfile", true);
+                request.setAttribute("quizzesCreated", 0);
+                request.setAttribute("quizzesTaken", 0);
+                request.setAttribute("createdQuizzes", null);
+                request.setAttribute("questionCounts", null);
+                request.setAttribute("history", null);
+                request.setAttribute("editMode", false);
+                request.setAttribute("editMode", editMode);
+            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("profileUser", currentUser);
-            request.setAttribute("isViewingOwnProfile", true);
-            request.setAttribute("quizzesCreated", 0);
-            request.setAttribute("quizzesTaken", 0);
-            request.setAttribute("createdQuizzes", null);
-            request.setAttribute("questionCounts", null);
-            request.setAttribute("history", null);
-            request.setAttribute("editMode", false);
-            request.setAttribute("editMode", editMode);
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        } finally {
+
         }
-        
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
-} 
+}
