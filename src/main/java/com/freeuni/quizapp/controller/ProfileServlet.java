@@ -2,6 +2,7 @@ package com.freeuni.quizapp.controller;
 
 import com.freeuni.quizapp.dao.impl.QuizDaoImpl;
 import com.freeuni.quizapp.dao.impl.UserDaoImpl;
+import com.freeuni.quizapp.enums.AchievementType;
 import com.freeuni.quizapp.model.Achievement;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
@@ -90,6 +91,49 @@ public class ProfileServlet extends HttpServlet {
                 int quizzesCreated = createdQuizzes != null ? createdQuizzes.size() : 0;
                 int quizzesTaken = quizResults != null ? quizResults.size() : 0;
 
+                // *** DYNAMIC QUIZ CREATION ACHIEVEMENTS ***
+                // Add quiz creation achievements based on quizzesCreated count
+                if (achievements == null) {
+                    achievements = new ArrayList<>();
+                }
+                
+                // Remove any existing quiz creation achievements to avoid duplicates
+                achievements.removeIf(achievement -> 
+                    achievement.getType() == AchievementType.Amateur_Author ||
+                    achievement.getType() == AchievementType.Prolific_Author ||
+                    achievement.getType() == AchievementType.Prodigious_Author
+                );
+                
+                // Add appropriate quiz creation achievement based on count
+                if (quizzesCreated >= 10) {
+                    Achievement prodigiousAuthor = new Achievement(
+                        0, // achievement_id (not needed for display)
+                        profileUser.getId(),
+                        AchievementType.Prodigious_Author,
+                        0, // quiz_id
+                        new java.sql.Timestamp(System.currentTimeMillis())
+                    );
+                    achievements.add(prodigiousAuthor);
+                } else if (quizzesCreated >= 5) {
+                    Achievement prolificAuthor = new Achievement(
+                        0, // achievement_id (not needed for display)
+                        profileUser.getId(),
+                        AchievementType.Prolific_Author,
+                        0, // quiz_id
+                        new java.sql.Timestamp(System.currentTimeMillis())
+                    );
+                    achievements.add(prolificAuthor);
+                } else if (quizzesCreated >= 1) {
+                    Achievement amateurAuthor = new Achievement(
+                        0, // achievement_id (not needed for display)
+                        profileUser.getId(),
+                        AchievementType.Amateur_Author,
+                        0, // quiz_id
+                        new java.sql.Timestamp(System.currentTimeMillis())
+                    );
+                    achievements.add(amateurAuthor);
+                }
+
                 request.setAttribute("profileUser", profileUser);
                 request.setAttribute("isViewingOwnProfile", isViewingOwnProfile);
                 request.setAttribute("quizzesCreated", quizzesCreated);
@@ -103,14 +147,35 @@ public class ProfileServlet extends HttpServlet {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                
+                // Even on error, try to calculate quiz creation achievements
+                List<Achievement> fallbackAchievements = new ArrayList<>();
+                int fallbackQuizzesCreated = 0;
+                
+                try {
+                    List<Quiz> fallbackCreatedQuizzes = profileService.getUserCreatedQuizzes(profileUser.getId());
+                    fallbackQuizzesCreated = fallbackCreatedQuizzes != null ? fallbackCreatedQuizzes.size() : 0;
+                    
+                    // Add quiz creation achievement based on count
+                    if (fallbackQuizzesCreated >= 10) {
+                        fallbackAchievements.add(new Achievement(0, profileUser.getId(), AchievementType.Prodigious_Author, 0, new java.sql.Timestamp(System.currentTimeMillis())));
+                    } else if (fallbackQuizzesCreated >= 5) {
+                        fallbackAchievements.add(new Achievement(0, profileUser.getId(), AchievementType.Prolific_Author, 0, new java.sql.Timestamp(System.currentTimeMillis())));
+                    } else if (fallbackQuizzesCreated >= 1) {
+                        fallbackAchievements.add(new Achievement(0, profileUser.getId(), AchievementType.Amateur_Author, 0, new java.sql.Timestamp(System.currentTimeMillis())));
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                
                 request.setAttribute("profileUser", profileUser);
                 request.setAttribute("isViewingOwnProfile", isViewingOwnProfile);
-                request.setAttribute("quizzesCreated", 0);
+                request.setAttribute("quizzesCreated", fallbackQuizzesCreated);
                 request.setAttribute("quizzesTaken", 0);
                 request.setAttribute("createdQuizzes", null);
                 request.setAttribute("questionCounts", null);
                 request.setAttribute("history", null);
-                request.setAttribute("achievements", null);
+                request.setAttribute("achievements", fallbackAchievements);
                 request.setAttribute("greatestQuizNames", new ArrayList<>());
                 request.setAttribute("editMode", editMode);
             }

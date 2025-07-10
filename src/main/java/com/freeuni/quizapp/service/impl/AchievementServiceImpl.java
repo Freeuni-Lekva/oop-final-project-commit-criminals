@@ -58,28 +58,34 @@ public class AchievementServiceImpl implements AchievementService {
     public void checkAndAwardQuizCreationAchievements(int userId, int quizId) throws SQLException {
         try (Connection conn = DBConnector.getConnection()) {
             conn.setAutoCommit(true);
-            AchievementDaoImpl achievementDao = new AchievementDaoImpl(conn);
+            checkAndAwardQuizCreationAchievements(conn, userId, quizId);
+        }
+    }
+    
+    @Override
+    public void checkAndAwardQuizCreationAchievements(Connection conn, int userId, int quizId) throws SQLException {
+        AchievementDaoImpl achievementDao = new AchievementDaoImpl(conn);
 
-            QuizDaoImpl quizDao = new QuizDaoImpl(conn);
-            List<Quiz> userQuizzes = quizDao.findUsersCreatedQuizzes(userId);
-            int quizCount = userQuizzes.size();
+        QuizDaoImpl quizDao = new QuizDaoImpl(conn);
+        List<Quiz> userQuizzes = quizDao.findUsersCreatedQuizzes(userId);
+        int quizCount = userQuizzes.size();
 
-            if (hasAchievement(userId, AchievementType.Amateur_Author)) {
-                achievementDao.deleteAchievement(userId, AchievementType.Amateur_Author);
-            }
-            if (hasAchievement(userId, AchievementType.Prolific_Author)) {
-                achievementDao.deleteAchievement(userId, AchievementType.Prolific_Author);
-            }
-            if (hasAchievement(userId, AchievementType.Prodigious_Author)) {
-                achievementDao.deleteAchievement(userId, AchievementType.Prodigious_Author);
-            }
-            if (quizCount >= 10) {
-                achievementDao.addAchievement(userId, AchievementType.Prodigious_Author, quizId);
-            } else if (quizCount >= 5) {
-                achievementDao.addAchievement(userId, AchievementType.Prolific_Author, quizId);
-            } else if (quizCount >= 1) {
-                achievementDao.addAchievement(userId, AchievementType.Amateur_Author, quizId);
-            }
+        // Use the connection-based hasAchievement method
+        if (hasAchievementWithConnection(conn, userId, AchievementType.Amateur_Author)) {
+            achievementDao.deleteAchievement(userId, AchievementType.Amateur_Author);
+        }
+        if (hasAchievementWithConnection(conn, userId, AchievementType.Prolific_Author)) {
+            achievementDao.deleteAchievement(userId, AchievementType.Prolific_Author);
+        }
+        if (hasAchievementWithConnection(conn, userId, AchievementType.Prodigious_Author)) {
+            achievementDao.deleteAchievement(userId, AchievementType.Prodigious_Author);
+        }
+        if (quizCount >= 10) {
+            achievementDao.addAchievement(userId, AchievementType.Prodigious_Author, quizId);
+        } else if (quizCount >= 5) {
+            achievementDao.addAchievement(userId, AchievementType.Prolific_Author, quizId);
+        } else if (quizCount >= 1) {
+            achievementDao.addAchievement(userId, AchievementType.Amateur_Author, quizId);
         }
     }
 
@@ -96,10 +102,17 @@ public class AchievementServiceImpl implements AchievementService {
     public boolean hasAchievement(int userId, AchievementType achievementType) throws SQLException {
         try (Connection conn = DBConnector.getConnection()) {
             conn.setAutoCommit(true);
-            AchievementDaoImpl achievementDao = new AchievementDaoImpl(conn);
-            Achievement achievement = achievementDao.getAchievement(userId, achievementType);
-            return achievement != null;
+            return hasAchievementWithConnection(conn, userId, achievementType);
         }
+    }
+    
+    /**
+     * Helper method to check achievement using an existing connection
+     */
+    private boolean hasAchievementWithConnection(Connection conn, int userId, AchievementType achievementType) throws SQLException {
+        AchievementDaoImpl achievementDao = new AchievementDaoImpl(conn);
+        Achievement achievement = achievementDao.getAchievement(userId, achievementType);
+        return achievement != null;
     }
 
     @Override

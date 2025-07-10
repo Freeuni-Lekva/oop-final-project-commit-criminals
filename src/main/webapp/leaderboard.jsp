@@ -29,7 +29,7 @@
         }
         
         body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
             color: var(--text-secondary);
             background: #fafafa;
             line-height: 1.6;
@@ -145,6 +145,7 @@
             border: 1px solid #e0e0e0;
             border-radius: 50px;
             font-size: 0.9rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
             width: 60%;
             max-width: 500px;
             transition: border-color .2s ease;
@@ -412,10 +413,6 @@
     <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search" required>
         <input type="hidden" name="type" value="all"/>
-    </form>
-    <ul class="nav-links">
-    <form class="search-bar" action="search" method="get">
-        <input type="text" name="q" placeholder="Search">
     </form>
     <ul class="nav-links">
         <li><a href="leaderboard">Leaderboard</a></li>

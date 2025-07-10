@@ -37,9 +37,14 @@
             --text-secondary: #8E8D8A;
             --card-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+        }
         body { 
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif; 
             color: var(--text-secondary);
              background:#fafafa; 
             }
