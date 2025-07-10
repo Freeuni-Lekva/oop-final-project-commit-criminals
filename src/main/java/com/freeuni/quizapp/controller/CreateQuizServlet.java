@@ -5,6 +5,8 @@ import com.freeuni.quizapp.dao.impl.QuestionDaoImpl;
 import com.freeuni.quizapp.dao.impl.QuizDaoImpl;
 import com.freeuni.quizapp.enums.QuestionType;
 import com.freeuni.quizapp.model.User;
+import com.freeuni.quizapp.service.impl.AchievementServiceImpl;
+import com.freeuni.quizapp.service.interfaces.AchievementService;
 import com.freeuni.quizapp.util.DBConnector;
 
 import javax.servlet.ServletException;
@@ -19,6 +21,8 @@ import java.sql.SQLException;
 
 @WebServlet(name = "CreateQuizServlet", urlPatterns = "/submitQuizCreation")
 public class CreateQuizServlet extends HttpServlet {
+
+    private final AchievementService achievementService = new AchievementServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -141,6 +145,17 @@ public class CreateQuizServlet extends HttpServlet {
                             throw new IllegalArgumentException("Answer is required for question " + i);
                         }
                     }
+                }
+
+                // *** FIX: Check and award quiz creation achievements ***
+                // Use the same database connection to avoid lock conflicts
+                try {
+                    achievementService.checkAndAwardQuizCreationAchievements(conn, currentUser.getId(), quizId);
+                    System.out.println("Successfully checked quiz creation achievements for user " + currentUser.getId() + " and quiz " + quizId);
+                } catch (SQLException e) {
+                    // Don't fail the quiz creation if achievement checking fails
+                    System.err.println("Failed to check achievements after quiz creation: " + e.getMessage());
+                    e.printStackTrace();
                 }
 
                 conn.commit();

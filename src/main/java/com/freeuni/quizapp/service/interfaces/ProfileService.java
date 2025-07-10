@@ -1,5 +1,6 @@
 package com.freeuni.quizapp.service.interfaces;
 
+import com.freeuni.quizapp.model.Achievement;
 import com.freeuni.quizapp.model.Quiz;
 import com.freeuni.quizapp.model.QuizResult;
 import com.freeuni.quizapp.model.User;
@@ -16,4 +17,6 @@ public interface ProfileService {
     List<QuizResult> getUserQuizResults(int userId) throws SQLException;
 
     List<String> buildActivityHistory(List<QuizResult> quizResults, int maxItems) throws SQLException;
+    
+    List<Achievement> getUserAchievements(int userId) throws SQLException;
 }

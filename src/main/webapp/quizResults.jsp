@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Results</title>
+    <title>Quiz Results - Quizology</title>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #EAE7DC 0%, #D8C3A5 100%);
