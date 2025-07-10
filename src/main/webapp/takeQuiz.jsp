@@ -62,10 +62,11 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
         }
         
         body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
             color: var(--text-secondary);
             background: #fafafa;
             line-height: 1.6;
@@ -361,7 +362,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="/home" class="brand">QuizMaster</a>
+        <a href="index.jsp" class="brand">Quizology</a>
         <div class="nav-info">
             <span>Welcome, <%= currentUser.getUsername() %></span>
         </div>
