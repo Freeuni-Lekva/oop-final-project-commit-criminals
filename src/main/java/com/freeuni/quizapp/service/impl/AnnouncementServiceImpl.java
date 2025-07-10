@@ -23,7 +23,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     public List<Announcement> getAllAnnouncements() throws SQLException {
-        List<Announcement> announcements = announcementDao.getAllAnnouncements();
-        return announcements;
+        return announcementDao.getAllAnnouncements();
+    }
+
+    public Announcement getAnnouncementById(int id) throws SQLException {
+        return announcementDao.getAnnouncement(id);
     }
 }

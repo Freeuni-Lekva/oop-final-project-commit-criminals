@@ -6,5 +6,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface AnnouncementService {
+
     public List<Announcement> getAllAnnouncements() throws SQLException;
+
+    public Announcement getAnnouncementById(int id) throws SQLException;
+
 }

@@ -465,7 +465,7 @@
             <h3><%= ann.getTitle() %></h3>
             <p><%= ann.getText() %></p>
             <% if (ann.getUrl() != null && !ann.getUrl().isEmpty()) { %>
-            <p><a href="<%= ann.getUrl() %>" target="_blank">Read more</a></p>
+            <p><a href="announcement?id=<%= ann.getId() %>">Read more</a></p>
             <% } %>
             <small>Posted on: <%= ann.getCreatedAt() %></small>
         </div>
@@ -481,13 +481,16 @@
     </div>
 
     <div class="popular-quizzes">
+        <h2>Popular Quizzes</h2>
         <%
             List<Quiz> popularQuizzes = (List<Quiz>) request.getAttribute("popularQuizzes");
             if (popularQuizzes != null && !popularQuizzes.isEmpty()) {
                 for (Quiz quiz : popularQuizzes) {
         %>
         <div class="popular-quiz">
-            <h3><%= quiz.getTitle() %></h3>
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
             <p><%= quiz.getDescription() %></p>
             <small>Created on: <%= quiz.getCreatedAt() %></small>
         </div>
@@ -502,13 +505,16 @@
     </div>
 
     <div class="recent-quizzes">
+        <h2>Recent Quizzes</h2>
         <%
             List<Quiz> recentQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
             if (recentQuizzes != null && !recentQuizzes.isEmpty()) {
                 for (Quiz quiz : recentQuizzes) {
         %>
         <div class="recent-quiz">
-            <h3><%= quiz.getTitle() %></h3>
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
             <p><%= quiz.getDescription() %></p>
             <small>Created on: <%= quiz.getCreatedAt() %></small>
         </div>
@@ -532,7 +538,9 @@
                 for (Quiz quiz : recentlyTakenQuizzes) {
         %>
         <div class="recently-taken-quiz">
-            <h3><%= quiz.getTitle() %></h3>
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
             <p><%= quiz.getDescription() %></p>
             <small>Created on: <%= quiz.getCreatedAt() %></small>
         </div>
@@ -548,13 +556,16 @@
 
 
     <div class="recently-created-quizzes">
+        <h2>Recently Created Quizzes</h2>
         <%
             List<Quiz> recentlyCreatedQuizzes = (List<Quiz>) request.getAttribute("recentlyCreatedQuizzes");
             if (recentlyCreatedQuizzes != null && !recentlyCreatedQuizzes.isEmpty()) {
                 for (Quiz quiz : recentlyCreatedQuizzes) {
         %>
         <div class="recently-created-quiz">
-            <h3><%= quiz.getTitle() %></h3>
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
             <p><%= quiz.getDescription() %></p>
             <small>Created on: <%= quiz.getCreatedAt() %></small>
         </div>
