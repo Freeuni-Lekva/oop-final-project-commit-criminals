@@ -13,6 +13,8 @@ public interface QuizDao {
 
     void addQuiz(String title, String  description, int creator_id) throws SQLException;
 
+    int addQuizAndReturnId(String title, String description, int creator_id) throws SQLException;
+
     void deleteQuiz(String title) throws SQLException;
 
     User getQuizCreator(String title) throws SQLException;
