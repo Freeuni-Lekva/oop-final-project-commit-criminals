@@ -11,4 +11,5 @@ public interface AnnouncementService {
 
     public Announcement getAnnouncementById(int id) throws SQLException;
 
+    void addAnnouncement(int userId, String title, String text, String url);
 }

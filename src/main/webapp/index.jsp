@@ -476,13 +476,12 @@
                 for (Announcement ann : announcements) {
         %>
         <div class="announcement">
-            <h3><%= ann.getTitle() %></h3>
-            <p><%= ann.getText() %></p>
-            <% if (ann.getUrl() != null && !ann.getUrl().isEmpty()) { %>
-            <p><a href="announcement?id=<%= ann.getId() %>">Read more</a></p>
-            <% } %>
+            <h3 class="truncate"><%= ann.getTitle() %></h3>
+            <p class="truncate"><%= ann.getText() %></p>
+            <p><a href="announcement?id=<%= ann.getId() %>">Show more</a></p>
             <small>Posted on: <%= ann.getCreatedAt() %></small>
         </div>
+
         <hr/>
         <%
             }
