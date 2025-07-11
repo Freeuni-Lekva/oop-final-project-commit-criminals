@@ -11,6 +11,7 @@ com\freeuni\quizapp\dao\impl\QuizResultDaoImpl.class
 com\freeuni\quizapp\dao\interfaces\QuestionDao.class
 com\freeuni\quizapp\controller\LoginServlet.class
 com\freeuni\quizapp\dao\impl\AnswerDaoImpl.class
+com\freeuni\quizapp\controller\ChallengeServlet.class
 com\freeuni\quizapp\service\impl\ProfileServiceImpl.class
 com\freeuni\quizapp\service\interfaces\UserService.class
 com\freeuni\quizapp\model\QuizResult.class
@@ -45,6 +46,7 @@ com\freeuni\quizapp\service\interfaces\LeaderboardService$QuizLeaderboard.class
 com\freeuni\quizapp\service\impl\QuizServiceImpl.class
 com\freeuni\quizapp\model\User.class
 com\freeuni\quizapp\controller\HomeServlet.class
+com\freeuni\quizapp\controller\SendMessageServlet.class
 com\freeuni\quizapp\dao\interfaces\MessageDao.class
 com\freeuni\quizapp\controller\LeaderboardServlet$QuizLeaderboard.class
 com\freeuni\quizapp\controller\ProfileServlet.class
@@ -58,6 +60,7 @@ com\freeuni\quizapp\controller\QuizServlet.class
 com\freeuni\quizapp\controller\CreateQuizFormServlet.class
 com\freeuni\quizapp\controller\FriendRequestServlet.class
 com\freeuni\quizapp\dao\impl\UserDaoImpl.class
+com\freeuni\quizapp\controller\InboxServlet.class
 com\freeuni\quizapp\dao\impl\AnnouncementDaoImpl.class
 com\freeuni\quizapp\service\interfaces\LeaderboardService.class
 com\freeuni\quizapp\dao\impl\QuestionDaoImpl.class

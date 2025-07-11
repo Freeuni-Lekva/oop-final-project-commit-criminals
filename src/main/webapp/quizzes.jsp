@@ -7,7 +7,6 @@
 <%@ page import="com.freeuni.quizapp.dao.impl.QuestionDaoImpl" %>
 <%@ page import="com.freeuni.quizapp.enums.QuestionType" %>
 <%
-    // Clear quiz session data when user navigates to quiz browser  
     session.removeAttribute("currentQuiz");
     session.removeAttribute("quizAnswers");
     session.removeAttribute("quizStartTime");
@@ -15,12 +14,20 @@
     session.removeAttribute("lastQuizId");
 %>
 <%
+    com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
+    
     Connection conn = null;
     List<Quiz> quizzes = null;
+    List<com.freeuni.quizapp.model.User> userFriends = null;
     try {
         conn = DBConnector.getConnection();
         QuizDaoImpl quizDao = new QuizDaoImpl(conn);
-        quizzes = quizDao.listRecentQuizzes(1000); 
+        quizzes = quizDao.listRecentQuizzes(1000);
+        
+        if (currentUser != null) {
+            com.freeuni.quizapp.dao.impl.FriendSystemDaoImpl friendSystemDao = new com.freeuni.quizapp.dao.impl.FriendSystemDaoImpl(conn);
+            userFriends = friendSystemDao.getUsersFriends(currentUser.getId());
+        }
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -200,20 +207,87 @@
             margin-bottom: 1.2rem;
             text-align: center;
         }
+        .quiz-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: auto;
+        }
+
         .btn-start { 
-            align-self: center; 
             padding:0.75rem 1.6rem; 
             border:none; 
             border-radius:50px;
             background:var(--gradient-accent); 
-            color:#ffffff; font-weight:600; 
+            color:#ffffff; 
+            font-weight:600; 
             text-decoration:none; 
             cursor:pointer; 
-            transition:transform .2s ease, box-shadow .2s ease; 
+            transition:transform .2s ease, box-shadow .2s ease;
+            flex: 1;
+            text-align: center;
         }
         .btn-start:hover { 
             transform:translateY(-3px); 
             box-shadow:0 8px 20px rgba(232,90,79,.35); 
+        }
+
+        .btn-challenge {
+            padding: 0.75rem 1.2rem;
+            border: 2px solid #E85A4F;
+            border-radius: 50px;
+            background: white;
+            color: #E85A4F;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .2s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn-challenge:hover {
+            background: #E85A4F;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .challenge-modal {
+            background: #ffffff;
+            border-radius: 14px;
+            width: min(420px, 90%);
+            padding: 2rem 1.8rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            animation: none;
+        }
+
+        .friend-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            background: white;
+        }
+
+        .friend-select:focus {
+            outline: none;
+            border-color: #E85A4F;
+        }
+
+        .btn-send-challenge {
+            width: 100%;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 50px;
+            background: var(--gradient-accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
         }
 
         .overlay { 
@@ -294,6 +368,7 @@
             padding: 1rem 1.2rem;
             border-radius: 10px;
             margin-bottom: 1.4rem;
+            text-align: center;
         }
 
         .quiz-info h3 {
@@ -425,7 +500,8 @@
             box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
         }
         
-        .overlay:target .settings-modal {
+        .overlay:target .settings-modal,
+        .overlay:target .challenge-modal {
             animation: modalIn 0.4s cubic-bezier(.25,.8,.25,1) forwards;
         }
 
@@ -449,11 +525,11 @@
     </form>
     <ul class="nav-links">
         <li><a href="leaderboard">Leaderboard</a></li>
-        <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
-           if (currentUser == null) { %>
+        <% if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
         <% } else { %>
             <li><a href="friends">Friends</a></li>
+            <li><a href="inbox">Inbox</a></li>
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
@@ -477,7 +553,12 @@
                 <div class="quiz-card-header"></div>
                 <h3><%= q.getTitle() %></h3>
                 <p><%= q.getDescription() == null ? "No description." : q.getDescription() %></p>
-                <a href="#settings_<%= q.getId() %>" class="btn-start">Start Quiz</a>
+                <div class="quiz-actions">
+                    <a href="#settings_<%= q.getId() %>" class="btn-start">Start Quiz</a>
+                    <% if (currentUser != null && userFriends != null && !userFriends.isEmpty()) { %>
+                        <a href="#challenge_<%= q.getId() %>" class="btn-challenge">Challenge</a>
+                    <% } %>
+                </div>
             </div>
 
             <div id="settings_<%= q.getId() %>" class="overlay">
@@ -540,6 +621,39 @@
                     </form>
                 </div>
             </div>
+
+            <% if (currentUser != null && userFriends != null && !userFriends.isEmpty()) { %>
+            <div id="challenge_<%= q.getId() %>" class="overlay">
+                <div class="challenge-modal">
+                    <form method="post" action="challenge">
+                        <input type="hidden" name="action" value="send">
+                        <input type="hidden" name="quizId" value="<%= q.getId() %>">
+                        <input type="hidden" name="redirectUrl" value="quizzes.jsp">
+                        
+                        <div class="modal-header">
+                            <h2>Challenge a Friend</h2>
+                        </div>
+                        
+                        <div class="quiz-info">
+                            <h3><%= q.getTitle() %></h3>
+                            <p>Send this quiz as a challenge to one of your friends!</p>
+                        </div>
+                        
+                        <select name="friendUsername" class="friend-select" required>
+                            <option value="">Select a friend to challenge...</option>
+                            <% for (com.freeuni.quizapp.model.User friend : userFriends) { %>
+                                <option value="<%= friend.getUsername() %>"><%= friend.getUsername() %></option>
+                            <% } %>
+                        </select>
+                        
+                        <div style="display:flex; gap:1rem;">
+                            <a href="#" class="btn-cancel">Cancel</a>
+                            <button type="submit" class="btn-send-challenge" style="flex: 1;">Send Challenge</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <% } %>
     <%     }
        } else { %>
         <p>No quizzes available.</p>

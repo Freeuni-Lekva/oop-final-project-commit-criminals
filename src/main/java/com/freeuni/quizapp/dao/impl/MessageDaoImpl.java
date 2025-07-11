@@ -67,7 +67,7 @@ public class MessageDaoImpl implements MessageDao {
     @Override
     public List<Message> getMessages(int from_id, int to_id) throws SQLException {
         List<Message> res = new ArrayList<>();
-        String query = "SELECT * FROM " + table_name + " WHERE (from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?) ORDER BY timestamp DESC";
+        String query = "SELECT * FROM " + table_name + " WHERE (from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?) ORDER BY timestamp ASC";
         try(PreparedStatement ps = con.prepareStatement(query)){
             ps.setInt(1, from_id);
             ps.setInt(2, to_id);
