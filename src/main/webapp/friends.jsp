@@ -298,6 +298,16 @@
             transform: translateY(-2px);
         }
 
+        .btn-message {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .btn-message:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+        }
+
         .empty-message {
             text-align: center;
             color: #666;
@@ -400,6 +410,9 @@
                                 </a>
                             </div>
                             <div class="user-actions">
+                                <a href="inbox?with=<%= friend.getId() %>" class="btn btn-message">
+                                    Send Message
+                                </a>
                                 <form method="post" action="friendRequest" style="display: inline;">
                                     <input type="hidden" name="action" value="remove">
                                     <input type="hidden" name="targetUserId" value="<%= friend.getId() %>">

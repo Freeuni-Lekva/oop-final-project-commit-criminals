@@ -46,24 +46,17 @@ public class InboxServlet extends HttpServlet {
 
             List<User> friends = friendSystemDao.getUsersFriends(currentUser.getId());
             List<User> conversationPartners = messageDao.getInboxPeopleList(currentUser.getId());
-            List<User> friendConversations = new ArrayList<>();
-            for (User partner : conversationPartners) {
-                for (User friend : friends) {
-                    if (friend.getId() == partner.getId()) {
-                        friendConversations.add(partner);
-                        break;
-                    }
-                }
-            }
+            
+            List<User> friendConversations = new ArrayList<>(friends);
 
             Map<Integer, Message> latestMessages = new HashMap<>();
-            for (User partner : friendConversations) {
-                Message latestMessage = messageDao.getLastMessage(currentUser.getId(), partner.getId());
+            for (User friend : friendConversations) {
+                Message latestMessage = messageDao.getLastMessage(currentUser.getId(), friend.getId());
                 if (latestMessage == null) {
-                    latestMessage = messageDao.getLastMessage(partner.getId(), currentUser.getId());
+                    latestMessage = messageDao.getLastMessage(friend.getId(), currentUser.getId());
                 }
                 if (latestMessage != null) {
-                    latestMessages.put(partner.getId(), latestMessage);
+                    latestMessages.put(friend.getId(), latestMessage);
                 }
             }
 

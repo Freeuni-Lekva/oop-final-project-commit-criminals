@@ -553,6 +553,8 @@
                                     preview = preview.substring(0, 50) + "...";
                                 }
                             }
+                        } else {
+                            preview = "Start a conversation...";
                         }
                         
                         boolean isActive = conversationPartner != null && conversationPartner.getId() == friend.getId();
@@ -568,8 +570,8 @@
                 } else {
             %>
                 <div class="empty-state" style="height: auto; padding: 2rem;">
-                    <h3>No Conversations</h3>
-                    <p>Start by challenging friends to quizzes!</p>
+                    <h3>No Friends</h3>
+                    <p>Add some friends to start chatting and send quiz challenges!</p>
                 </div>
             <% } %>
         </div>
