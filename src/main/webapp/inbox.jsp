@@ -504,10 +504,13 @@
         <li><a href="inbox">Inbox</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
-            <ul class="dropdown">
-                <li><a href="profile">View Profile</a></li>
-                <li><a href="logout">Sign Out</a></li>
-            </ul>
+                            <ul class="dropdown">
+                    <li><a href="profile">View Profile</a></li>
+                    <% if (currentUser.isAdmin()) { %>
+                        <li><a href="admin">Admin Panel</a></li>
+                    <% } %>
+                    <li><a href="logout">Sign Out</a></li>
+                </ul>
         </li>
     </ul>
 </nav>
