@@ -1,7 +1,6 @@
 package com.freeuni.quizapp.controller;
 
 import com.freeuni.quizapp.model.Announcement;
-import com.freeuni.quizapp.model.User;
 import com.freeuni.quizapp.service.impl.HomeServiceImpl;
 import com.freeuni.quizapp.service.interfaces.AnnouncementService;
 import com.freeuni.quizapp.service.impl.AnnouncementServiceImpl;
@@ -26,7 +25,7 @@ public class HomeServlet extends HttpServlet {
         HomeService homeService = new HomeServiceImpl(request);
 
         try {
-            List<Announcement> announcements = announcementService.getAllAnnouncements();
+            List<Announcement> announcements = announcementService.getRecentAnnouncements(5);
             request.setAttribute("announcements", announcements);
         } catch (Exception e) {
             request.setAttribute("error", "Could not load announcements.");
