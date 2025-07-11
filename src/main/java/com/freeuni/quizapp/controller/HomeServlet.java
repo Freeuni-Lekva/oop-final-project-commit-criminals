@@ -45,43 +45,6 @@ public class HomeServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-
-        try {
-            homeService.storeRecentlyCreatedQuizzes();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            homeService.storeRecentlyCreatedQuizzes();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            homeService.storeRecentlyTakenQuizzes();
-        }  catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            homeService.storeRecentlyTakenQuizzes();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            homeService.storeAchievements();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            homeService.storeMessages();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
         try {
             homeService.storeFriendsActivities();
         } catch (SQLException e) {

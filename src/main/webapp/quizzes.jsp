@@ -453,6 +453,7 @@
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
         <% } else { %>
+            <li><a href="friends">Friends</a></li>
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">

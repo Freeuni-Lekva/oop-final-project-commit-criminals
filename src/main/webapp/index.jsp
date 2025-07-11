@@ -82,6 +82,15 @@
             color: #E85A4F;
         }
 
+        .nav-links a.friends-link {
+            color: #E85A4F;
+            font-weight: 600;
+        }
+
+        .nav-links a.friends-link:hover {
+            color: #D32F2F;
+        }
+
         .profile {
             position: relative;
         }
@@ -405,6 +414,7 @@
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
         <% } else { %>
+            <li><a href="friends">Friends</a></li>
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
@@ -533,110 +543,7 @@
 
 
 
-    <div class="recently-taken-quizzes">
-        <h2>Recently Taken Quizzes</h2>
-        <%
-            List<Quiz> recentlyTakenQuizzes = (List<Quiz>) request.getAttribute("recentlyTakenQuizzes");
-            if (recentlyTakenQuizzes != null && !recentlyTakenQuizzes.isEmpty()) {
-                for (Quiz quiz : recentlyTakenQuizzes) {
-        %>
-        <div class="recently-taken-quiz">
-            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
-                <h3><%= quiz.getTitle() %></h3>
-            </a>
-            <p><%= quiz.getDescription() %></p>
-            <small>Created on: <%= quiz.getCreatedAt() %></small>
-        </div>
-        <%
-            }
-        } else {
-        %>
-        <p>No recently taken quizzes available.</p>
-        <%
-            }
-        %>
-    </div>
 
-
-    <div class="recently-created-quizzes">
-        <h2>Recently Created Quizzes</h2>
-        <%
-            List<Quiz> recentlyCreatedQuizzes = (List<Quiz>) request.getAttribute("recentlyCreatedQuizzes");
-            if (recentlyCreatedQuizzes != null && !recentlyCreatedQuizzes.isEmpty()) {
-                for (Quiz quiz : recentlyCreatedQuizzes) {
-        %>
-        <div class="recently-created-quiz">
-            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
-                <h3><%= quiz.getTitle() %></h3>
-            </a>
-            <p><%= quiz.getDescription() %></p>
-            <small>Created on: <%= quiz.getCreatedAt() %></small>
-        </div>
-        <%
-            }
-        } else {
-        %>
-        <p>No recently created quizzes available.</p>
-        <%
-            }
-        %>
-    </div>
-
-
-    <div class="achievements">
-        <h2>Achievements</h2>
-        <%
-            List<Achievement> achievements = (List<Achievement>) request.getAttribute("achievements");
-            if (achievements != null && !achievements.isEmpty()) {
-                for (Achievement ach : achievements) {
-        %>
-        <div class="achievement">
-            <p><strong><%= ach.getType().toString().replace('_', ' ') %></strong></p>
-        </div>
-        <%
-            }
-        } else {
-        %>
-        <p>No achievements unlocked yet.</p>
-        <%
-            }
-        %>
-    </div>
-
-
-    <div class="messages">
-        <h2>Inbox</h2>
-        <%
-            List<Message> messages = (List<Message>) request.getAttribute("messages");
-            UserDao userDao = null;
-            try {
-                userDao = new UserDaoImpl(DBConnector.getConnection());
-            } catch (SQLException e) {
-            }
-        %>
-
-        <% if (messages != null && !messages.isEmpty()) { %>
-        <p>You have <%= messages.size() %> new message<%= messages.size() > 1 ? "s" : "" %>.</p>
-        <ul>
-            <% for (Message msg : messages) {
-                String username = "Unknown";
-                try {
-                    username = userDao.getUsername(msg.getSenderId());
-                } catch (SQLException e) {
-                }
-            %>
-            <li>
-                <strong>From:</strong> <%= username %><br/>
-                <strong>Type:</strong> <%= msg.getType().toString().replace("_", " ").toLowerCase() %><br/>
-                <strong>Message:</strong> "<%= msg.getContent() %>"<br/>
-                <small>Received: <%= msg.getSentAt() %></small>
-            </li>
-            <% } %>
-        </ul>
-        <% } else { %>
-        <p>No new messages.</p>
-        <% } %>
-    </div>
 
 
     <div class="friends-activities">

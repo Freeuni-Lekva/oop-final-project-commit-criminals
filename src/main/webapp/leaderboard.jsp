@@ -84,6 +84,15 @@
             color: #E85A4F;
         }
         
+        .nav-links a.friends-link {
+            color: #E85A4F;
+            font-weight: 600;
+        }
+
+        .nav-links a.friends-link:hover {
+            color: #D32F2F;
+        }
+        
         .profile {
             position: relative;
         }
@@ -316,6 +325,18 @@
             color: #333333;
         }
         
+        .username-link {
+            color: #333333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        
+        .username-link:hover {
+            color: #E85A4F;
+            text-decoration: underline;
+        }
+        
         .score-cell {
             text-align: center;
             font-weight: 600;
@@ -419,6 +440,7 @@
         <% if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
         <% } else { %>
+            <li><a href="friends">Friends</a></li>
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
@@ -485,7 +507,11 @@
                     %>
                     <tr>
                         <td class="rank-cell <%= rankClass %>"><%= rank %></td>
-                        <td class="username-cell"><%= entry.getUsername() %></td>
+                        <td class="username-cell">
+                            <a href="profile?username=<%= entry.getUsername() %>" class="username-link">
+                                <%= entry.getUsername() %>
+                            </a>
+                        </td>
                         <td class="score-cell"><%= entry.getScore() %>/<%= entry.getTotalQuestions() %></td>
                         <td class="percentage-cell <%= percentageClass %>"><%= String.format("%.1f", entry.getPercentage()) %>%</td>
                         <td class="time-cell"><%= timeFormatted %></td>
