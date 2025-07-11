@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,25 @@ public class QuestionDaoImpl implements QuestionDao {
             ps.setString(3, type.name());
             ps.setString(4, image_url);
             ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public int addQuestionAndReturnId(int quiz_id, String text, QuestionType type, String image_url) throws SQLException {
+        String query = "INSERT INTO " + table_name + " (quiz_id, text, type, image_url) VALUES (?, ?, ?, ?)";
+        try(PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
+            ps.setInt(1, quiz_id);
+            ps.setString(2, text);
+            ps.setString(3, type.name());
+            ps.setString(4, image_url);
+            ps.executeUpdate();
+            
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating question failed, no ID obtained.");
+            }
         }
     }
 

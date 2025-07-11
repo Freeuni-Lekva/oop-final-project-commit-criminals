@@ -10,6 +10,8 @@ public interface QuestionDao {
 
     void addQuestion(int quiz_id, String text, QuestionType type, String image_url) throws SQLException;
 
+    int addQuestionAndReturnId(int quiz_id, String text, QuestionType type, String image_url) throws SQLException;
+
     void removeQuestion(String text) throws SQLException;
 
     List<Question> getAllQuestions() throws SQLException;

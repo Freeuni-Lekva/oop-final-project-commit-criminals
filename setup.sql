@@ -155,7 +155,7 @@ VALUES
 -- Insert the Football Quiz
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (1, 'World Football Trivia', 'Test your football quiz knowledge with the questions of mixed difficulty.');
+    (3, 'World Football Trivia', 'Test your football quiz knowledge with the questions of mixed difficulty.');
 
 -- Insert questions for the quiz
 INSERT INTO questions (quiz_id, text, type)
@@ -198,7 +198,7 @@ VALUES
 -- Insert NBA Basketball Quiz
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (2, 'NBA Legends & History', 'Test your knowledge of NBA basketball history, legends, and current stars.');
+    (3, 'NBA Legends & History', 'Test your knowledge of NBA basketball history, legends, and current stars.');
 
 -- Insert questions for the NBA quiz
 INSERT INTO questions (quiz_id, text, type)
@@ -243,7 +243,7 @@ VALUES
 INSERT INTO quizzes (user_id, title, description)
 VALUES
     (3, 'Classic Authors Quiz', 'Test your knowledge of famous authors and their works.'),
-    (4, 'Literary Characters Quiz', 'Identify famous characters from literature.');
+    (3, 'Literary Characters Quiz', 'Identify famous characters from literature.');
 
 -- Insert questions for quizzes
 INSERT INTO questions (quiz_id, text, type)
@@ -295,7 +295,6 @@ VALUES
     (20, 'Frankenstein\'s monster', TRUE),
     (20, 'The monster', TRUE),
     (20, 'The creature', TRUE);
-
 
 
 
@@ -361,7 +360,7 @@ VALUES
 
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (5, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
+    (4, 'History quiz', 'Do you want to travel through time? - Take this quiz!');
 
 INSERT INTO questions (quiz_id, text, type)
 VALUES
@@ -388,7 +387,7 @@ VALUES
 
 INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (3, 'Movies', 'Test your reel knowledge!');
+    (4, 'Movies', 'Test your reel knowledge!');
 
 INSERT INTO questions (quiz_id, text, type)
 VALUES
@@ -411,32 +410,297 @@ VALUES
 
     (38, 'Audrey', TRUE);
 
+-- Insert EURO 2024 Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (2, 'EURO 2024 Quiz', '
+Think you know everything about Euro 2024? From unforgettable goals to shocking upsets and star players, this quiz puts your football knowledge to the ultimate test!
+Challenge yourself and see how well you remember the biggest moments, stats, and surprises of this year’s tournament.');
+
+-- Insert answers for the 8th quiz
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (8, 'Who became the youngest player in EURO history when he
+featured on the second day of the tournament?', 'multiple_choice'),
+    (8, 'What was significant about Italy''s 2-1 win against Albania
+in Group B?', 'multiple_choice'),
+    (8, 'Georgia appeared at a major international tournament
+for the very first time. Who did their one and only
+victory at EURO 2024 come against?', 'multiple_choice'),
+    (8, 'Which goalkeeper saved all three penalties in a
+shoot-out during his team''s round of 16 victory?', 'multiple_choice'),
+    (8, 'Who became the oldest-ever scorer at a EURO after
+netting on Match day 3?', 'multiple_choice'),
+    (8, 'Spain beat England 2-1 in the final in Berlin. Who scored the winning goal?','multiple_choice'),
+    (8, 'A total of how many goals were scored at the tournament?', 'multiple_choice'),
+    (8,'Spain''s 15 goals at EURO 2024 is a new tournament record.
+Which team did they surpass?', 'multiple_choice'),
+    (8, 'Whose winner after 89 minutes 59 seconds was the latest ever scored
+in the semi-finals of a EURO or World Cup?', 'multiple_choice'),
+    (8, 'Who made their 18th EURO appearance to beat the previous
+ record for a goalkeeper set by Italy''s Gianluigi Buffon?', 'multiple_choice');
+
+-- Insert answers for the 8th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (39, 'Zaire-Emery (France)', FALSE),
+    (39, 'Leo Sauer (Slovakia)', FALSE),
+    (39, 'Lamine Yamal (Spain)', TRUE),
+    (39, 'Kobbie Mainoo(England)', FALSE),
+
+    (40, 'Albania scored the fastest-ever EURO goal', TRUE),
+    (40, 'It was Italy''s 50 victory in a EURO Finals', FALSE),
+    (40, 'There were more shots than any other game in EURO history', FALSE),
+    (40, 'Italy scored the latest-ever EURO GOAL', FALSE),
+
+    (41, 'Czechia', FALSE),
+    (41, 'Turkey', FALSE),
+    (41, 'Spain', FALSE),
+    (41, 'Portugal', TRUE),
+
+    (42, 'Mike Maignan', FALSE),
+    (42, 'Diogo Costa', TRUE),
+    (42, 'Unai Simon', FALSE),
+    (42, 'Jordan Pickford', FALSE),
+
+    (43, 'Cristiano Ronaldo', FALSE),
+    (43, 'Luka Modric', TRUE),
+    (43, 'Olivier Giroud', FALSE),
+    (43, 'Jesus Navas', FALSE),
+
+    (44, 'Mikel Oyarzabal', TRUE),
+    (44, 'Dani Olmo', FALSE),
+    (44, 'Lamine Yamal', FALSE),
+    (44, 'Mikel Merino', FALSE),
+
+    (45, '95', FALSE),
+    (45, '133', FALSE),
+    (45, '117', TRUE),
+    (45, '128', FALSE),
+
+    (46, 'Italy', FALSE),
+    (46, 'England', FALSE),
+    (46, 'Germany', FALSE),
+    (46, 'France', TRUE),
+
+    (47, 'Dani Olmo (Spain)', FALSE),
+    (47, 'Ollie Watkins (England)', TRUE),
+    (47, 'Lamine Yamal (Spain)', FALSE),
+    (47, 'Harry Kane (England)', FALSE),
+
+    (48, 'Manuel Neuer', TRUE),
+    (48, 'Gainluigi Donnaruma', FALSE),
+    (48, 'Jan Oblak', FALSE),
+    (48, 'Yann Sommer', FALSE);
+
+
+
+-- Insert Math Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (2, 'Math Quiz', '
+Think you''ve got what it takes to conquer numbers, logic, and problem-solving? This math quiz challenges your brain with
+a variety of questions – from simple arithmetic to tricky puzzles.');
+
+
+-- Insert questions for the 9th quiz
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (9, 'What is the sum of a triangle''s interior angles?', 'multiple_choice'),
+    (9, 'What is the next number in the Fibonacci Sequences 0,1,1,2,3,5,8,13,21,34?', 'multiple_choice'),
+    (9,'52 Divided By 4 Equals','multiple_choice'),
+    (9,'What is the least common multiple of 6, 8, and 12?','multiple_choice'),
+    (9,'When do we celebrate Pi day?','multiple_choice'),
+    (9,'What is an eight-sided polygon?','multiple_choice'),
+    (9,'Which of the following is a prime number?','multiple_choice'),
+    (9,'Solve for x: 2x + 3 = 11','multiple_choice'),
+    (9,'A rectangle has a length of 10 and a width of 4. What is its perimeter?','multiple_choice'),
+    (9,'A bag contains 3 red, 5 blue, and 2 green balls. What is the probability of randomly picking a blue ball?','multiple_choice');
+
+-- Insert answers for the 9th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (49, '360', FALSE),
+    (49, '270', FALSE),
+    (49, '180', TRUE),
+    (49, '540', FALSE),
+
+    (50, '54', FALSE),
+    (50, '55', TRUE),
+    (50, '68', FALSE),
+    (50, '67', FALSE),
+
+    (51, '15', FALSE),
+    (51, '12', FALSE),
+    (51, '14', FALSE),
+    (51, '13', TRUE),
+
+    (52, '32', FALSE),
+    (52, '16', FALSE),
+    (52, '24', TRUE),
+    (52, '64', FALSE),
+
+    (53, '14th March', TRUE),
+    (53, '3rd December', FALSE),
+    (53, '7th July', FALSE),
+    (53, '6th June', FALSE),
+
+    (54, 'Heptagon', FALSE),
+    (54, 'Hexagon', FALSE),
+    (54, 'Octagon', TRUE),
+    (54, 'Decagon', FALSE),
+
+    (55, '67', TRUE),
+    (55, '91', FALSE),
+    (55, '63', FALSE),
+    (55, '57', FALSE),
+
+    (56, '2', FALSE),
+    (56, '3', FALSE),
+    (56, '5', FALSE),
+    (56, '4', TRUE),
+
+    (57, '28', TRUE),
+    (57, '14', FALSE),
+    (57, '40', FALSE),
+    (57, '20', FALSE),
+
+    (58, '20%', FALSE),
+    (58, '50%', TRUE),
+    (58, '30%', FALSE),
+    (58, '40%', FALSE);
+
+
+-- Insert Cartoon Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES (2, 'Cartoon Quiz','From SpongeBob to Scooby-Doo, this quiz is packed with your favorite cartoon characters! 🧽🐶
+Test your memory on classic shows and fun facts from the world of animation. Great for all ages!');
+
+-- Insert questions for the 10th quiz
+INSERT INTO questions (quiz_id, text, type)
+VALUES
+    (10, 'What kind of animal is Scooby-Doo?', 'multiple_choice'),
+    (10, 'Which cartoon features a character who lives in a pineapple under the sea?', 'multiple_choice'),
+    (10, 'What are the names of the chipmunk brothers in “Alvin and the Chipmunks”??', 'multiple_choice'),
+    (10, 'Which cartoon character says "What''s up, Doc?"', 'multiple_choice'),
+    (10, 'Which cartoon features four turtles trained in ninjitsu?"', 'multiple_choice'),
+    (10, 'In “Tom and Jerry”, who is the cat?', 'multiple_choice'),
+    (10, 'Who is the red car in the movie/cartoon "Cars"?', 'multiple_choice'),
+    (10, 'Which character is known for turning everything he touches into chaos and loves lasagna?', 'multiple_choice');
+
+-- Insert answers for the 10th quiz
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (59, 'Rabbit', FALSE),
+    (59, 'Cat', FALSE),
+    (59, 'Dog', TRUE),
+    (59, 'Bear', FALSE),
+
+    (60, 'Aqua Man', FALSE),
+    (60, 'SpongeBob SquarePants', TRUE),
+    (60, 'The Little Mermaid', FALSE),
+    (60, 'Finding Nemo', FALSE),
+
+    (61, 'Leo, Donnie, Raph', FALSE),
+    (61, 'Tim, Tom, Jerry', FALSE),
+    (61, ' Max, Mike, Moe', FALSE),
+    (61, 'Alvin, Simon, Theodore', TRUE),
+
+    (62, 'Mickey Mouse', FALSE),
+    (62, 'Tom Cat', FALSE),
+    (62, 'Bugs Bunny', TRUE),
+    (62, 'Daffy Duck', FALSE),
+
+    (63, 'Power Rangers', FALSE),
+    (63, 'Pokémon', FALSE),
+    (63, 'Teenage Mutant Ninja Turtles', TRUE),
+    (63, 'Kung Fu Panda', FALSE),
+
+    (64, 'Tom', TRUE),
+    (64, 'Jerry', FALSE),
+    (64, 'Felix', FALSE),
+    (64, 'Spike', FALSE),
+
+    (65, 'Lightning McQueen', TRUE),
+    (65, 'Doc Hudson', FALSE),
+    (65, 'Mater', FALSE),
+    (65, 'Cruz Ramirez', FALSE),
+
+    (66, 'Odie', FALSE),
+    (66, 'Snoopy', FALSE),
+    (66, 'Felix the Cat', FALSE),
+    (66, 'Garfield', TRUE);
+
+
+-- Insert LOL Esports Quiz
 INSERT INTO quizzes (user_id, title, description)
 VALUES
     (1, 'LOL Esports Quiz', 'Test your League Of Legends Esports Knowledge!');
 
 INSERT INTO questions (quiz_id, text, type, image_url)
 VALUES
-    (8, 'Which professional League of Legends team won the World Championship and got the IG Kai’Sa skin as a reward?', 'multiple_choice', 'images/kaisa.jpg'),
-    (8, 'In the 2022 Worlds Finals, which champion did DRX''s deft lock in during the iconic game 5 that won him the title?', 'multiple_choice', 'images/deft.jpg'),
-    (8, 'During EU LCS Summer Semifinals, which unexpected champion did Caps play midlane that shocked the entire world?', 'multiple_choice', 'images/caps.jpg'),
-    (8, 'At which event did G2 Esports beat SKT T1 in a 5 game series to reach a final?', 'multiple_choice', 'images/g2.jpg');
+    (11, 'Which professional League of Legends team won the World Championship and got the IG Kai’Sa skin as a reward?', 'multiple_choice', 'images/kaisa.jpg'),
+    (11, 'In the 2022 Worlds Finals, which champion did DRX''s deft lock in during the iconic game 5 that won him the title?', 'multiple_choice', 'images/deft.jpg'),
+    (11, 'During EU LCS Summer Semifinals, which unexpected champion did Caps play midlane that shocked the entire world?', 'multiple_choice', 'images/caps.jpg'),
+    (11, 'At which event did G2 Esports beat SKT T1 in a 5 game series to reach a final?', 'multiple_choice', 'images/g2.jpg');
 
 INSERT INTO answers (question_id, answer_text, is_correct)
 VALUES
-    (39, 'Infinity Gaming', FALSE),
-    (39, 'Incredible Geniuses', FALSE),
-    (39, 'Immortal Guardians', FALSE),
-    (39, 'Invictus Gaming', TRUE),
-    (40, 'Lucian', FALSE),
-    (40, 'Varus', FALSE),
-    (40, 'Caitlyn', TRUE),
-    (40, 'Ezreal', FALSE),
-    (41, 'Vayne', TRUE),
-    (41, 'Lucian', FALSE),
-    (41, 'Karma', FALSE),
-    (41, 'Lulu', FALSE),
-    (42, 'MSI 2022', FALSE),
-    (42, 'Worlds 2021', FALSE),
-    (42, 'Worlds 2019', FALSE),
-    (42, 'MSI 2019', TRUE);
+    (67, 'Infinity Gaming', FALSE),
+    (67, 'Incredible Geniuses', FALSE),
+    (67, 'Immortal Guardians', FALSE),
+    (67, 'Invictus Gaming', TRUE),
+    (68, 'Lucian', FALSE),
+    (68, 'Varus', FALSE),
+    (68, 'Caitlyn', TRUE),
+    (68, 'Ezreal', FALSE),
+    (69, 'Vayne', TRUE),
+    (69, 'Lucian', FALSE),
+    (69, 'Karma', FALSE),
+    (69, 'Lulu', FALSE),
+    (70, 'MSI 2022', FALSE),
+    (70, 'Worlds 2021', FALSE),
+    (70, 'Worlds 2019', FALSE),
+    (70, 'MSI 2019', TRUE);
+
+
+-- Insert Bayern Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (1, 'Bayern Munich Quiz', 'Test your knowledge of FC Bayern Munich\'s glorious football history!');
+
+INSERT INTO questions (quiz_id, text, type, image_url)
+VALUES
+    (12, 'In which year did Bayern Munich win their first UEFA Champions League title?', 'multiple_choice', 'images/ucl74.jpg'),
+    (12, 'Which legendary Bayern striker was known as "Der Bomber"?', 'multiple_choice', 'images/derbomber.jpg'),
+    (12, 'Who scored the winning goal in the 2013 UEFA Champions League Final for Bayern?', 'multiple_choice', 'images/ucl13.jpg'),
+    (12, 'Which club did Bayern defeat 8-2 in the 2020 UCL quarter-finals?', 'multiple_choice', 'images/bayern82barca.jpg'),
+    (12, 'How many UCL titles does Bayern Munich have?', 'multiple_choice', 'images/ucl.jpg');
+
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (71, '1973', FALSE),
+    (71, '1974', TRUE),
+    (71, '1975', FALSE),
+    (71, '1976', FALSE),
+
+    (72, 'Karl-Heinz Rummenigge', FALSE),
+    (72, 'Gerd Muller', TRUE),
+    (72, 'Lothar Matthäus', FALSE),
+    (72, 'Uli Hoeneß', FALSE),
+
+    (73, 'Franck Ribéry', FALSE),
+    (73, 'Thomas Müller', FALSE),
+    (73, 'Arjen Robben', TRUE),
+    (73, 'Mario Götze', FALSE),
+
+    (74, 'Real Madrid', FALSE),
+    (74, 'Manchester City', FALSE),
+    (74, 'Barcelona', TRUE),
+    (74, 'PSG', FALSE),
+
+    (75, '4', FALSE),
+    (75, '5', FALSE),
+    (75, '6', TRUE),
+    (75, '7', FALSE);
+

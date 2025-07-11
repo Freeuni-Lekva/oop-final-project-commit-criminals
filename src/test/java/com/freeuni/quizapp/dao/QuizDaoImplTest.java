@@ -186,4 +186,10 @@ public class QuizDaoImplTest {
         assertEquals("C#", quizzes.get(1).getTitle());
     }
 
+    @Test
+    public void addQuizAndReturnIdTest() throws SQLException {
+        assertEquals(6, quizDaoImpl.addQuizAndReturnId("new quiz", "description_1", 3));
+        assertEquals(7, quizDaoImpl.addQuizAndReturnId("new quiz_2", "description_2", 1));
+    }
+
 }

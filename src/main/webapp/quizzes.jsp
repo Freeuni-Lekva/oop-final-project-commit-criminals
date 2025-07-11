@@ -30,16 +30,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Quizzes</title>
+    <title>Browse Quizzes - Quizology</title>
     <style>
         :root {
             --gradient-accent: linear-gradient(135deg, #E85A4F 0%, #E9704F 100%);
             --text-secondary: #8E8D8A;
             --card-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+        }
         body { 
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif; 
             color: var(--text-secondary);
              background:#fafafa; 
             }
@@ -437,12 +442,13 @@
 </head>
 <body>
 <nav class="navbar">
-    <a href="index.jsp" class="brand">QuizMaster</a>
-    <form class="search-bar" action="search.jsp" method="get">
-        <input type="text" name="q" placeholder="Search" />
+    <a href="index.jsp" class="brand">Quizology</a>
+    <form class="search-bar" action="search" method="get">
+        <input type="text" name="q" placeholder="Search" required />
+        <input type="hidden" name="type" value="all"/>
     </form>
     <ul class="nav-links">
-        <li><a href="#">Leaderboard</a></li>
+        <li><a href="leaderboard">Leaderboard</a></li>
         <% com.freeuni.quizapp.model.User currentUser = (com.freeuni.quizapp.model.User) session.getAttribute("currentUser");
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
@@ -450,7 +456,7 @@
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
-                    <li><a href="profile.jsp">View Profile</a></li>
+                    <li><a href="profile">View Profile</a></li>
                     <li><a href="logout">Sign Out</a></li>
                 </ul>
             </li>
