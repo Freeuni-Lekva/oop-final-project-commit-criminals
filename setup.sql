@@ -631,35 +631,76 @@ VALUES
     (66, 'Felix the Cat', FALSE),
     (66, 'Garfield', TRUE);
 
--- Dummy insert for user_answers
-INSERT INTO user_answers (user_id, question_id, given_answer, is_correct)
-VALUES (2, 1, 'France', TRUE);
 
--- Dummy insert for quiz_results
-INSERT INTO quiz_results (user_id, quiz_id, total_score, total_questions, time_taken, is_practice)
-VALUES (2, 1, 5, 5, 120, FALSE);
-
--- Dummy insert for friend_requests
-INSERT INTO friend_requests (from_user, to_user, status)
-VALUES (1, 2, 'pending');
-
--- Dummy insert for friends
-INSERT INTO friends (friend1_user_id, friend2_user_id)
-VALUES (2, 3);
-
--- Dummy insert for messages
-INSERT INTO messages (from_user_id, to_user_id, type, text)
-VALUES (1, 2, 'text', 'Hello friend!');
-
-INSERT INTO messages (from_user_id, to_user_id, type, text)
-VALUES (1, 2, 'friend_request', 'lkhiz23 has sent you a friend request.');
-
--- Dummy insert for achievements
-INSERT INTO achievements (user_id, achievement_name, quiz_id)
-VALUES (2, 'Amateur_Author', 1);
-
--- Dummy insert for announcements
-INSERT INTO announcements (user_id, title, announcement_text, url)
+-- Insert LOL Esports Quiz
+INSERT INTO quizzes (user_id, title, description)
 VALUES
-    (1, 'Welcome to Quizology!', 'We are excited to have you onboard. Start exploring quizzes and test your knowledge!', 'https://example.com/welcome');
+    (1, 'LOL Esports Quiz', 'Test your League Of Legends Esports Knowledge!');
+
+INSERT INTO questions (quiz_id, text, type, image_url)
+VALUES
+    (11, 'Which professional League of Legends team won the World Championship and got the IG Kai’Sa skin as a reward?', 'multiple_choice', 'images/kaisa.jpg'),
+    (11, 'In the 2022 Worlds Finals, which champion did DRX''s deft lock in during the iconic game 5 that won him the title?', 'multiple_choice', 'images/deft.jpg'),
+    (11, 'During EU LCS Summer Semifinals, which unexpected champion did Caps play midlane that shocked the entire world?', 'multiple_choice', 'images/caps.jpg'),
+    (11, 'At which event did G2 Esports beat SKT T1 in a 5 game series to reach a final?', 'multiple_choice', 'images/g2.jpg');
+
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (67, 'Infinity Gaming', FALSE),
+    (67, 'Incredible Geniuses', FALSE),
+    (67, 'Immortal Guardians', FALSE),
+    (67, 'Invictus Gaming', TRUE),
+    (68, 'Lucian', FALSE),
+    (68, 'Varus', FALSE),
+    (68, 'Caitlyn', TRUE),
+    (68, 'Ezreal', FALSE),
+    (69, 'Vayne', TRUE),
+    (69, 'Lucian', FALSE),
+    (69, 'Karma', FALSE),
+    (69, 'Lulu', FALSE),
+    (70, 'MSI 2022', FALSE),
+    (70, 'Worlds 2021', FALSE),
+    (70, 'Worlds 2019', FALSE),
+    (70, 'MSI 2019', TRUE);
+
+
+-- Insert Bayern Quiz
+INSERT INTO quizzes (user_id, title, description)
+VALUES
+    (1, 'Bayern Munich Quiz', 'Test your knowledge of FC Bayern Munich\'s glorious football history!');
+
+INSERT INTO questions (quiz_id, text, type, image_url)
+VALUES
+    (12, 'In which year did Bayern Munich win their first UEFA Champions League title?', 'multiple_choice', 'images/ucl74.jpg'),
+    (12, 'Which legendary Bayern striker was known as "Der Bomber"?', 'multiple_choice', 'images/derbomber.jpg'),
+    (12, 'Who scored the winning goal in the 2013 UEFA Champions League Final for Bayern?', 'multiple_choice', 'images/ucl13.jpg'),
+    (12, 'Which club did Bayern defeat 8-2 in the 2020 UCL quarter-finals?', 'multiple_choice', 'images/bayern82barca.jpg'),
+    (12, 'How many UCL titles does Bayern Munich have?', 'multiple_choice', 'images/ucl.jpg');
+
+INSERT INTO answers (question_id, answer_text, is_correct)
+VALUES
+    (71, '1973', FALSE),
+    (71, '1974', TRUE),
+    (71, '1975', FALSE),
+    (71, '1976', FALSE),
+
+    (72, 'Karl-Heinz Rummenigge', FALSE),
+    (72, 'Gerd Muller', TRUE),
+    (72, 'Lothar Matthäus', FALSE),
+    (72, 'Uli Hoeneß', FALSE),
+
+    (73, 'Franck Ribéry', FALSE),
+    (73, 'Thomas Müller', FALSE),
+    (73, 'Arjen Robben', TRUE),
+    (73, 'Mario Götze', FALSE),
+
+    (74, 'Real Madrid', FALSE),
+    (74, 'Manchester City', FALSE),
+    (74, 'Barcelona', TRUE),
+    (74, 'PSG', FALSE),
+
+    (75, '4', FALSE),
+    (75, '5', FALSE),
+    (75, '6', TRUE),
+    (75, '7', FALSE);
 
