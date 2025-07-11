@@ -1,12 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="com.freeuni.quizapp.model.User" %>
 <%@ page import="com.freeuni.quizapp.model.Quiz" %>
+<%@ page import="com.freeuni.quizapp.enums.FriendshipStatus" %>
 <%
     String searchQuery = (String) request.getAttribute("searchQuery");
     String searchType = (String) request.getAttribute("searchType");
     List<User> foundUsers = (List<User>) request.getAttribute("foundUsers");
     List<Quiz> foundQuizzes = (List<Quiz>) request.getAttribute("foundQuizzes");
+    Map<Integer, FriendshipStatus> friendshipStatuses = (Map<Integer, FriendshipStatus>) request.getAttribute("friendshipStatuses");
     
     User currentUser = (User) session.getAttribute("currentUser");
     boolean isLoggedIn = currentUser != null;
@@ -427,7 +430,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.jsp" class="brand">Quizology</a>
+        <a href="/home" class="brand">Quizology</a>
         
         <form class="search-bar" action="search" method="get">
             <input type="text" name="q" value="<%= searchQuery != null ? searchQuery : "" %>" placeholder="Search" required/>
@@ -438,6 +441,8 @@
             <% if (currentUser == null) { %>
                 <li><a href="login.jsp">Login</a></li>
             <% } else { %>
+                <li><a href="friends">Friends</a></li>
+                <li><a href="inbox">Inbox</a></li>
                 <li class="profile">
                     <a href="#"><%= currentUser.getUsername() %></a>
                     <ul class="dropdown">
@@ -467,11 +472,37 @@
             <div class="results-grid">
                 <% for (User user : foundUsers) { %>
                     <div class="result-card user-card">
-                        <h3><%= user.getUsername() %></h3>
+                        <h3>
+                            <%= user.getUsername() %>
+                            <% if (currentUser != null && !user.getUsername().equals(currentUser.getUsername())) { 
+                                FriendshipStatus status = friendshipStatuses != null ? friendshipStatuses.get(user.getId()) : null;
+                                if (status == FriendshipStatus.accepted) { %>
+                                    <span style="font-size: 0.7rem; background: linear-gradient(135deg, #E85A4F, #D32F2F); color: white; padding: 0.2rem 0.5rem; border-radius: 12px; margin-left: 0.5rem; font-weight: 500;">Friends</span>
+                            <% } } %>
+                        </h3>
                         <div class="user-bio">
                             <%= user.getBio() != null && !user.getBio().trim().isEmpty() ? user.getBio() : "No bio available" %>
                         </div>
-                        <a href="profile?username=<%= user.getUsername() %>" class="btn-view">View Profile</a>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: center; align-items: center;">
+                            <a href="profile?username=<%= user.getUsername() %>" class="btn-view" style="flex: 1; text-align: center; padding: 0.6rem 1.4rem; font-weight: 600; background: linear-gradient(135deg, #E85A4F, #D32F2F); max-width: 120px; display: flex; align-items: center; justify-content: center;">View Profile</a>
+                            <% if (currentUser != null && !user.getUsername().equals(currentUser.getUsername())) { 
+                                FriendshipStatus status = friendshipStatuses != null ? friendshipStatuses.get(user.getId()) : null;
+                                if (status == null) { %>
+                                    <form method="post" action="friendRequest" style="flex: 1; max-width: 120px;">
+                                        <input type="hidden" name="action" value="send">
+                                        <input type="hidden" name="targetUsername" value="<%= user.getUsername() %>">
+                                        <button type="submit" class="btn-view" 
+                                                style="width: 100%; background: linear-gradient(135deg, #28a745, #20c997); border: none; cursor: pointer; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 600; padding: 0.6rem 1.4rem; border-radius: 50px; color: white; transition: transform .2s ease; display: flex; align-items: center; justify-content: center; text-align: center;">
+                                            Add Friend
+                                        </button>
+                                    </form>
+                                <% } else if (status == FriendshipStatus.pending) { %>
+                                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 0.6rem 1.4rem; background: linear-gradient(135deg, #6c757d, #5a6268); border-radius: 50px; color: white; font-weight: 600; font-size: 0.9rem; max-width: 120px; text-align: center;">
+                                        Request Sent
+                                    </div>
+                                <% } 
+                            } %>
+                        </div>
                     </div>
                 <% } %>
             </div>

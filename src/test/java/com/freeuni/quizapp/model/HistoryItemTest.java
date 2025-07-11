@@ -15,7 +15,7 @@ public class HistoryItemTest {
 
     @BeforeEach
     public void setUp() {
-        h = new HistoryItem(1, 1,1, ActionType.created, TIMESTAMP1);
+        h = new HistoryItem(1, 1,1, ActionType.quiz_created, TIMESTAMP1);
     }
 
     @Test
@@ -62,16 +62,16 @@ public class HistoryItemTest {
 
     @Test
     public void getActionTypeTest() {
-        assertEquals(ActionType.created, h.getActionType());
-        assertNotEquals(ActionType.taken, h.getActionType());
+        assertEquals(ActionType.quiz_created, h.getActionType());
+        assertNotEquals(ActionType.quiz_taken, h.getActionType());
     }
 
     @Test
     public void setActionTypeTest() {
-        h.setActionType(ActionType.taken);
-        assertEquals(ActionType.taken, h.getActionType());
-        assertNotEquals(ActionType.created, h.getActionType());
-        h.setActionType(ActionType.created);
+        h.setActionType(ActionType.quiz_taken);
+        assertEquals(ActionType.quiz_taken, h.getActionType());
+        assertNotEquals(ActionType.quiz_created, h.getActionType());
+        h.setActionType(ActionType.quiz_created);
     }
 
     @Test
@@ -92,12 +92,12 @@ public class HistoryItemTest {
     public void equalsTest() {
         assertFalse(h.equals(null));
         assertFalse(h.equals(""));
-        HistoryItem h2 = new HistoryItem(1, 1,1, ActionType.created, TIMESTAMP1);
+        HistoryItem h2 = new HistoryItem(1, 1,1, ActionType.quiz_created, TIMESTAMP1);
         assertTrue(h.equals(h2));
-        assertFalse(h.equals(new HistoryItem(2, 1,1, ActionType.created, TIMESTAMP1)));
-        assertFalse(h.equals(new HistoryItem(1, 2,1, ActionType.created, TIMESTAMP1)));
-        assertFalse(h.equals(new HistoryItem(1, 1,2, ActionType.created, TIMESTAMP1)));
-        assertFalse(h.equals(new HistoryItem(1, 1,1, ActionType.taken, TIMESTAMP1)));
-        assertFalse(h.equals(new HistoryItem(1, 1,1, ActionType.created, TIMESTAMP2)));
+        assertFalse(h.equals(new HistoryItem(2, 1,1, ActionType.quiz_created, TIMESTAMP1)));
+        assertFalse(h.equals(new HistoryItem(1, 2,1, ActionType.quiz_created, TIMESTAMP1)));
+        assertFalse(h.equals(new HistoryItem(1, 1,2, ActionType.quiz_created, TIMESTAMP1)));
+        assertFalse(h.equals(new HistoryItem(1, 1,1, ActionType.quiz_taken, TIMESTAMP1)));
+        assertFalse(h.equals(new HistoryItem(1, 1,1, ActionType.quiz_created, TIMESTAMP2)));
     }
 }

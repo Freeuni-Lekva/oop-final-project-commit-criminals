@@ -82,6 +82,15 @@
             color: #E85A4F;
         }
 
+        .nav-links a.friends-link {
+            color: #E85A4F;
+            font-weight: 600;
+        }
+
+        .nav-links a.friends-link:hover {
+            color: #D32F2F;
+        }
+
         .profile {
             position: relative;
         }
@@ -387,11 +396,14 @@
             border-color: #E85A4F;
         }
     </style>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
 </head>
 <body>
 
 <nav class="navbar">
-    <a href="index.jsp" class="brand">Quizology</a>
+    <a href="/home" class="brand">Quizology</a>
     <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search" required/>
         <input type="hidden" name="type" value="all"/>
@@ -402,6 +414,8 @@
            if (currentUser == null) { %>
             <li><a href="login.jsp">Login</a></li>
         <% } else { %>
+            <li><a href="friends">Friends</a></li>
+            <li><a href="inbox">Inbox</a></li>
             <li class="profile">
                 <a href="#"><%= currentUser.getUsername() %></a>
                 <ul class="dropdown">
@@ -440,6 +454,141 @@
         </div>
     </div>
 </section>
+
+<%@ page import="java.util.List" %>
+<%@ page import="com.freeuni.quizapp.model.*" %>
+<%@ page import="com.freeuni.quizapp.dao.interfaces.UserDao" %>
+<%@ page import="com.freeuni.quizapp.dao.impl.UserDaoImpl" %>
+<%@ page import="com.freeuni.quizapp.util.DBConnector" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.freeuni.quizapp.enums.ActionType" %>
+<%@ page import="com.freeuni.quizapp.enums.AchievementType" %>
+
+<div class="panel-board">
+
+    <div class="announcements">
+        <h2>Announcements</h2>
+        <%
+            List<Announcement> announcements = (List<Announcement>) request.getAttribute("announcements");
+        %>
+        <%
+            if (announcements != null && !announcements.isEmpty()) {
+                for (Announcement ann : announcements) {
+        %>
+        <div class="announcement">
+            <h3><%= ann.getTitle() %></h3>
+            <p><%= ann.getText() %></p>
+            <% if (ann.getUrl() != null && !ann.getUrl().isEmpty()) { %>
+            <p><a href="announcement?id=<%= ann.getId() %>">Read more</a></p>
+            <% } %>
+            <small>Posted on: <%= ann.getCreatedAt() %></small>
+        </div>
+        <hr/>
+        <%
+            }
+        } else {
+        %>
+        <p>No announcements available.</p>
+        <%
+            }
+        %>
+    </div>
+
+    <div class="popular-quizzes">
+        <h2>Popular Quizzes</h2>
+        <%
+            List<Quiz> popularQuizzes = (List<Quiz>) request.getAttribute("popularQuizzes");
+            if (popularQuizzes != null && !popularQuizzes.isEmpty()) {
+                for (Quiz quiz : popularQuizzes) {
+        %>
+        <div class="popular-quiz">
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No popular quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+    <div class="recent-quizzes">
+        <h2>Recent Quizzes</h2>
+        <%
+            List<Quiz> recentQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
+            if (recentQuizzes != null && !recentQuizzes.isEmpty()) {
+                for (Quiz quiz : recentQuizzes) {
+        %>
+        <div class="recent-quiz">
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recent quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+
+
+
+
+    <div class="friends-activities">
+        <h2>Friends' Activities</h2>
+        <%
+            List<Activity> friendsActivities = (List<Activity>) request.getAttribute("friendsActivities");
+        %>
+
+        <% if (friendsActivities != null && !friendsActivities.isEmpty()) { %>
+        <ul>
+            <% for (Activity activity : friendsActivities) {
+                User user = activity.getUser();
+                String username = user.getUsername();
+                ActionType actionType = activity.getType();
+                String content = "";
+
+                switch (actionType) {
+                    case achievement_earned:
+                        AchievementType achievement = activity.getAchievementType();
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> earned the achievement: <strong>" + achievement.name().replace("_", " ") + "</strong>";
+                        break;
+                    case quiz_taken:
+                        Quiz takenQuiz = activity.getQuiz();
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> took the quiz: <a href='quizzes.jsp#settings_" + takenQuiz.getId() + "'>\"" + takenQuiz.getTitle() + "\"</a>";
+                        break;
+                    case quiz_created:
+                        Quiz createdQuiz = activity.getQuiz();
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> created a new quiz: <a href='quizzes.jsp#settings_" + createdQuiz.getId() + "'>\"" + createdQuiz.getTitle() + "\"</a>";
+                        break;
+                }
+            %>
+            <li>
+                <%= content %><br/>
+                <small><%= activity.getTimestamp() %></small>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <p>No recent activities from friends.</p>
+        <% } %>
+    </div>
+
+
+</div>
 
 </body>
 </html>

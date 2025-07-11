@@ -1,6 +1,7 @@
 package com.freeuni.quizapp.enums;
 
 public enum ActionType {
-    taken,
-    created
+    quiz_taken,
+    quiz_created,
+    achievement_earned;
 }
