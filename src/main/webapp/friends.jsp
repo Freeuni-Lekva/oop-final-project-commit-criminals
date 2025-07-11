@@ -307,7 +307,6 @@
             background: linear-gradient(135deg, #0056b3, #004085);
             transform: translateY(-2px);
         }
-
         .empty-message {
             text-align: center;
             color: #666;
