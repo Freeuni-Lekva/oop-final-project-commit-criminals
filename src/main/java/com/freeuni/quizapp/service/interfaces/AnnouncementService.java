@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface AnnouncementService {
 
-    public List<Announcement> getAllAnnouncements() throws SQLException;
+    public List<Announcement> getRecentAnnouncements(int num) throws SQLException;
 
     public Announcement getAnnouncementById(int id) throws SQLException;
 
+    void addAnnouncement(int userId, String title, String text, String url);
 }

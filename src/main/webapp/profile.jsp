@@ -19,6 +19,7 @@
         profileUser = currentUser;
         isViewingOwnProfile = true;
     }
+    boolean isAdmin = currentUser != null && currentUser.isAdmin();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -473,6 +474,63 @@
                 gap: 1rem;
             }
         }
+
+        .admin-announcement-section {
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+            padding: 2rem;
+        }
+
+        .admin-announcement-section h3 {
+            color: #E85A4F;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .admin-announcement-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .admin-announcement-section input[type="text"],
+        .admin-announcement-section textarea {
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #fff;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .admin-announcement-section textarea {
+            min-height: 100px;
+        }
+
+        .admin-announcement-section button {
+            align-self: flex-end;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .admin-announcement-section button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(232, 90, 79, 0.2);
+        }
+
+
     </style>
 </head>
 <body>
@@ -595,6 +653,18 @@
         <% } %>
         <a class="btn" href="quizzes.jsp">Browse Quizzes</a>
     </div>
+
+    <% if (isAdmin && isViewingOwnProfile) { %>
+    <div class="admin-announcement-section">
+        <h3>Post a New Announcement</h3>
+        <form action="announcement" method="post">
+            <input type="text" name="title" placeholder="Title" required />
+            <textarea name="text" placeholder="Announcement text" required></textarea>
+            <button type="submit">Publish</button>
+        </form>
+    </div>
+    <% } %>
+
 
     <% if (profileUser.isAdmin()) { %>
     <div class="history-section">
