@@ -275,6 +275,9 @@
             <a href="#"><%= currentUser.getUsername() %></a>
             <ul class="dropdown">
                 <li><a href="profile">View Profile</a></li>
+                <% if (currentUser.isAdmin()) { %>
+                    <li><a href="admin">Admin Panel</a></li>
+                <% } %>
                 <li><a href="logout">Sign Out</a></li>
             </ul>
         </li>
