@@ -368,6 +368,8 @@
     <a href="/home" class="brand">Quizology</a>
     <ul class="nav-links">
         <li><a href="leaderboard">Leaderboard</a></li>
+        <li><a href="friends">Friends</a></li>
+        <li><a href="inbox">Inbox</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
             <ul class="dropdown">
