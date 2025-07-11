@@ -365,7 +365,7 @@
 </head>
 <body>
 <nav class="navbar">
-    <a href="index.jsp" class="brand">Quizology</a>
+    <a href="/home" class="brand">Quizology</a>
     <ul class="nav-links">
         <li><a href="leaderboard">Leaderboard</a></li>
         <li class="profile">

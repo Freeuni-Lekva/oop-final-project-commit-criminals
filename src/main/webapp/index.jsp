@@ -387,11 +387,14 @@
             border-color: #E85A4F;
         }
     </style>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
 </head>
 <body>
 
 <nav class="navbar">
-    <a href="index.jsp" class="brand">Quizology</a>
+    <a href="/home" class="brand">Quizology</a>
     <form class="search-bar" action="search" method="get">
         <input type="text" name="q" placeholder="Search" required/>
         <input type="hidden" name="type" value="all"/>
@@ -440,6 +443,244 @@
         </div>
     </div>
 </section>
+
+<%@ page import="java.util.List" %>
+<%@ page import="com.freeuni.quizapp.model.*" %>
+<%@ page import="com.freeuni.quizapp.dao.interfaces.UserDao" %>
+<%@ page import="com.freeuni.quizapp.dao.impl.UserDaoImpl" %>
+<%@ page import="com.freeuni.quizapp.util.DBConnector" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.freeuni.quizapp.enums.ActionType" %>
+<%@ page import="com.freeuni.quizapp.enums.AchievementType" %>
+
+<div class="panel-board">
+
+    <div class="announcements">
+        <h2>Announcements</h2>
+        <%
+            List<Announcement> announcements = (List<Announcement>) request.getAttribute("announcements");
+        %>
+        <%
+            if (announcements != null && !announcements.isEmpty()) {
+                for (Announcement ann : announcements) {
+        %>
+        <div class="announcement">
+            <h3><%= ann.getTitle() %></h3>
+            <p><%= ann.getText() %></p>
+            <% if (ann.getUrl() != null && !ann.getUrl().isEmpty()) { %>
+            <p><a href="announcement?id=<%= ann.getId() %>">Read more</a></p>
+            <% } %>
+            <small>Posted on: <%= ann.getCreatedAt() %></small>
+        </div>
+        <hr/>
+        <%
+            }
+        } else {
+        %>
+        <p>No announcements available.</p>
+        <%
+            }
+        %>
+    </div>
+
+    <div class="popular-quizzes">
+        <h2>Popular Quizzes</h2>
+        <%
+            List<Quiz> popularQuizzes = (List<Quiz>) request.getAttribute("popularQuizzes");
+            if (popularQuizzes != null && !popularQuizzes.isEmpty()) {
+                for (Quiz quiz : popularQuizzes) {
+        %>
+        <div class="popular-quiz">
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No popular quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+    <div class="recent-quizzes">
+        <h2>Recent Quizzes</h2>
+        <%
+            List<Quiz> recentQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
+            if (recentQuizzes != null && !recentQuizzes.isEmpty()) {
+                for (Quiz quiz : recentQuizzes) {
+        %>
+        <div class="recent-quiz">
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recent quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+
+    <div class="recently-taken-quizzes">
+        <h2>Recently Taken Quizzes</h2>
+        <%
+            List<Quiz> recentlyTakenQuizzes = (List<Quiz>) request.getAttribute("recentlyTakenQuizzes");
+            if (recentlyTakenQuizzes != null && !recentlyTakenQuizzes.isEmpty()) {
+                for (Quiz quiz : recentlyTakenQuizzes) {
+        %>
+        <div class="recently-taken-quiz">
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recently taken quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+    <div class="recently-created-quizzes">
+        <h2>Recently Created Quizzes</h2>
+        <%
+            List<Quiz> recentlyCreatedQuizzes = (List<Quiz>) request.getAttribute("recentlyCreatedQuizzes");
+            if (recentlyCreatedQuizzes != null && !recentlyCreatedQuizzes.isEmpty()) {
+                for (Quiz quiz : recentlyCreatedQuizzes) {
+        %>
+        <div class="recently-created-quiz">
+            <a href="quizzes.jsp#settings_<%= quiz.getId() %>">
+                <h3><%= quiz.getTitle() %></h3>
+            </a>
+            <p><%= quiz.getDescription() %></p>
+            <small>Created on: <%= quiz.getCreatedAt() %></small>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No recently created quizzes available.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+    <div class="achievements">
+        <h2>Achievements</h2>
+        <%
+            List<Achievement> achievements = (List<Achievement>) request.getAttribute("achievements");
+            if (achievements != null && !achievements.isEmpty()) {
+                for (Achievement ach : achievements) {
+        %>
+        <div class="achievement">
+            <p><strong><%= ach.getType().toString().replace('_', ' ') %></strong></p>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>No achievements unlocked yet.</p>
+        <%
+            }
+        %>
+    </div>
+
+
+    <div class="messages">
+        <h2>Inbox</h2>
+        <%
+            List<Message> messages = (List<Message>) request.getAttribute("messages");
+            UserDao userDao = null;
+            try {
+                userDao = new UserDaoImpl(DBConnector.getConnection());
+            } catch (SQLException e) {
+            }
+        %>
+
+        <% if (messages != null && !messages.isEmpty()) { %>
+        <p>You have <%= messages.size() %> new message<%= messages.size() > 1 ? "s" : "" %>.</p>
+        <ul>
+            <% for (Message msg : messages) {
+                String username = "Unknown";
+                try {
+                    username = userDao.getUsername(msg.getSenderId());
+                } catch (SQLException e) {
+                }
+            %>
+            <li>
+                <strong>From:</strong> <%= username %><br/>
+                <strong>Type:</strong> <%= msg.getType().toString().replace("_", " ").toLowerCase() %><br/>
+                <strong>Message:</strong> "<%= msg.getContent() %>"<br/>
+                <small>Received: <%= msg.getSentAt() %></small>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <p>No new messages.</p>
+        <% } %>
+    </div>
+
+
+    <div class="friends-activities">
+        <h2>Friends' Activities</h2>
+        <%
+            List<Activity> friendsActivities = (List<Activity>) request.getAttribute("friendsActivities");
+        %>
+
+        <% if (friendsActivities != null && !friendsActivities.isEmpty()) { %>
+        <ul>
+            <% for (Activity activity : friendsActivities) {
+                User user = activity.getUser();
+                String username = user.getUsername();
+                ActionType actionType = activity.getType();
+                String content = "";
+
+                switch (actionType) {
+                    case achievement_earned:
+                        AchievementType achievement = activity.getAchievementType();
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> earned the achievement: <strong>" + achievement.name().replace("_", " ") + "</strong>";
+                        break;
+                    case quiz_taken:
+                        Quiz takenQuiz = activity.getQuiz();
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> took the quiz: <a href='quizzes.jsp#settings_" + takenQuiz.getId() + "'>\"" + takenQuiz.getTitle() + "\"</a>";
+                        break;
+                    case quiz_created:
+                        Quiz createdQuiz = activity.getQuiz();
+                        content = "<a href='profile?username=" + username + "'>" + username + "</a> created a new quiz: <a href='quizzes.jsp#settings_" + createdQuiz.getId() + "'>\"" + createdQuiz.getTitle() + "\"</a>";
+                        break;
+                }
+            %>
+            <li>
+                <%= content %><br/>
+                <small><%= activity.getTimestamp() %></small>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <p>No recent activities from friends.</p>
+        <% } %>
+    </div>
+
+
+</div>
 
 </body>
 </html>
