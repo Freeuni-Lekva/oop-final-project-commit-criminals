@@ -83,7 +83,9 @@ public class HomeServiceImpl implements HomeService {
             List<User> messengers = messageDao.getInboxPeopleList(user.getId());
             List<Message> messages = new ArrayList<>();
             for (User messenger : messengers) {
-                messages.addAll(messageDao.getMessages(messenger.getId(), user.getId()));
+                List<Message> toAdd = messageDao.getMessages((messenger.getId()), user.getId())
+                        .stream().filter(x -> x.getReceiverId() == user.getId()).toList();
+                messages.addAll(toAdd);
             }
             request.setAttribute("messages", messages);
         }
