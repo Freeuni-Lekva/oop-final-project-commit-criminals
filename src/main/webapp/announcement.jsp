@@ -27,10 +27,7 @@
         <p><%= announcement.getText() %>
         </p>
         <small>Posted on: <%= announcement.getCreatedAt() %>
-        </small><br/>
-        <% if (announcement.getUrl() != null && !announcement.getUrl().isEmpty()) { %>
-        <a href="<%= announcement.getUrl() %>" target="_blank">Related link</a>
-        <% } %>
+        </small>
     </div>
     <%
         }

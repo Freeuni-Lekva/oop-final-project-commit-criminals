@@ -156,7 +156,7 @@ public class FriendSystemDaoImplTest {
         assertEquals(FriendshipStatus.pending, friendSystemDaoImpl.getFriendshipStatus(1, 5));
         assertEquals(FriendshipStatus.pending, friendSystemDaoImpl.getFriendshipStatus(4, 2));
         assertEquals(FriendshipStatus.pending, friendSystemDaoImpl.getFriendshipStatus(1, 4));
-        assertEquals(FriendshipStatus.rejected, friendSystemDaoImpl.getFriendshipStatus(2, 5));
+        assertNull(friendSystemDaoImpl.getFriendshipStatus(2, 5));
         assertNull(friendSystemDaoImpl.getFriendshipStatus(1, 9));
     }
 

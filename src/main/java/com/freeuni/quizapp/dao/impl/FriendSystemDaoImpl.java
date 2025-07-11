@@ -100,7 +100,11 @@ public class FriendSystemDaoImpl implements FriendSystemDao {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String status = rs.getString("status");
-                    return FriendshipStatus.valueOf(status);
+                    FriendshipStatus friendshipStatus = FriendshipStatus.valueOf(status);
+                    if (friendshipStatus == FriendshipStatus.rejected) {
+                        return null;
+                    }
+                    return friendshipStatus;
                 }
             }
         }

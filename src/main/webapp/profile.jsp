@@ -89,6 +89,7 @@
         .nav-links a:hover {
             color: #E85A4F;
         }
+        
         .profile {
             position: relative;
         }
@@ -483,6 +484,7 @@
     </form>
     <ul class="nav-links">
         <li><a href="leaderboard">Leaderboard</a></li>
+        <li><a href="friends">Friends</a></li>
         <li class="profile">
             <a href="#"><%= currentUser.getUsername() %></a>
             <ul class="dropdown">
@@ -556,6 +558,32 @@
             </div>
         </div>
         <% if (!isViewingOwnProfile) { %>
+            <%
+                com.freeuni.quizapp.enums.FriendshipStatus friendshipStatus = 
+                    (com.freeuni.quizapp.enums.FriendshipStatus) request.getAttribute("friendshipStatus");
+            %>
+            <% if (friendshipStatus == null) { %>
+                <!-- No existing relationship, show Add Friend button -->
+                <form method="post" action="friendRequest" style="display: inline; margin-right: 1rem;">
+                    <input type="hidden" name="action" value="send">
+                    <input type="hidden" name="targetUserId" value="<%= profileUser.getId() %>">
+                    <button type="submit" class="btn" style="background: linear-gradient(135deg, #28a745, #20c997); margin-top: 1.2rem; padding: 0.7rem 1.5rem; border: none; border-radius: 50px; color: #fff; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;">
+                        Add Friend
+                    </button>
+                </form>
+            <% } else if (friendshipStatus == com.freeuni.quizapp.enums.FriendshipStatus.pending) { %>
+                <span style="background: linear-gradient(135deg, #6c757d, #5a6268); margin-top: 1.2rem; padding: 0.7rem 1.5rem; border-radius: 50px; color: #fff; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif; display: inline-block; margin-right: 1rem; cursor: default;">
+                    Request Sent
+                </span>
+            <% } else if (friendshipStatus == com.freeuni.quizapp.enums.FriendshipStatus.accepted) { %>
+                <form method="post" action="friendRequest" style="display: inline; margin-right: 1rem;">
+                    <input type="hidden" name="action" value="remove">
+                    <input type="hidden" name="targetUserId" value="<%= profileUser.getId() %>">
+                    <button type="submit" class="btn" style="background: linear-gradient(135deg, #dc3545, #c82333); margin-top: 1.2rem; padding: 0.7rem 1.5rem; border: none; border-radius: 50px; color: #fff; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;">
+                        Remove Friend
+                    </button>
+                </form>
+            <% } %>
             <a class="btn" href="profile" style="margin-right: 1rem;">View My Profile</a>
         <% } %>
         <% if (isViewingOwnProfile) { %>
